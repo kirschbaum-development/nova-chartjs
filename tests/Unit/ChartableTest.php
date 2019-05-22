@@ -26,11 +26,11 @@ class ChartableTest extends TestCase
     }
 
     /** @test **/
-    public function a_chartable_can_return_his_metric_values()
+    public function a_chartable_can_return_his_metric_value()
     {
         $this->addNovaChartjsMetricValueToChartable();
 
-        $this->assertInstanceOf(NovaChartjsMetricValue::class, $this->testChartable->novaChartjsMetricValue()->first());
+        $this->assertInstanceOf(NovaChartjsMetricValue::class, $this->testChartable->novaChartjsMetricValue);
     }
 
     /**
@@ -39,7 +39,7 @@ class ChartableTest extends TestCase
      * @param NovaChartjsMetricValue|null $metricValue
      * @param Chartable|null $chartable
      */
-    protected function addNovaChartjsMetricValueToChartable(NovaChartjsMetricValue $metricValue = null, Chartable $chartable = null):void
+    protected function addNovaChartjsMetricValueToChartable(NovaChartjsMetricValue $metricValue = null, Chartable $chartable = null): void
     {
         if (empty($metricValue)) {
             $metricValue = factory(NovaChartjsMetricValue::class)->make();
