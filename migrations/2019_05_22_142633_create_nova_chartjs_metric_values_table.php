@@ -30,6 +30,6 @@ class CreateNovaChartJsMetricValuesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('nova_chart_js_metric_values');
+        Schema::dropIfExists('nova_chartjs_metric_values');
     }
 }
