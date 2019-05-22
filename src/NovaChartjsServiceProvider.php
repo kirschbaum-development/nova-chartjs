@@ -15,10 +15,8 @@ class NovaChartjsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Nova::serving(function (ServingNova $event) {
-            Nova::script('nova-chartjs', __DIR__.'/../dist/js/field.js');
-            Nova::style('nova-chartjs', __DIR__.'/../dist/css/field.css');
-        });
+        $this->loadMigrations();
+        $this->serveField();
     }
 
     /**
@@ -28,6 +26,18 @@ class NovaChartjsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+    }
+
+    protected function loadMigrations()
+    {
+        $this->loadMigrationsFrom(__DIR__ . '/../migrations');
+    }
+
+    protected function serveField(): void
+    {
+        Nova::serving(function (ServingNova $event) {
+            Nova::script('nova-chartjs', __DIR__ . '/../dist/js/field.js');
+            Nova::style('nova-chartjs', __DIR__ . '/../dist/css/field.css');
+        });
     }
 }
