@@ -15,6 +15,11 @@ class NovaChartjsMetricValue extends Model
         'metric_values',
     ];
 
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
     protected $casts = [
         'metric_values' => 'array',
     ];
