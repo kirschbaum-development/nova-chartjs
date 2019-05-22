@@ -1,0 +1,30 @@
+{
+    "name": "kirschbaum-development/nova-chartjs",
+    "description": "chart.js Chart Field for Laravel Nova",
+    "keywords": [
+        "laravel",
+        "nova",
+        "chart.js"
+    ],
+    "license": "MIT",
+    "require": {
+        "php": ">=7.1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "KirschbaumDevelopment\\NovaChartjs\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "KirschbaumDevelopment\\NovaChartjs\\NovaChartjsServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
