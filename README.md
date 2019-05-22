@@ -17,14 +17,51 @@ You can install this package in a Laravel app that uses [Nova](https://nova.lara
 composer require kirschbaum-development/nova-chartjs
 ```
 
+You'll also need to run migrations to set up a database table for `NovaChartjsMetricValue`
+
+```bash
+php artisan migrate
+```
 ## Usage
+
+After setup, include `HasNovaChartjsChart` trait in the model for which you want to display the chart.
+
+You must also define a `getNovaChartjsSettings` function in the model which should rturn the required settings for the Chart.
+
+```php
+use KirschbaumDevelopment\NovaChartjs\Traits\HasNovaChartjsChart;
+
+class User extends Model
+{
+    use HasNovaChartjsChart;
+
+    /**
+     * Should return settings for Nova Chart in prescribed format
+     *
+     * @return array
+     */
+    public function getNovaChartjsSettings():array
+    {
+        return [
+            'MetricLabels' => [
+                'Bananna',
+                'Apple',
+                'Pear',
+            ],
+        ];
+    }
+
+    // ...
+}
+```
+### NovaChartjs Field
 
 Coming Soon
 
 ## To-Do
 - [x] Setup Repo
-- [ ] Create a NovaChartJsMetricValue Model
-- [ ] Create a HasNovaChartJsChart Trait with relationship and abstract method to return novaChartJsSettings
+- [x] Create a NovaChartJsMetricValue Model
+- [x] Create a HasNovaChartJsChart Trait with relationship and abstract method to return novaChartJsSettings
 - [ ] Create a basic chart view for NovaChartJsChart Field Type and add it to Detail Field
 - [ ] Add a list to compare model with other models
 - [ ] Add option to add another model for comparison
