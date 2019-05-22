@@ -22,5 +22,5 @@ trait HasNovaChartjsChart
      *
      * @return array
      */
-    abstract public function getNovaChartjsSettings():array;
+    abstract public function getNovaChartjsSettings(): array;
 }

@@ -40,7 +40,7 @@ class User extends Model
      *
      * @return array
      */
-    public function getNovaChartjsSettings():array
+    public function getNovaChartjsSettings(): array
     {
         return [
             'MetricLabels' => [

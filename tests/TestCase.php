@@ -33,7 +33,7 @@ abstract class TestCase extends Orchestra
      *
      * @param \Illuminate\Foundation\Application $app
      */
-    protected function getEnvironmentSetUp($app):void
+    protected function getEnvironmentSetUp($app): void
     {
         $app['config']->set('app.key', 'AckfSECXIvnK5r28GVIWUAxmbBSjTsmF');
         $app['config']->set('database.default', 'sqlite');
@@ -49,7 +49,7 @@ abstract class TestCase extends Orchestra
      *
      * @param \Illuminate\Foundation\Application $app
      */
-    protected function setUpDatabase($app):void
+    protected function setUpDatabase($app): void
     {
         $app['db']->connection()->getSchemaBuilder()->create('chartables', function (Blueprint $table) {
             $table->increments('id');
