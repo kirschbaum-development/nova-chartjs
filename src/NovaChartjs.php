@@ -25,8 +25,14 @@ class NovaChartjs extends Field
     {
         parent::__construct($name, $attribute, $resolveCallback);
 
+        // Confirm whether chart is used standalone of inside the NovaChartjsPanel class
+        $isPanel = class_basename(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)[2]['class']) == class_basename(NovaChartjsPanel::class);
+
+        // Locate Nova Resource Class in backtrace
+        $backtracePos = $isPanel ? 4 : 2;
+
         // Fetching Nova Resource Class
-        $novaResourceClass = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)[2]['class'];
+        $novaResourceClass = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)[$backtracePos]['class'];
 
         if ($novaResourceClass) {
             $this->withMeta([
