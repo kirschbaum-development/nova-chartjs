@@ -26,7 +26,7 @@ php artisan migrate
 
 After setup, include `HasNovaChartjsChart` trait in the model for which you want to display the chart.
 
-You must also define a `getNovaChartjsSettings` function in the model which should rturn the required settings for the Chart.
+You must also define a static `getNovaChartjsSettings` function in the model which should return the required settings for the Chart.
 
 ```php
 use KirschbaumDevelopment\NovaChartjs\Traits\HasNovaChartjsChart;
@@ -40,29 +40,80 @@ class User extends Model
      *
      * @return array
      */
-    public function getNovaChartjsSettings(): array
+    public static function getNovaChartjsSettings(): array
     {
         return [
-            'MetricLabels' => [
-                'Bananna',
-                'Apple',
-                'Pear',
-            ],
+            'type' => 'range',
+            'title' => 'Super Cool Chart',
+            'panelTitle' => 'Super Cool Chart Panel',
+            'color' => '#FF0000',
+            'parameters' => ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+            'high' => [80, 40, 62, 79, 80, 90, 79, 90, 90, 90, 92, 91],
+            'low' => [8, 7, 12, 19, 12, 10, 19, 9, 10, 20, 12, 11],
+            'options' => ['responsive' => true, 'maintainAspectRatio' => false],
         ];
     }
 
     // ...
 }
 ```
-### NovaChartjs Field
+### NovaChartjs Panel
 
-Coming Soon
+Our recommended way of using Nova Chartjs Chart is to add the included Panel `KirschbaumDevelopment\NovaChartjs\NovaChartjsPanel` to your model's Nova fields
+
+```php
+
+namespace App\Nova;
+
+use KirschbaumDevelopment\NovaChartjs\NovaChartjsPanel;
+
+class User extends Resource
+{
+    
+    //...
+    public function fields(Request $request)
+    {
+        return [
+            //...
+
+            new NovaChartjsPanel($this),
+        ];
+    }
+}
+``` 
+**_NOTE:_** You must pass the `Resource` (i.e. `$this`) to the `NovaChartjsPanel` component.
+
+If you instead want to use NovaChartjsChart inline without a panel
+```php
+namespace App\Nova;
+
+use KirschbaumDevelopment\NovaChartjs\NovaChartjs;
+
+class User extends Resource
+{
+    
+    //...
+    public function fields(Request $request)
+    {
+        return [
+            //...
+
+            NovaChartjs::make(
+                $this,
+                'Chart Title',
+                'novaChartjsMetricValue'
+            ),
+        ];
+    }
+}
+``` 
+**_NOTE:_** You must pass the `Resource` (i.e. `$this`) to the `NovaChartjs` component as a first argument.
 
 ## To-Do
 - [x] Setup Repo
 - [x] Create a NovaChartJsMetricValue Model
 - [x] Create a HasNovaChartJsChart Trait with relationship and abstract method to return novaChartJsSettings
-- [ ] Create a basic chart view for NovaChartJsChart Field Type and add it to Detail Field
+- [x] Create a basic chart view for NovaChartJsChart Field Type and add it to Detail Field
 - [ ] Add a list to compare model with other models
 - [ ] Add option to add another model for comparison
 - [ ] Add option to remove a model from comparison
