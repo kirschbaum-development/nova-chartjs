@@ -3,6 +3,8 @@
 namespace KirschbaumDevelopment\NovaChartjs;
 
 use Laravel\Nova\Fields\Field;
+use KirschbaumDevelopment\NovaChartjs\Exceptions\InvalidNovaResource;
+use KirschbaumDevelopment\NovaChartjs\Exceptions\MissingNovaResource;
 
 class NovaChartjs extends Field
 {
@@ -17,23 +19,31 @@ class NovaChartjs extends Field
      * NovaChartjs constructor.
      * Extending parent constructor to inject MetaData from Model
      *
-     * @param $name
+     * @param string $name
      * @param null $attribute
      * @param callable|null $resolveCallback
+     * @param mixed $resource
+     *
+     * @throws \Throwable
      */
-    public function __construct($name, $attribute = null, callable $resolveCallback = null)
+    public function __construct($resource, $name, $attribute = null, callable $resolveCallback = null)
     {
         parent::__construct($name, $attribute, $resolveCallback);
 
-        // Fetching Nova Resource Class
-        $novaResourceClass = debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS)[2]['class'];
+        throw_if(
+            ! $resource,
+            MissingNovaResource::create('Chart')
+        );
 
-        if ($novaResourceClass) {
+        throw_if(
+            ! property_exists($resource, 'model'),
+            InvalidNovaResource::create('Chart')
+        );
+
+        if ($resource) {
             $this->withMeta([
-                // Fetching Settings enforce by HasNovaChartjsChart Trait
-                'settings' => $novaResourceClass::$model::getNovaChartjsSettings(),
-                // Fetching Preferred Label from NovaResourceClass
-                'label' => $novaResourceClass::singularLabel(),
+                'settings' => $resource::$model::getNovaChartjsSettings(),
+                'label' => $resource::singularLabel(),
             ]);
         }
     }
