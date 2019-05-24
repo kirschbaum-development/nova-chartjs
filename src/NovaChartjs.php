@@ -40,11 +40,9 @@ class NovaChartjs extends Field
             InvalidNovaResource::create('Chart')
         );
 
-        if ($resource) {
-            $this->withMeta([
-                'settings' => $resource::$model::getNovaChartjsSettings(),
-                'label' => $resource::singularLabel(),
-            ]);
-        }
+        $this->withMeta([
+            'settings' => $resource::$model::getNovaChartjsSettings(),
+            'label' => $resource::singularLabel(),
+        ]);
     }
 }
