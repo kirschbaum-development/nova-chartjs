@@ -1,12 +1,12 @@
 <template>
-    <panel-item :field="field">
-        <template slot="value">
+    <div class="flex border-b border-40">
+        <div class="w-full py-4">
             <chartjs-range-chart
                 :dataset="dataset"
                 :settings="field.settings"
             />
-        </template>
-    </panel-item>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -25,7 +25,7 @@ export default {
                 {
                     label: `${this.field.label} ${this.resourceId}`,
                     borderColor: this.field.settings.color||this.getRandomColor(),
-                    data: this.getAllowedParametersFromDataset(this.field.settings.parameters, this.field.value.metric_values)
+                    data: this.getAllowedParametersFromDataset(this.field.settings.parameters, this.field.value)
                 }
             ]
         }
