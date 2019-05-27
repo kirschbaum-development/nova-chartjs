@@ -16,6 +16,7 @@ class NovaChartjsPanel extends Panel
     public function __construct($panelTitle = 'Chart Metric Values')
     {
         parent::__construct(
+            $panelTitle,
             $this->prepareFields($this->fields($panelTitle))
         );
     }
