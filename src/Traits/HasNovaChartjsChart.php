@@ -16,11 +16,4 @@ trait HasNovaChartjsChart
     {
         return $this->morphOne(NovaChartjsMetricValue::class, 'chartable');
     }
-
-    /**
-     * Should return settings for Nova Chart in prescribed format
-     *
-     * @return array
-     */
-    abstract public static function getNovaChartjsSettings(): array;
 }
