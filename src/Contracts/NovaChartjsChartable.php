@@ -2,8 +2,6 @@
 
 namespace KirschbaumDevelopment\NovaChartjs\Contracts;
 
-use Illuminate\Database\Eloquent\Collection;
-
 interface NovaChartjsChartable
 {
     /**
@@ -16,7 +14,7 @@ interface NovaChartjsChartable
     /**
      * Return a list of all models available for comparison to root model
      *
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return array
      */
-    public static function comparisonData(): Collection;
+    public static function getNovaChartjsComparisonData(): array;
 }
