@@ -5,6 +5,7 @@ namespace KirschbaumDevelopment\NovaChartjs;
 use Illuminate\Support\Str;
 use Laravel\Nova\Fields\Field;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use KirschbaumDevelopment\NovaChartjs\Contracts\NovaChartjsChartable;
 
 class NovaChartjs extends Field
 {
@@ -16,26 +17,30 @@ class NovaChartjs extends Field
     public $component = 'nova-chartjs';
 
     /**
-     * NovaChartjs constructor.
-     * Extending parent constructor to inject MetaData from Model
+     * Pass chartable model to NovaChartjs to fetch settings
      *
-     * @param mixed $chartable
-     * @param string $name
-     * @param null $attribute
-     * @param callable|null $resolveCallback
+     * @param NovaChartjsChartable|null $chartable
+     *
+     * @return NovaChartjs
      */
-    public function __construct($chartable, $name, $attribute = null, callable $resolveCallback = null)
+    public function chartable(NovaChartjsChartable $chartable): self
     {
-        parent::__construct($name, $attribute, $resolveCallback);
-
         $chartableClass = get_class($chartable);
 
-        if ($chartableClass) {
-            $this->withMeta([
-                'settings' => $chartableClass::getNovaChartjsSettings(),
-                'label' => Str::singular(Str::title(Str::snake(class_basename($chartableClass), ' '))),
-            ]);
-        }
+        $settings = $chartableClass::getNovaChartjsSettings();
+
+        return $this->withMeta([
+            'settings' => $settings,
+            'comparison' => $chartableClass::getNovaChartjsComparisonData(),
+            'model' => Str::singular(Str::title(Str::snake(class_basename($chartableClass), ' '))),
+            'title' => $this->getChartableProp($chartable, $settings['titleProp'] ?? $chartable->getKeyName()),
+            'ident' => $this->getChartableProp($chartable, $settings['identProp'] ?? $chartable->getKeyName()),
+        ]);
+    }
+
+    public function getChartableProp(NovaChartjsChartable $chartable, string $prop = 'id'): string
+    {
+        return $chartable->{$prop} ?? 'Unknown';
     }
 
     /**

@@ -1,8 +1,11 @@
 <script>
-    import { Line } from 'vue-chartjs'
+    import { Line, mixins } from 'vue-chartjs'
+    const {reactiveProp} = mixins
 
     export default {
         extends: Line,
+
+        mixins: [reactiveProp],
 
         props: {
             'dataset': Array,
@@ -10,11 +13,12 @@
         },
 
         mounted () {
-            this.renderChart(this.createDataSet(), this.settings.options);
+            this.chartData = this.createChartDataset();
+            this.renderChart(this.chartData, this.settings.options);
         },
 
         methods: {
-            createDataSet: function() {
+            createChartDataset: function(){
                 let datasets = [
                     {
                         label: 'Low',
@@ -39,6 +43,12 @@
                     labels: this.settings.parameters,
                     datasets: datasets
                 }
+            }
+        },
+
+        watch: {
+            dataset: function() {
+                this.chartData = this.createChartDataset();
             }
         }
     }
