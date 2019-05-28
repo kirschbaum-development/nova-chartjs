@@ -1,7 +1,7 @@
 # Nova ChartJS
 
 ## Introduction
-Nova ChartJs is meant to add chart.js High Low range charts to Laravel Nova Models.
+Nova ChartJs makes it easy to add high/low range charts to Laravel Nova Resources using chart.js!
 
 ## Requirements
 
@@ -22,9 +22,9 @@ php artisan migrate
 ```
 ## Setup
 
-After setup, your model should include `HasNovaChartjsChart` trait and must implement `NovaChartjsChartable` Contract.
+After setup, your model should include `HasNovaChartjsChart` trait and you must implement the `NovaChartjsChartable` Contract.
 
-You must also define a static `getNovaChartjsSettings` function in the model which should return the required settings for the Chart. All other required methods and relationship defined in contract is already defined in the included trait.
+You must also define a static `getNovaChartjsSettings` function in the model which should return the required settings for the Chart. All other required methods and relationship defined in the contract are already defined for you in the included trait. You can also override these trait methods directly on your model.
 
 ```php
 use KirschbaumDevelopment\NovaChartjs\Traits\HasNovaChartjsChart;
@@ -62,7 +62,7 @@ class User extends Model implements ChartableContract
 
 You can add the chart to your Nova resource in three ways
 
-1. Our recommended way of using Nova Chartjs Chart is to add the included Panel `KirschbaumDevelopment\NovaChartjs\NovaChartjsChartablePanel` to your model's Nova fields
+1. Our recommended way of using Nova Chartjs Chart is to add the included Panel `KirschbaumDevelopment\NovaChartjs\NovaChartjsChartablePanel` to your resource's Nova fields
 
 ![Chartable Panel](screenshots/ChartablePanel.jpg "Chartable Panel")
 
@@ -113,7 +113,7 @@ class User extends Resource
     }
 }
 ``` 
-**_NOTE:_** You can chain the `hideLabel()` method with make function to hide the Label and show the chart full screen. You can pass the name of chart as a first argument.
+**_NOTE:_** You can chain the `hideLabel()` method with `make()` function to hide the label and show the chart full screen. You can pass the name of chart as a first argument.
 
 ![Inline Chart with Label](screenshots/InlineWithLabel.jpg "Inline Chart with Label")
 
@@ -149,8 +149,8 @@ class User extends Resource
 
 You can add following settings to model settings
 1. `parameters`: It is a list of parameters label for which chart data will be collected. It should be passed as an array. e.g., ["January, "February", "March"]
-2. `high`: An array of high value range to be shown in chart.
-3. `low`: An array of low value range to be shown in chart.
+2. `high`: An array of high value ranges to be shown in chart.
+3. `low`: An array of low value ranges to be shown in chart.
 4. `height` and `width`: Dimensions of chart. It is recommended to set height and let chart adjust according to width.
 5. `color`: Color value for the base model in chart. 
 6. `identProp`: Model property representing the primary key. defaults to `id`.
@@ -162,7 +162,7 @@ You can add following settings to model settings
 
 ## Adding Chart Data
 
-After setup, to add chart data for any model, all you need to do is to edit the model after creating it. YOu will get a list of numeric inputs to add values for each parameter specified in settings.
+After setup, to add chart data for any model, all you need to do is to edit the model after creating it. You will get a list of numeric inputs to add values for each parameter specified in settings.
  
 ![Adding Chart data](screenshots/EditView.jpg "Adding Chart Data")
 
@@ -181,7 +181,7 @@ You can add or remove any model to comparison to checkout how models are stacked
 
 ## Changing Comparison Data
 
-Chart comparison data is fetched through trait using a static function `getNovaChartjsComparisonData`. YOu can override this function in your model to change the comparison data.
+Chart comparison data is fetched through trait using a static function `getNovaChartjsComparisonData`. You can override this function in your model to change the comparison data.
 ```php
 
 namespace App;
