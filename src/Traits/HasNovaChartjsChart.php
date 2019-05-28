@@ -18,9 +18,15 @@ trait HasNovaChartjsChart
     }
 
     /**
-     * Should return settings for Nova Chart in prescribed format
+     * Return a list of all models available for comparison to root model
      *
-     * @return array
+     * @return \Illuminate\Database\Eloquent\Collection
      */
-    abstract public static function getNovaChartjsSettings(): array;
+    public static function getNovaChartjsComparisonData(): array
+    {
+        return static::with('novaChartjsMetricValue')
+            ->has('novaChartjsMetricValue')
+            ->get()
+            ->toArray();
+    }
 }

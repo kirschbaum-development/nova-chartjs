@@ -5,6 +5,7 @@ namespace KirschbaumDevelopment\NovaChartjs;
 use Laravel\Nova\Nova;
 use Laravel\Nova\Events\ServingNova;
 use Illuminate\Support\ServiceProvider;
+use KirschbaumDevelopment\NovaChartjs\Nova\MetricValue;
 
 class NovaChartjsServiceProvider extends ServiceProvider
 {
@@ -16,6 +17,7 @@ class NovaChartjsServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->loadMigrations();
+        $this->registerResources();
         $this->serveField();
     }
 
@@ -39,5 +41,12 @@ class NovaChartjsServiceProvider extends ServiceProvider
             Nova::script('nova-chartjs', __DIR__ . '/../dist/js/field.js');
             Nova::style('nova-chartjs', __DIR__ . '/../dist/css/field.css');
         });
+    }
+
+    protected function registerResources(): void
+    {
+        Nova::resources([
+            MetricValue::class,
+        ]);
     }
 }

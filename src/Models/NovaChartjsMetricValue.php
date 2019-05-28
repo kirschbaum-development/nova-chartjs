@@ -3,6 +3,7 @@
 namespace KirschbaumDevelopment\NovaChartjs\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class NovaChartjsMetricValue extends Model
 {
