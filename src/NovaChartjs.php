@@ -3,9 +3,9 @@
 namespace KirschbaumDevelopment\NovaChartjs;
 
 use Illuminate\Support\Str;
-use KirschbaumDevelopment\NovaChartjs\Contracts\NovaChartjsChartable;
 use Laravel\Nova\Fields\Field;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use KirschbaumDevelopment\NovaChartjs\Contracts\NovaChartjsChartable;
 
 class NovaChartjs extends Field
 {
@@ -23,18 +23,24 @@ class NovaChartjs extends Field
      *
      * @return NovaChartjs
      */
-    public function chartable(NovaChartjsChartable $chartable = null): self
+    public function chartable(NovaChartjsChartable $chartable): self
     {
-        if ($chartable) {
-            $chartableClass = get_class($chartable);
+        $chartableClass = get_class($chartable);
 
-            $this->withMeta([
-                'settings' => $chartableClass::getNovaChartjsSettings(),
-                'label' => Str::singular(Str::title(Str::snake(class_basename($chartableClass), ' '))),
-            ]);
-        }
+        $settings = $chartableClass::getNovaChartjsSettings();
 
-        return $this;
+        return $this->withMeta([
+            'settings' => $settings,
+            'comparison' => $chartableClass::getNovaChartjsComparisonData(),
+            'model' => Str::singular(Str::title(Str::snake(class_basename($chartableClass), ' '))),
+            'title' => $this->getChartableProp($chartable, $settings['titleProp'] ?? $chartable->getKeyName()),
+            'ident' => $this->getChartableProp($chartable, $settings['identProp'] ?? $chartable->getKeyName()),
+        ]);
+    }
+
+    public function getChartableProp(NovaChartjsChartable $chartable, string $prop = 'id'): string
+    {
+        return $chartable->{$prop} ?? 'Unknown';
     }
 
     /**

@@ -16,4 +16,17 @@ trait HasNovaChartjsChart
     {
         return $this->morphOne(NovaChartjsMetricValue::class, 'chartable');
     }
+
+    /**
+     * Return a list of all models available for comparison to root model
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public static function getNovaChartjsComparisonData(): array
+    {
+        return static::with('novaChartjsMetricValue')
+            ->has('novaChartjsMetricValue')
+            ->get()
+            ->toArray();
+    }
 }
