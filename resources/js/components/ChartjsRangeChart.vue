@@ -1,11 +1,11 @@
 <script>
     import { Line, mixins } from 'vue-chartjs'
-    const {reactiveProp} = mixins
+    const {reactiveData} = mixins;
 
     export default {
         extends: Line,
 
-        mixins: [reactiveProp],
+        mixins: [reactiveData],
 
         props: {
             'dataset': Array,
@@ -14,7 +14,9 @@
 
         mounted () {
             this.chartData = this.createChartDataset();
-            this.renderChart(this.chartData, this.settings.options);
+            //we need to set options manually as options are used to re-render chart when data changes in reactiveData/reactiveProp mixin
+            this.options = this.settings.options;
+            this.renderChart(this.chartData, this.options);
         },
 
         methods: {
@@ -36,7 +38,12 @@
                 ];
 
                 for (let data in this.dataset) {
-                    datasets.unshift({...this.dataset[data],...{fill:false}});
+                    datasets.unshift(
+                        {
+                            ...this.dataset[data],
+                            ...{fill:false}
+                        }
+                    );
                 }
 
                 return {
