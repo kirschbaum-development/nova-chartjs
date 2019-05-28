@@ -18,6 +18,18 @@ trait HasNovaChartjsChart
     }
 
     /**
+     * Delete a models chart data before model is deleted
+     */
+    public static function bootHasNovaChartjsChart()
+    {
+        static::deleting(function ($model) {
+            if ($model->novaChartjsMetricValue) {
+                $model->novaChartjsMetricValue->delete();
+            }
+        });
+    }
+
+    /**
      * Mutator to set Metric Values from Chartable model
      *
      * @param $value
