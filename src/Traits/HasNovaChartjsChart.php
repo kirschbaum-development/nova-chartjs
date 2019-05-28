@@ -18,6 +18,22 @@ trait HasNovaChartjsChart
     }
 
     /**
+     * Mutator to set Metric Values from Chartable model
+     *
+     * @param $value
+     */
+    public function setNovaChartjsMetricValueAttribute($value): void
+    {
+        if (! $this->novaChartjsMetricValue) {
+            $novaChartjsMetricValue = new NovaChartjsMetricValue(['metric_values' => $value]);
+            $this->novaChartjsMetricValue()->save($novaChartjsMetricValue);
+        } else {
+            $this->novaChartjsMetricValue->metric_values = $value;
+            $this->novaChartjsMetricValue->save();
+        }
+    }
+
+    /**
      * Return a list of all models available for comparison to root model
      *
      * @return \Illuminate\Database\Eloquent\Collection

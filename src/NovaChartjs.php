@@ -38,6 +38,26 @@ class NovaChartjs extends Field
         ]);
     }
 
+    /**
+     * Hide Label to make Chart occupy full width
+     *
+     * @return NovaChartjs
+     */
+    public function hideLabel(): self
+    {
+        return $this->withMeta([
+            'hideLabel' => true,
+        ]);
+    }
+
+    /**
+     * Fetch a property from Chartable
+     *
+     * @param NovaChartjsChartable $chartable
+     * @param string $prop
+     *
+     * @return string
+     */
     public function getChartableProp(NovaChartjsChartable $chartable, string $prop = 'id'): string
     {
         return $chartable->{$prop} ?? 'Unknown';

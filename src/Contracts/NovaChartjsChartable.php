@@ -2,8 +2,15 @@
 
 namespace KirschbaumDevelopment\NovaChartjs\Contracts;
 
+use Illuminate\Database\Eloquent\Relations\MorphOne;
+
 interface NovaChartjsChartable
 {
+    /**
+     * @return MorphOne
+     */
+    public function novaChartjsMetricValue(): MorphOne;
+
     /**
      * Should return settings for Nova Chart in prescribed format
      *
