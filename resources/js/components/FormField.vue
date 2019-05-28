@@ -1,12 +1,8 @@
 <template>
     <default-field :field="field" :errors="errors">
         <template slot="field">
-            <input
-                :id="field.name"
-                type="text"
-                class="w-full form-control form-input form-input-bordered"
-                :class="errorClasses"
-                :placeholder="field.name"
+            <parameter-editor
+                :parameters="field.settings.parameters"
                 v-model="value"
             />
         </template>
@@ -15,8 +11,11 @@
 
 <script>
 import { FormField, HandlesValidationErrors } from 'laravel-nova'
+import ParameterEditor from "./ParameterEditor";
 
 export default {
+    components: {ParameterEditor},
+
     mixins: [FormField, HandlesValidationErrors],
 
     props: ['resourceName', 'resourceId', 'field'],
@@ -26,14 +25,14 @@ export default {
          * Set the initial, internal value for the field.
          */
         setInitialValue() {
-            this.value = this.field.value || ''
+            this.value = this.field.value && (typeof this.field.value == "object")? this.field.value : {};
         },
 
         /**
          * Fill the given FormData object with the field's internal value.
          */
         fill(formData) {
-            formData.append(this.field.attribute, this.value || '')
+            formData.append(this.field.attribute, JSON.stringify(this.value) || '{}')
         },
 
         /**

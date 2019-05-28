@@ -3,58 +3,35 @@
 namespace KirschbaumDevelopment\NovaChartjs;
 
 use Laravel\Nova\Panel;
-use Illuminate\Support\Arr;
-use KirschbaumDevelopment\NovaChartjs\Exceptions\InvalidNovaResource;
-use KirschbaumDevelopment\NovaChartjs\Exceptions\MissingNovaResource;
+use Laravel\Nova\Fields\MorphOne;
+use KirschbaumDevelopment\NovaChartjs\Nova\MetricValue;
 
 class NovaChartjsPanel extends Panel
 {
     /**
      * Create a new panel instance containing NovaChartjsChart.
      *
-     * @param mixed $resource
      * @param string $panelTitle
-     * @param string $chartTitle
-     *
-     * @throws \Throwable
-     *
-     * @return void
-     *
      */
-    public function __construct($resource, $panelTitle = '', $chartTitle = '')
+    public function __construct($panelTitle = 'Chart Metric Values')
     {
-        throw_if(
-            ! $resource,
-            MissingNovaResource::create('Panel')
-        );
-
-        throw_if(
-            ! property_exists($resource, 'model'),
-            InvalidNovaResource::create('Panel')
-        );
-
         parent::__construct(
-            $panelTitle ?: Arr::get($resource::$model::getNovaChartjsSettings(), 'panelTitle', 'Nova Chartjs Chart'),
-            $this->prepareFields($this->fields($resource, $chartTitle))
+            $panelTitle,
+            $this->prepareFields($this->fields($panelTitle))
         );
     }
 
     /**
      * Fields for the chart panel.
      *
-     * @param mixed $resource
-     * @param string $chartTitle
+     * @param mixed $panelTitle
      *
      * @return array
      */
-    protected function fields($resource, $chartTitle = ''): array
+    protected function fields($panelTitle = 'Chart Metric Values'): array
     {
         return [
-            NovaChartjs::make(
-                $resource,
-                $chartTitle ?: Arr::get($resource::$model::getNovaChartjsSettings(), 'title', 'Chart'),
-                'novaChartjsMetricValue'
-            ),
+            MorphOne::make($panelTitle, 'novaChartjsMetricValue', MetricValue::class),
         ];
     }
 }

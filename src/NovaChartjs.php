@@ -2,9 +2,10 @@
 
 namespace KirschbaumDevelopment\NovaChartjs;
 
+use Illuminate\Support\Str;
 use Laravel\Nova\Fields\Field;
-use KirschbaumDevelopment\NovaChartjs\Exceptions\InvalidNovaResource;
-use KirschbaumDevelopment\NovaChartjs\Exceptions\MissingNovaResource;
+use Laravel\Nova\Http\Requests\NovaRequest;
+use KirschbaumDevelopment\NovaChartjs\Contracts\NovaChartjsChartable;
 
 class NovaChartjs extends Field
 {
@@ -16,33 +17,68 @@ class NovaChartjs extends Field
     public $component = 'nova-chartjs';
 
     /**
-     * NovaChartjs constructor.
-     * Extending parent constructor to inject MetaData from Model
+     * Pass chartable model to NovaChartjs to fetch settings
      *
-     * @param string $name
-     * @param null $attribute
-     * @param callable|null $resolveCallback
-     * @param mixed $resource
+     * @param NovaChartjsChartable|null $chartable
      *
-     * @throws \Throwable
+     * @return NovaChartjs
      */
-    public function __construct($resource, $name, $attribute = null, callable $resolveCallback = null)
+    public function chartable(NovaChartjsChartable $chartable): self
     {
-        parent::__construct($name, $attribute, $resolveCallback);
+        $chartableClass = get_class($chartable);
 
-        throw_if(
-            ! $resource,
-            MissingNovaResource::create('Chart')
-        );
+        $settings = $chartableClass::getNovaChartjsSettings();
 
-        throw_if(
-            ! property_exists($resource, 'model'),
-            InvalidNovaResource::create('Chart')
-        );
-
-        $this->withMeta([
-            'settings' => $resource::$model::getNovaChartjsSettings(),
-            'label' => $resource::singularLabel(),
+        return $this->withMeta([
+            'settings' => $settings,
+            'comparison' => $chartableClass::getNovaChartjsComparisonData(),
+            'model' => Str::singular(Str::title(Str::snake(class_basename($chartableClass), ' '))),
+            'title' => $this->getChartableProp($chartable, $settings['titleProp'] ?? $chartable->getKeyName()),
+            'ident' => $this->getChartableProp($chartable, $settings['identProp'] ?? $chartable->getKeyName()),
         ]);
+    }
+
+    /**
+     * Hide Label to make Chart occupy full width
+     *
+     * @return NovaChartjs
+     */
+    public function hideLabel(): self
+    {
+        return $this->withMeta([
+            'hideLabel' => true,
+        ]);
+    }
+
+    /**
+     * Fetch a property from Chartable
+     *
+     * @param NovaChartjsChartable $chartable
+     * @param string $prop
+     *
+     * @return string
+     */
+    public function getChartableProp(NovaChartjsChartable $chartable, string $prop = 'id'): string
+    {
+        return $chartable->{$prop} ?? 'Unknown';
+    }
+
+    /**
+     * Hydrate the given attribute on the model based on the incoming request.
+     *
+     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
+     * @param  string  $requestAttribute
+     * @param  object  $model
+     * @param  string  $attribute
+     *
+     * @return mixed
+     */
+    protected function fillAttributeFromRequest(NovaRequest $request, $requestAttribute, $model, $attribute)
+    {
+        if ($request->exists($requestAttribute)) {
+            $value = json_decode($request[$requestAttribute], true);
+
+            $model->{$attribute} = $this->isNullValue($value) ? null : $value;
+        }
     }
 }

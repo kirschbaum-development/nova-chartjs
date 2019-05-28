@@ -18,9 +18,43 @@ trait HasNovaChartjsChart
     }
 
     /**
-     * Should return settings for Nova Chart in prescribed format
-     *
-     * @return array
+     * Delete a models chart data before model is deleted
      */
-    abstract public static function getNovaChartjsSettings(): array;
+    public static function bootHasNovaChartjsChart()
+    {
+        static::deleting(function ($model) {
+            if ($model->novaChartjsMetricValue) {
+                $model->novaChartjsMetricValue->delete();
+            }
+        });
+    }
+
+    /**
+     * Mutator to set Metric Values from Chartable model
+     *
+     * @param $value
+     */
+    public function setNovaChartjsMetricValueAttribute($value): void
+    {
+        if (! $this->novaChartjsMetricValue) {
+            $novaChartjsMetricValue = new NovaChartjsMetricValue(['metric_values' => $value]);
+            $this->novaChartjsMetricValue()->save($novaChartjsMetricValue);
+        } else {
+            $this->novaChartjsMetricValue->metric_values = $value;
+            $this->novaChartjsMetricValue->save();
+        }
+    }
+
+    /**
+     * Return a list of all models available for comparison to root model
+     *
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public static function getNovaChartjsComparisonData(): array
+    {
+        return static::with('novaChartjsMetricValue')
+            ->has('novaChartjsMetricValue')
+            ->get()
+            ->toArray();
+    }
 }
