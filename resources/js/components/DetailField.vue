@@ -61,10 +61,6 @@ export default {
     },
 
     methods: {
-        getAllowedParametersFromDataset: function(parameters, dataset = []) {
-            return parameters.map(key => dataset[key] || 0);
-        },
-
         isNotUser: function(element, index, array){
             return element[this.field.settings.identProp] != this.field.ident;
         },
@@ -88,8 +84,13 @@ export default {
 
     computed: {
         comparisonDataset: function(){
+            let chartData = [];
+            if(this.field.isUserEditable || Object.keys(this.field.value).length){
+                chartData.push(this.getDatapoint(this.field.value, this.field.title, this.field.settings.color));
+            }
+
             return [
-                this.getDatapoint(this.field.value, this.field.title, this.field.settings.color),
+                ...chartData,
                 ...this.selected.map(
                     data => this.getDatapoint(
                         data.nova_chartjs_metric_value.metric_values,
