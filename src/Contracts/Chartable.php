@@ -24,4 +24,11 @@ interface Chartable
      * @return array
      */
     public static function getNovaChartjsComparisonData(): array;
+
+    /**
+     * Return a list of additional datasets added to chart
+     *
+     * @return array
+     */
+    public function getAdditionalDatasets(): array;
 }

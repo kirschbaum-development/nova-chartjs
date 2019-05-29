@@ -26,6 +26,7 @@
                     <div class="w-full py-4">
                         <chartjs-range-chart
                             :dataset="comparisonDataset"
+                            :additionalDatasets="field.additionalDatasets"
                             :settings="field.settings"
                             :height="field.settings.height"
                             :width="field.settings.width"
@@ -41,6 +42,7 @@
 import ChartjsRangeChart from "./ChartjsRangeChart";
 import Multiselect from 'vue-multiselect';
 import colors from "../mixins/colors";
+import datasetHandler from "../mixins/datasetHandler";
 
 export default {
     components: {
@@ -48,7 +50,7 @@ export default {
         ChartjsRangeChart
     },
 
-    mixins: [colors],
+    mixins: [colors, datasetHandler],
 
     props: ['resource', 'resourceName', 'resourceId', 'field'],
 
@@ -77,7 +79,7 @@ export default {
             }
 
             return {
-                label: `${this.field.model} (${title})`,
+                label: title,
                 borderColor: color,
                 data: this.getAllowedParametersFromDataset(this.field.settings.parameters, values)
             }

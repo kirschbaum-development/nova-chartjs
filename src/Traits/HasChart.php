@@ -57,4 +57,14 @@ trait HasChart
             ->get()
             ->toArray();
     }
+
+    /**
+     * Return a list of additional datasets added to chart
+     *
+     * @return array
+     */
+    public function getAdditionalDatasets(): array
+    {
+        return [];
+    }
 }

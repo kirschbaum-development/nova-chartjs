@@ -17106,6 +17106,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ChartjsBarChart__ = __webpack_require__(135);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__ChartjsBarChart___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__ChartjsBarChart__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__mixins_colors__ = __webpack_require__(130);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_datasetHandler__ = __webpack_require__(162);
 //
 //
 //
@@ -17116,6 +17117,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
 
 
 
@@ -17123,7 +17125,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     components: { ChartjsBarChart: __WEBPACK_IMPORTED_MODULE_0__ChartjsBarChart___default.a },
 
-    mixins: [__WEBPACK_IMPORTED_MODULE_1__mixins_colors__["a" /* default */]],
+    mixins: [__WEBPACK_IMPORTED_MODULE_1__mixins_colors__["a" /* default */], __WEBPACK_IMPORTED_MODULE_2__mixins_datasetHandler__["a" /* default */]],
 
     props: ['resourceName', 'field'],
 
@@ -17135,7 +17137,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 labels: this.field.settings.parameters,
                 datasets: [{
                     backgroundColor: colors,
-                    'data': Object.values(this.field.value)
+                    'data': this.getAllowedParametersFromDataset(this.field.settings.parameters, this.field.value)
                 }]
             };
         }
@@ -32528,6 +32530,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_multiselect__ = __webpack_require__(147);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue_multiselect___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue_multiselect__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_colors__ = __webpack_require__(130);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__mixins_datasetHandler__ = __webpack_require__(162);
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
@@ -32571,6 +32574,8 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 //
 //
 //
+//
+
 
 
 
@@ -32582,7 +32587,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
         ChartjsRangeChart: __WEBPACK_IMPORTED_MODULE_0__ChartjsRangeChart___default.a
     },
 
-    mixins: [__WEBPACK_IMPORTED_MODULE_2__mixins_colors__["a" /* default */]],
+    mixins: [__WEBPACK_IMPORTED_MODULE_2__mixins_colors__["a" /* default */], __WEBPACK_IMPORTED_MODULE_3__mixins_datasetHandler__["a" /* default */]],
 
     props: ['resource', 'resourceName', 'resourceId', 'field'],
 
@@ -32616,7 +32621,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             }
 
             return {
-                label: this.field.model + " (" + title + ")",
+                label: title,
                 borderColor: color,
                 data: this.getAllowedParametersFromDataset(this.field.settings.parameters, values)
             };
@@ -32704,6 +32709,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_chartjs__ = __webpack_require__(2);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 
 var reactiveData = __WEBPACK_IMPORTED_MODULE_0_vue_chartjs__["c" /* mixins */].reactiveData;
 
@@ -32715,6 +32722,7 @@ var reactiveData = __WEBPACK_IMPORTED_MODULE_0_vue_chartjs__["c" /* mixins */].r
 
     props: {
         'dataset': Array,
+        'additionalDatasets': Array,
         'settings': Object
     },
 
@@ -32728,18 +32736,7 @@ var reactiveData = __WEBPACK_IMPORTED_MODULE_0_vue_chartjs__["c" /* mixins */].r
 
     methods: {
         createChartDataset: function createChartDataset() {
-            var datasets = [{
-                label: 'Low',
-                borderColor: this.settings.lowColor || '#f87900',
-                fill: '+1',
-                backgroundColor: this.settings.fillColor || 'rgba(20,20,20,0.2)',
-                data: this.settings.low
-            }, {
-                label: 'High',
-                borderColor: this.settings.highColor || '#007979',
-                fill: false,
-                data: this.settings.high
-            }];
+            var datasets = [].concat(_toConsumableArray(this.additionalDatasets));
 
             for (var data in this.dataset) {
                 datasets.unshift(_extends({}, this.dataset[data], { fill: false }));
@@ -32842,6 +32839,7 @@ var render = function() {
               _c("chartjs-range-chart", {
                 attrs: {
                   dataset: _vm.comparisonDataset,
+                  additionalDatasets: _vm.field.additionalDatasets,
                   settings: _vm.field.settings,
                   height: _vm.field.settings.height,
                   width: _vm.field.settings.width
@@ -43384,6 +43382,28 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 157 */,
+/* 158 */,
+/* 159 */,
+/* 160 */,
+/* 161 */,
+/* 162 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony default export */ __webpack_exports__["a"] = ({
+    methods: {
+        getAllowedParametersFromDataset: function getAllowedParametersFromDataset(parameters) {
+            var dataset = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+
+            return parameters.map(function (key) {
+                return dataset[key] || 0;
+            });
+        }
+    }
+});
 
 /***/ })
 /******/ ]);

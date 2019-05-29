@@ -9,6 +9,7 @@
 
         props: {
             'dataset': Array,
+            'additionalDatasets': Array,
             'settings': Object,
         },
 
@@ -21,21 +22,7 @@
 
         methods: {
             createChartDataset: function(){
-                let datasets = [
-                    {
-                        label: 'Low',
-                        borderColor: this.settings.lowColor || '#f87900',
-                        fill: '+1',
-                        backgroundColor: this.settings.fillColor || 'rgba(20,20,20,0.2)',
-                        data: this.settings.low
-                    },
-                    {
-                        label: 'High',
-                        borderColor: this.settings.highColor || '#007979',
-                        fill: false,
-                        data: this.settings.high
-                    }
-                ];
+                let datasets = [...this.additionalDatasets];
 
                 for (let data in this.dataset) {
                     datasets.unshift(

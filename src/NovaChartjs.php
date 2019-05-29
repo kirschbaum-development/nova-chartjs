@@ -32,6 +32,7 @@ class NovaChartjs extends Field
         return $this->withMeta([
             'settings' => $settings,
             'comparison' => $chartableClass::getNovaChartjsComparisonData(),
+            'additionalDatasets' => $chartable->getAdditionalDatasets() ?? [],
             'model' => Str::singular(Str::title(Str::snake(class_basename($chartableClass), ' '))),
             'title' => $this->getChartableProp($chartable, $settings['titleProp'] ?? $chartable->getKeyName()),
             'ident' => $this->getChartableProp($chartable, $settings['identProp'] ?? $chartable->getKeyName()),
