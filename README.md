@@ -25,7 +25,7 @@ php artisan migrate
 
 ## Setup
 
-After setup, your model should include `KirschbaumDevelopment\NovaChartjs\Traits\HasChart` trait and you must implement the `KirschbaumDevelopment\NovaChartjs\Contracts\Chartable` Contract.
+After setup, your model should include the `KirschbaumDevelopment\NovaChartjs\Traits\HasChart` trait and you must implement the `KirschbaumDevelopment\NovaChartjs\Contracts\Chartable` Contract.
 
 You must also define a static `getNovaChartjsSettings` function in the model which should return the required settings for the Chart. All other required methods and relationship defined in the contract are already defined for you in the included trait. You can also override these trait methods directly on your model.
 
