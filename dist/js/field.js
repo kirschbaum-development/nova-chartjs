@@ -32642,7 +32642,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             var _this = this;
 
             var chartData = [];
-            if (this.field.isUserEditable || Object.keys(this.field.value).length) {
+            if (!this.field.isNotEditable || Object.keys(this.field.value).length) {
                 chartData.push(this.getDatapoint(this.field.value, this.field.title, this.field.settings.color));
             }
 
@@ -32793,8 +32793,8 @@ var render = function() {
             {
               name: "show",
               rawName: "v-show",
-              value: !_vm.field.hideLabel,
-              expression: "!field.hideLabel"
+              value: _vm.field.showLabel,
+              expression: "field.showLabel"
             }
           ],
           staticClass: "w-1/4 py-4"

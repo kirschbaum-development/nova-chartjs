@@ -16,14 +16,14 @@ class InlinePanel extends Panel
      * @param Resource $resource
      * @param Request $request
      * @param string $panelTitle
-     * @param bool $hideLabel
-     * @param bool $isUserEditable
+     * @param bool $showLabel
+     * @param bool $isNotEditable
      */
-    public function __construct(Resource $resource, Request $request, $panelTitle = 'Chart Metric Values', $hideLabel = true, $isUserEditable = true)
+    public function __construct(Resource $resource, Request $request, $panelTitle = 'Chart Metric Values', $showLabel = false, $isNotEditable = false)
     {
         parent::__construct(
             $panelTitle,
-            $this->prepareFields($this->fields($resource->resource, $request, $panelTitle, $hideLabel, $isUserEditable))
+            $this->prepareFields($this->fields($resource->resource, $request, $panelTitle, $showLabel, $isNotEditable))
         );
     }
 
@@ -33,19 +33,27 @@ class InlinePanel extends Panel
      * @param Chartable $chartable
      * @param Request $request
      * @param mixed $panelTitle
-     * @param bool $hideLabel
-     * @param bool $isUserEditable
+     * @param bool $showLabel
+     * @param bool $isNotEditable
      *
      * @return array
      */
-    protected function fields(Chartable $chartable, Request $request, $panelTitle = 'Chart Metric Values', $hideLabel = true, $isUserEditable = true): array
+    protected function fields(Chartable $chartable, Request $request, $panelTitle = 'Chart Metric Values', $showLabel = false, $isNotEditable = false): array
     {
+        $field = NovaChartjs::make($panelTitle, 'novaChartjsMetricValue', function () use ($chartable) {
+            return $chartable->novaChartjsMetricValue->metric_values ?? [];
+        })->chartable($chartable ?? App::make($request->viaResource()::$model));
+
+        if ($showLabel) {
+            $field->showLabel();
+        }
+
+        if ($isNotEditable) {
+            $field->isNotEditable();
+        }
+
         return [
-            NovaChartjs::make($panelTitle, 'novaChartjsMetricValue', function () use ($chartable) {
-                return $chartable->novaChartjsMetricValue->metric_values ?? [];
-            })->hideLabel($hideLabel)
-                ->isUserEditable($isUserEditable)
-                ->chartable($chartable ?? App::make($request->viaResource()::$model)),
+            $field,
         ];
     }
 }

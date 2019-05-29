@@ -29,6 +29,11 @@ class NovaChartjs extends Field
     {
         parent::__construct($name, $attribute, $resolveCallback);
         $this->showOnCreation = false;
+
+        $this->withMeta([
+            'showLabel' => false,
+            'isNotEditable' => false,
+        ]);
     }
 
     /**
@@ -57,33 +62,27 @@ class NovaChartjs extends Field
     /**
      * Hide Label to make Chart occupy full width
      *
-     * @param bool $value
-     *
      * @return NovaChartjs
      */
-    public function hideLabel(bool $value): self
+    public function showLabel(): self
     {
         return $this->withMeta([
-            'hideLabel' => $value,
+            'showLabel' => true,
         ]);
     }
 
     /**
      * set whether a user can edit a model data
      *
-     * @param bool $value
-     *
      * @return NovaChartjs
      */
-    public function isUserEditable(bool $value): self
+    public function isNotEditable(): self
     {
-        if (! $value) {
-            $this->hideWhenUpdating()
-                ->hideFromIndex();
-        }
+        $this->hideWhenUpdating()
+            ->hideFromIndex();
 
         return $this->withMeta([
-            'isUserEditable' => $value,
+            'isNotEditable' => true,
         ]);
     }
 

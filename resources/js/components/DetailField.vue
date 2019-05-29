@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="flex border-b border-40">
-            <div v-show="!field.hideLabel" class="w-1/4 py-4">
+            <div v-show="field.showLabel" class="w-1/4 py-4">
                 <h4 class="font-normal text-80">{{ field.name }}</h4>
             </div>
             <div class="w-3/4 py-4 flex-grow">
@@ -85,7 +85,7 @@ export default {
     computed: {
         comparisonDataset: function(){
             let chartData = [];
-            if(this.field.isUserEditable || Object.keys(this.field.value).length){
+            if(! this.field.isNotEditable || Object.keys(this.field.value).length){
                 chartData.push(this.getDatapoint(this.field.value, this.field.title, this.field.settings.color));
             }
 
