@@ -4,7 +4,7 @@ namespace KirschbaumDevelopment\NovaChartjs\Contracts;
 
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 
-interface NovaChartjsChartable
+interface Chartable
 {
     /**
      * @return MorphOne

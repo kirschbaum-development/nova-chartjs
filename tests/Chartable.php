@@ -3,12 +3,12 @@
 namespace KirschbaumDevelopment\NovaChartjs\Tests;
 
 use Illuminate\Database\Eloquent\Model;
-use KirschbaumDevelopment\NovaChartjs\Traits\HasNovaChartjsChart;
+use KirschbaumDevelopment\NovaChartjs\Traits\HasChart;
 
 class Chartable extends Model
 {
     /* Using Trait to a minimal representative Model to test Trait */
-    use HasNovaChartjsChart;
+    use HasChart;
 
     /* timestamps not needed it test class */
     public $timestamps = false;

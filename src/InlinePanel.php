@@ -6,9 +6,9 @@ use App\Nova\Resource;
 use Laravel\Nova\Panel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
-use KirschbaumDevelopment\NovaChartjs\Contracts\NovaChartjsChartable;
+use KirschbaumDevelopment\NovaChartjs\Contracts\Chartable;
 
-class NovaChartjsChartablePanel extends Panel
+class InlinePanel extends Panel
 {
     /**
      * Create a new panel instance containing NovaChartjsChart.
@@ -28,13 +28,13 @@ class NovaChartjsChartablePanel extends Panel
     /**
      * Fields for the inline chart panel.
      *
-     * @param NovaChartjsChartable $chartable
+     * @param Chartable $chartable
      * @param Request $request
      * @param mixed $panelTitle
      *
      * @return array
      */
-    protected function fields(NovaChartjsChartable $chartable, Request $request, $panelTitle = 'Chart Metric Values'): array
+    protected function fields(Chartable $chartable, Request $request, $panelTitle = 'Chart Metric Values'): array
     {
         return [
             NovaChartjs::make($panelTitle, 'novaChartjsMetricValue', function () use ($chartable) {
