@@ -166,7 +166,7 @@ class User extends Resource
 ``` 
 **_NOTE:_** You must pass the `Resource` (i.e. `$this`) and `$request` to the `InlinePanel` component. 
 
-As an optional argument you can pass a chart name as the third argument, `showLabel` as fourth argument and `isNotEditable` as the fifth argument.
+As an optional argument you can pass a chart name as the third argument, `showLabel` as fourth argument and `notEditable` as the fifth argument.
 
 
 2. If you instead want to use the Chart inline without a panel you can do so using this code:
@@ -192,7 +192,7 @@ class User extends Resource
     }
 }
 ``` 
-**_NOTE:_** You can chain the `showLabel()` and `isNotEditable()` method with `make()` function to show the label and set the model data as uneditedable in the chart. You can pass the name of chart as a first argument.
+**_NOTE:_** You can chain the `showLabel()` and `notEditable()` method with `make()` function to show the label and set the model data as uneditedable in the chart. You can pass the name of chart as a first argument.
 
 ![Inline Chart with Label](screenshots/InlineWithLabel.jpg "Inline Chart with Label")
 

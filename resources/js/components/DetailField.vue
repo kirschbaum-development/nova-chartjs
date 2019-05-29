@@ -85,7 +85,7 @@ export default {
     computed: {
         comparisonDataset: function(){
             let chartData = [];
-            if(! this.field.isNotEditable || Object.keys(this.field.value).length){
+            if(! this.field.notEditable || Object.keys(this.field.value).length){
                 chartData.push(this.getDatapoint(this.field.value, this.field.title, this.field.settings.color));
             }
 

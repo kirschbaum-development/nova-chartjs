@@ -32642,7 +32642,7 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
             var _this = this;
 
             var chartData = [];
-            if (!this.field.isNotEditable || Object.keys(this.field.value).length) {
+            if (!this.field.notEditable || Object.keys(this.field.value).length) {
                 chartData.push(this.getDatapoint(this.field.value, this.field.title, this.field.settings.color));
             }
 

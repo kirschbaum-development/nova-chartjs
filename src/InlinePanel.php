@@ -17,13 +17,13 @@ class InlinePanel extends Panel
      * @param Request $request
      * @param string $panelTitle
      * @param bool $showLabel
-     * @param bool $isNotEditable
+     * @param bool $notEditable
      */
-    public function __construct(Resource $resource, Request $request, $panelTitle = 'Chart Metric Values', $showLabel = false, $isNotEditable = false)
+    public function __construct(Resource $resource, Request $request, $panelTitle = 'Chart Metric Values', $showLabel = false, $notEditable = false)
     {
         parent::__construct(
             $panelTitle,
-            $this->prepareFields($this->fields($resource->resource, $request, $panelTitle, $showLabel, $isNotEditable))
+            $this->prepareFields($this->fields($resource->resource, $request, $panelTitle, $showLabel, $notEditable))
         );
     }
 
@@ -34,11 +34,11 @@ class InlinePanel extends Panel
      * @param Request $request
      * @param mixed $panelTitle
      * @param bool $showLabel
-     * @param bool $isNotEditable
+     * @param bool $notEditable
      *
      * @return array
      */
-    protected function fields(Chartable $chartable, Request $request, $panelTitle = 'Chart Metric Values', $showLabel = false, $isNotEditable = false): array
+    protected function fields(Chartable $chartable, Request $request, $panelTitle = 'Chart Metric Values', $showLabel = false, $notEditable = false): array
     {
         $field = NovaChartjs::make($panelTitle, 'novaChartjsMetricValue', function () use ($chartable) {
             return $chartable->novaChartjsMetricValue->metric_values ?? [];
@@ -48,8 +48,8 @@ class InlinePanel extends Panel
             $field->showLabel();
         }
 
-        if ($isNotEditable) {
-            $field->isNotEditable();
+        if ($notEditable) {
+            $field->notEditable();
         }
 
         return [

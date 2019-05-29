@@ -32,7 +32,7 @@ class NovaChartjs extends Field
 
         $this->withMeta([
             'showLabel' => false,
-            'isNotEditable' => false,
+            'notEditable' => false,
         ]);
     }
 
@@ -76,13 +76,13 @@ class NovaChartjs extends Field
      *
      * @return NovaChartjs
      */
-    public function isNotEditable(): self
+    public function notEditable(): self
     {
         $this->hideWhenUpdating()
             ->hideFromIndex();
 
         return $this->withMeta([
-            'isNotEditable' => true,
+            'notEditable' => true,
         ]);
     }
 
