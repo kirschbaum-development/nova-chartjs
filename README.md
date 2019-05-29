@@ -45,15 +45,13 @@ class User extends Model implements Chartable
     public static function getNovaChartjsSettings(): array
     {
         return [
-            'type' => 'range',
+            'type' => 'line',
             'titleProp' => 'name',
             'identProp' => 'id',
             'height' => 400,
             'indexColor' => '#999999',
             'color' => '#FF0000',
             'parameters' => ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-            'high' => [80, 40, 62, 79, 80, 90, 79, 90, 90, 90, 92, 91],
-            'low' => [8, 7, 12, 19, 12, 10, 19, 9, 10, 20, 12, 11],
             'options' => ['responsive' => true, 'maintainAspectRatio' => false],
         ];
     }
@@ -61,7 +59,84 @@ class User extends Model implements Chartable
     // ...
 }
 ```
-### Adding Chart
+## Adding Custom Datsets
+
+You can also add your own custom datasets to chart by adding a `getAdditionalDatasets` method on your model
+
+```php
+use KirschbaumDevelopment\NovaChartjs\Traits\HasChart;
+use KirschbaumDevelopment\NovaChartjs\Contracts\Chartable;
+
+class User extends Model implements Chartable
+{
+    use HasChart;
+    
+    //...
+
+    /**
+     * Return a list of additional datasets added to chart
+     *
+     * @return array
+     */
+    public function getAdditionalDatasets(): array
+    {
+        return [
+            [
+                'label' => 'Average Sales',
+                'borderColor' => '#f87900',
+                'data' => [80, 40, 62, 79, 80, 90, 79, 90, 90, 90, 92, 91],
+            ],
+        ];
+    }
+
+    // ...
+}
+```
+You can read more about adding custom datasets in the [official chart.js documentation](https://www.chartjs.org/docs/latest/)
+
+### Creating a range chart
+
+To create a range chart you can pass on two additional datasets representing an upper and lower range and set the fill and background color property for the first data point.
+
+```php
+use KirschbaumDevelopment\NovaChartjs\Traits\HasChart;
+use KirschbaumDevelopment\NovaChartjs\Contracts\Chartable;
+
+class User extends Model implements Chartable
+{
+    use HasChart;
+    
+    //...
+
+    /**
+     * Return a list of additional datasets added to chart
+     *
+     * @return array
+     */
+    public function getAdditionalDatasets(): array
+    {
+        return [
+            [
+                'label' => 'Minimum Required',
+                'borderColor' => '#f87900',
+                'fill' => '+1',
+                'backgroundColor' => 'rgba(20,20,20,0.2)',
+                'data' => [8, 7, 12, 19, 12, 10, 19, 9, 10, 20, 12, 11],
+            ],
+            [
+                'label' => 'Target',
+                'borderColor' => '#007979',
+                'fill' => false,
+                'data' => [80, 40, 62, 79, 80, 90, 79, 90, 90, 90, 92, 91],
+            ],
+        ];
+    }
+
+    // ...
+}
+```
+
+## Adding Chart
 
 You can add the chart to your Nova resource in three ways
 
@@ -152,16 +227,13 @@ class User extends Resource
 
 You can add following settings to model settings
 1. `parameters`: It is a list of parameters label for which chart data will be collected. It should be passed as an array. e.g., ["January, "February", "March"]
-2. `high`: An array of high value ranges to be shown in chart.
-3. `low`: An array of low value ranges to be shown in chart.
-4. `height` and `width`: Dimensions of chart. It is recommended to set height and let chart adjust according to width.
-5. `color`: Color value for the base model in chart. 
-6. `identProp`: Model property representing the primary key. defaults to `id`.
-7. `labelProp`: Model property used for display label in chart. defaults to `id`.
-8. `indexColor`: Bar Chart color in index view. Falls back to `color`
-9. `highColor` `lowColor` and `fillColor`: Colors for high, low lines and fillColor of chart.
-10. `type`: For future expansion. right now this parameter is ignored.
-11. `options`: Options are passed directly to ChartJS instance can be used to customize your Chart as detailed in the [documentation](https://www.chartjs.org/docs/latest/)
+2. `height` and `width`: Dimensions of chart. It is recommended to set height and let chart adjust according to width.
+3. `color`: Color value for the base model in chart. 
+4. `identProp`: Model property representing the primary key. defaults to `id`.
+5. `labelProp`: Model property used for display label in chart. defaults to `id`.
+6. `indexColor`: Bar Chart color in index view. Falls back to `color`
+7. `type`: For future expansion. right now this parameter is ignored.
+8. `options`: Options are passed directly to ChartJS instance can be used to customize your Chart as detailed in the [documentation](https://www.chartjs.org/docs/latest/)
 
 ## Adding Chart Data
 
