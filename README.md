@@ -192,7 +192,7 @@ class User extends Resource
     }
 }
 ``` 
-**_NOTE:_** You can chain the `showLabel()` and `notEditable()` method with `make()` function to show the label and set the model data as uneditedable in the chart. You can pass the name of chart as a first argument.
+**_NOTE:_** You can chain the `showLabel()` and `notEditable()` method with `make()` function to show the label and set the model data as uneditable in the chart. You can pass the name of chart as the first argument.
 
 ![Inline Chart with Label](screenshots/InlineWithLabel.jpg "Inline Chart with Label")
 
