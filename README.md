@@ -164,7 +164,9 @@ class User extends Resource
     }
 }
 ``` 
-**_NOTE:_** You must pass the `Resource` (i.e. `$this`) and `$request` to the `InlinePanel` component. As an optional argument you can pass a chart name as the third argument.
+**_NOTE:_** You must pass the `Resource` (i.e. `$this`) and `$request` to the `InlinePanel` component. 
+
+As an optional argument you can pass a chart name as the third argument, `hidelLabel` as fourth argument and `isUserEditable` as the fifth argument.
 
 
 2. If you instead want to use the Chart inline without a panel you can do so using this code:
@@ -185,13 +187,12 @@ class User extends Resource
 
             NovaChartjs::make('Panel Name', 'novaChartjsMetricValue', function () {
                 return $this->novaChartjsMetricValue->metric_values;
-            })->hideWhenCreating()
-                ->chartable($this->resource ?? App::make($request->viaResource()::$model)),
+            })->chartable($this->resource ?? App::make($request->viaResource()::$model)),
         ];
     }
 }
 ``` 
-**_NOTE:_** You can chain the `hideLabel()` method with `make()` function to hide the label and show the chart full screen. You can pass the name of chart as a first argument.
+**_NOTE:_** You can chain the `hideLabel(<bool>)` and `isUserEditable(<bool>)` method with `make()` function to show/hide the label and set whether model data can be edited in the chart. You can pass the name of chart as a first argument.
 
 ![Inline Chart with Label](screenshots/InlineWithLabel.jpg "Inline Chart with Label")
 
