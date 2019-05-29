@@ -1,6 +1,6 @@
 # Nova ChartJS
 
-![Chartable Panel](screenshots/ChartablePanel.jpg "Chartable Panel")
+![Cover Image](screenshots/CoverImage.jpg "Cover Image")
 
 ## Introduction
 This package allows you to easily add chart.js graphs to your nova resources. This project is under active development, and currently only supports Line Datasets. You are welcome to request or contribute additional charts by opening an issue.
@@ -25,17 +25,17 @@ php artisan migrate
 
 ## Setup
 
-After setup, your model should include `HasNovaChartjsChart` trait and you must implement the `NovaChartjsChartable` Contract.
+After setup, your model should include the `KirschbaumDevelopment\NovaChartjs\Traits\HasChart` trait and you must implement the `KirschbaumDevelopment\NovaChartjs\Contracts\Chartable` Contract.
 
 You must also define a static `getNovaChartjsSettings` function in the model which should return the required settings for the Chart. All other required methods and relationship defined in the contract are already defined for you in the included trait. You can also override these trait methods directly on your model.
 
 ```php
-use KirschbaumDevelopment\NovaChartjs\Traits\HasNovaChartjsChart;
-use KirschbaumDevelopment\NovaChartjs\Contracts\NovaChartjsChartableContract as ChartableContract;
+use KirschbaumDevelopment\NovaChartjs\Traits\HasChart;
+use KirschbaumDevelopment\NovaChartjs\Contracts\Chartable;
 
-class User extends Model implements ChartableContract
+class User extends Model implements Chartable
 {
-    use HasNovaChartjsChart;
+    use HasChart;
 
     /**
      * Should return settings for Nova Chart in prescribed format
@@ -61,11 +61,11 @@ class User extends Model implements ChartableContract
     // ...
 }
 ```
-### Adding NovaChartjs Chart
+### Adding Chart
 
 You can add the chart to your Nova resource in three ways
 
-1. Our recommended way of using Nova Chartjs Chart is to add the included Panel `KirschbaumDevelopment\NovaChartjs\NovaChartjsChartablePanel` to your resource's Nova fields
+1. Our recommended way of using Nova Chartjs Chart is to add the included Panel `KirschbaumDevelopment\NovaChartjs\InlinePanel` to your resource's Nova fields
 
 ![Chartable Panel](screenshots/ChartablePanel.jpg "Chartable Panel")
 
@@ -73,7 +73,7 @@ You can add the chart to your Nova resource in three ways
 
 namespace App\Nova;
 
-use KirschbaumDevelopment\NovaChartjs\NovaChartjsChartablePanel;
+use KirschbaumDevelopment\NovaChartjs\InlinePanel;
 
 class User extends Resource
 {
@@ -84,15 +84,15 @@ class User extends Resource
         return [
             //...
 
-            new NovaChartjsChartablePanel($this, $request, 'Chart Name'),
+            new InlinePanel($this, $request, 'Chart Name'),
         ];
     }
 }
 ``` 
-**_NOTE:_** You must pass the `Resource` (i.e. `$this`) and `$request` to the `NovaChartjsChartablePanel` component. As an optional argument you can pass a chart name as the third argument.
+**_NOTE:_** You must pass the `Resource` (i.e. `$this`) and `$request` to the `InlinePanel` component. As an optional argument you can pass a chart name as the third argument.
 
 
-2. If you instead want to use NovaChartjsChart inline without a panel you can do so using this code:
+2. If you instead want to use the Chart inline without a panel you can do so using this code:
 
 ```php
 namespace App\Nova;
@@ -130,7 +130,7 @@ Without `hideLabel()` chart will occupy the full width.
 
 namespace App\Nova;
 
-use KirschbaumDevelopment\NovaChartjs\NovaChartjsPanel;
+use KirschbaumDevelopment\NovaChartjs\RelationshipPanel;
 
 class User extends Resource
 {
@@ -141,7 +141,7 @@ class User extends Resource
         return [
             //...
 
-            new NovaChartjsPanel('Chart Name'),
+            new RelationshipPanel('Chart Name'),
         ];
     }
 }
@@ -189,12 +189,12 @@ Chart comparison data is fetched through trait using a static function `getNovaC
 
 namespace App;
 
-use KirschbaumDevelopment\NovaChartjs\Traits\HasNovaChartjsChart;
-use KirschbaumDevelopment\NovaChartjs\Contracts\NovaChartjsChartableContract as ChartableContract;
+use KirschbaumDevelopment\NovaChartjs\Traits\HasChart;
+use KirschbaumDevelopment\NovaChartjs\Contracts\Chartable;
 
-class User extends Model implements ChartableContract
+class User extends Model implements Chartable
 {
-    use HasNovaChartjsChart;
+    use HasChart;
     
     //...
     
@@ -213,22 +213,6 @@ class User extends Model implements ChartableContract
     }
 }
 ``` 
-
-## To-Do
-- [x] Setup Repo
-- [x] Create a NovaChartJsMetricValue Model
-- [x] Create a HasNovaChartJsChart Trait with relationship and abstract method to return novaChartJsSettings
-- [x] Create a basic chart view for NovaChartJsChart Field Type and add it to Detail Field
-- [x] Add a list to compare model with other models
-- [x] Add option to add another model for comparison
-- [x] Add option to remove a model from comparison
-- [x] Create NovaChartJsChartMetricEditor
-- [x] Add NovaChartJsChartMetricEditor to Form Field
-- [ ] Add additional chart types
-- [ ] Add optiona for multiple charts
-
-## Class Diagram
-![Database Model](screenshots/ClassDiagram.jpg "Class Diagram")
 
 ## Changelog
 

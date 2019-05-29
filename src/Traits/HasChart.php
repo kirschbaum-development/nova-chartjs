@@ -5,7 +5,7 @@ namespace KirschbaumDevelopment\NovaChartjs\Traits;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use KirschbaumDevelopment\NovaChartjs\Models\NovaChartjsMetricValue;
 
-trait HasNovaChartjsChart
+trait HasChart
 {
     /**
      * Get the Chartable Model's metric values

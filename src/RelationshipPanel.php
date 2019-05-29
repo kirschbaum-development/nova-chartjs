@@ -6,7 +6,7 @@ use Laravel\Nova\Panel;
 use Laravel\Nova\Fields\MorphOne;
 use KirschbaumDevelopment\NovaChartjs\Nova\MetricValue;
 
-class NovaChartjsPanel extends Panel
+class RelationshipPanel extends Panel
 {
     /**
      * Create a new panel instance containing NovaChartjsChart.

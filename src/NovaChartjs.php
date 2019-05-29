@@ -5,7 +5,7 @@ namespace KirschbaumDevelopment\NovaChartjs;
 use Illuminate\Support\Str;
 use Laravel\Nova\Fields\Field;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use KirschbaumDevelopment\NovaChartjs\Contracts\NovaChartjsChartable;
+use KirschbaumDevelopment\NovaChartjs\Contracts\Chartable;
 
 class NovaChartjs extends Field
 {
@@ -19,11 +19,11 @@ class NovaChartjs extends Field
     /**
      * Pass chartable model to NovaChartjs to fetch settings
      *
-     * @param NovaChartjsChartable|null $chartable
+     * @param Chartable|null $chartable
      *
      * @return NovaChartjs
      */
-    public function chartable(NovaChartjsChartable $chartable): self
+    public function chartable(Chartable $chartable): self
     {
         $chartableClass = get_class($chartable);
 
@@ -53,12 +53,12 @@ class NovaChartjs extends Field
     /**
      * Fetch a property from Chartable
      *
-     * @param NovaChartjsChartable $chartable
+     * @param Chartable $chartable
      * @param string $prop
      *
      * @return string
      */
-    public function getChartableProp(NovaChartjsChartable $chartable, string $prop = 'id'): string
+    public function getChartableProp(Chartable $chartable, string $prop = 'id'): string
     {
         return $chartable->{$prop} ?? 'Unknown';
     }
