@@ -11,11 +11,12 @@
 <script>
 import ChartjsBarChart from "./ChartjsBarChart";
 import colors from "../mixins/colors";
+import datasetHandler from "../mixins/datasetHandler";
 
 export default {
     components: {ChartjsBarChart},
 
-    mixins: [colors],
+    mixins: [colors, datasetHandler],
 
     props: ['resourceName', 'field'],
 
@@ -28,7 +29,7 @@ export default {
                 datasets: [
                     {
                         backgroundColor: colors,
-                        'data': Object.values(this.field.value)
+                        'data': this.getAllowedParametersFromDataset(this.field.settings.parameters, this.field.value)
                     }
                  ]
             }
