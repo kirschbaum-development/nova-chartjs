@@ -9,7 +9,7 @@
 
         props: {
             'dataset': Array,
-            'additional': Array,
+            'additionalDatasets': Array,
             'settings': Object,
         },
 
@@ -22,7 +22,7 @@
 
         methods: {
             createChartDataset: function(){
-                let datasets = [...this.additional];
+                let datasets = [...this.additionalDatasets];
 
                 for (let data in this.dataset) {
                     datasets.unshift(

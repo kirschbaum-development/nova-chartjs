@@ -32722,7 +32722,7 @@ var reactiveData = __WEBPACK_IMPORTED_MODULE_0_vue_chartjs__["c" /* mixins */].r
 
     props: {
         'dataset': Array,
-        'additional': Array,
+        'additionalDatasets': Array,
         'settings': Object
     },
 
@@ -32736,7 +32736,7 @@ var reactiveData = __WEBPACK_IMPORTED_MODULE_0_vue_chartjs__["c" /* mixins */].r
 
     methods: {
         createChartDataset: function createChartDataset() {
-            var datasets = [].concat(_toConsumableArray(this.additional));
+            var datasets = [].concat(_toConsumableArray(this.additionalDatasets));
 
             for (var data in this.dataset) {
                 datasets.unshift(_extends({}, this.dataset[data], { fill: false }));
@@ -32839,7 +32839,7 @@ var render = function() {
               _c("chartjs-range-chart", {
                 attrs: {
                   dataset: _vm.comparisonDataset,
-                  additional: _vm.field.additional,
+                  additionalDatasets: _vm.field.additionalDatasets,
                   settings: _vm.field.settings,
                   height: _vm.field.settings.height,
                   width: _vm.field.settings.width

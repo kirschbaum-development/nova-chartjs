@@ -26,7 +26,7 @@
                     <div class="w-full py-4">
                         <chartjs-range-chart
                             :dataset="comparisonDataset"
-                            :additional="field.additional"
+                            :additionalDatasets="field.additionalDatasets"
                             :settings="field.settings"
                             :height="field.settings.height"
                             :width="field.settings.width"
