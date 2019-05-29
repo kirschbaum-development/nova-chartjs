@@ -41,11 +41,13 @@ class MetricValue extends Resource
      */
     public function fields(Request $request)
     {
-        return [
-            NovaChartjs::make('Metric Values', 'metric_values')
-                ->chartable($this->resource->chartable ?? App::make($request->viaResource()::$model))
-                ->rules('required', 'json'),
+        $field = NovaChartjs::make('Metric Values', 'metric_values')
+            ->chartable($this->resource->chartable ?? App::make($request->viaResource()::$model))
+            ->rules('required', 'json');
+        $field->showOnCreation = true;
 
+        return [
+            $field,
             MorphTo::make('Chartable')->onlyOnIndex(),
         ];
     }

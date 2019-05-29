@@ -16,12 +16,14 @@ class InlinePanel extends Panel
      * @param Resource $resource
      * @param Request $request
      * @param string $panelTitle
+     * @param bool $hideLabel
+     * @param bool $isUserEditable
      */
-    public function __construct(Resource $resource, Request $request, $panelTitle = 'Chart Metric Values')
+    public function __construct(Resource $resource, Request $request, $panelTitle = 'Chart Metric Values', $hideLabel = true, $isUserEditable = true)
     {
         parent::__construct(
             $panelTitle,
-            $this->prepareFields($this->fields($resource->resource, $request, $panelTitle))
+            $this->prepareFields($this->fields($resource->resource, $request, $panelTitle, $hideLabel, $isUserEditable))
         );
     }
 
@@ -31,16 +33,18 @@ class InlinePanel extends Panel
      * @param Chartable $chartable
      * @param Request $request
      * @param mixed $panelTitle
+     * @param bool $hideLabel
+     * @param bool $isUserEditable
      *
      * @return array
      */
-    protected function fields(Chartable $chartable, Request $request, $panelTitle = 'Chart Metric Values'): array
+    protected function fields(Chartable $chartable, Request $request, $panelTitle = 'Chart Metric Values', $hideLabel = true, $isUserEditable = true): array
     {
         return [
             NovaChartjs::make($panelTitle, 'novaChartjsMetricValue', function () use ($chartable) {
                 return $chartable->novaChartjsMetricValue->metric_values ?? [];
-            })->hideWhenCreating()
-                ->hideLabel()
+            })->hideLabel($hideLabel)
+                ->isUserEditable($isUserEditable)
                 ->chartable($chartable ?? App::make($request->viaResource()::$model)),
         ];
     }

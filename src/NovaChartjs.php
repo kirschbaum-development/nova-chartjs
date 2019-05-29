@@ -17,6 +17,21 @@ class NovaChartjs extends Field
     public $component = 'nova-chartjs';
 
     /**
+     * Create a new Nova Chartjs field.
+     *
+     * @param  string  $name
+     * @param  string|callable|null  $attribute
+     * @param  callable|null  $resolveCallback
+     *
+     * @return void
+     */
+    public function __construct($name, $attribute = null, callable $resolveCallback = null)
+    {
+        parent::__construct($name, $attribute, $resolveCallback);
+        $this->showOnCreation = false;
+    }
+
+    /**
      * Pass chartable model to NovaChartjs to fetch settings
      *
      * @param Chartable|null $chartable
@@ -42,12 +57,33 @@ class NovaChartjs extends Field
     /**
      * Hide Label to make Chart occupy full width
      *
+     * @param bool $value
+     *
      * @return NovaChartjs
      */
-    public function hideLabel(): self
+    public function hideLabel(bool $value): self
     {
         return $this->withMeta([
-            'hideLabel' => true,
+            'hideLabel' => $value,
+        ]);
+    }
+
+    /**
+     * set whether a user can edit a model data
+     *
+     * @param bool $value
+     *
+     * @return NovaChartjs
+     */
+    public function isUserEditable(bool $value): self
+    {
+        if (! $value) {
+            $this->hideWhenUpdating()
+                ->hideFromIndex();
+        }
+
+        return $this->withMeta([
+            'isUserEditable' => $value,
         ]);
     }
 
