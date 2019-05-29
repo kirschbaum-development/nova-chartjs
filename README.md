@@ -1,7 +1,9 @@
 # Nova ChartJS
 
+![Chartable Panel](screenshots/ChartablePanel.jpg "Chartable Panel")
+
 ## Introduction
-Nova ChartJs makes it easy to add high/low range charts to Laravel Nova Resources using chart.js!
+This package allows you to easily add chart.js graphs to your nova resources. This project is under active development, and currently only supports Line Datasets. You are welcome to request or contribute additional charts by opening an issue.
 
 ## Requirements
 
@@ -20,6 +22,7 @@ You'll also need to run migrations to set up a database table for `NovaChartjsMe
 ```bash
 php artisan migrate
 ```
+
 ## Setup
 
 After setup, your model should include `HasNovaChartjsChart` trait and you must implement the `NovaChartjsChartable` Contract.
