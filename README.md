@@ -33,7 +33,7 @@ You must also define a static `getNovaChartjsSettings` function in the model whi
 use KirschbaumDevelopment\NovaChartjs\Traits\HasChart;
 use KirschbaumDevelopment\NovaChartjs\Contracts\Chartable;
 
-class User extends Model implements Chartable
+class Employee extends Model implements Chartable
 {
     use HasChart;
 
@@ -61,13 +61,15 @@ class User extends Model implements Chartable
 ```
 ## Adding Custom Datsets
 
-You can also add your own custom datasets to chart by adding a `getAdditionalDatasets` method on your model
+You can also add your own custom datasets to the chart by adding a `getAdditionalDatasets` method on your model
+
+![Additional Dataset](screenshots/WithAdditionalDatasets.jpg "With Additional Dataset")
 
 ```php
 use KirschbaumDevelopment\NovaChartjs\Traits\HasChart;
 use KirschbaumDevelopment\NovaChartjs\Contracts\Chartable;
 
-class User extends Model implements Chartable
+class Employee extends Model implements Chartable
 {
     use HasChart;
     
@@ -102,7 +104,7 @@ To create a range chart you can pass on two additional datasets representing an 
 use KirschbaumDevelopment\NovaChartjs\Traits\HasChart;
 use KirschbaumDevelopment\NovaChartjs\Contracts\Chartable;
 
-class User extends Model implements Chartable
+class Employee extends Model implements Chartable
 {
     use HasChart;
     
@@ -145,12 +147,11 @@ You can add the chart to your Nova resource in three ways
 ![Chartable Panel](screenshots/ChartablePanel.jpg "Chartable Panel")
 
 ```php
-
 namespace App\Nova;
 
 use KirschbaumDevelopment\NovaChartjs\InlinePanel;
 
-class User extends Resource
+class Employee extends Resource
 {
     
     //...
@@ -176,7 +177,7 @@ namespace App\Nova;
 
 use KirschbaumDevelopment\NovaChartjs\NovaChartjs;
 
-class User extends Resource
+class Employee extends Resource
 {
     
     //...
@@ -208,7 +209,7 @@ namespace App\Nova;
 
 use KirschbaumDevelopment\NovaChartjs\RelationshipPanel;
 
-class User extends Resource
+class Employee extends Resource
 {
     
     //...
@@ -259,13 +260,12 @@ You can add or remove any model to comparison to checkout how models are stacked
 
 Chart comparison data is fetched through trait using a static function `getNovaChartjsComparisonData`. You can override this function in your model to change the comparison data.
 ```php
-
 namespace App;
 
 use KirschbaumDevelopment\NovaChartjs\Traits\HasChart;
 use KirschbaumDevelopment\NovaChartjs\Contracts\Chartable;
 
-class User extends Model implements Chartable
+class Employee extends Model implements Chartable
 {
     use HasChart;
     
@@ -286,6 +286,35 @@ class User extends Model implements Chartable
     }
 }
 ``` 
+## Redirecting to Edit View after creating a new Chartable Model
+
+You can optionally add the trait `RedirectsOnCreate` to your Chartable Model's Nova Resource to redirect to edit view right after creating a chartable model.
+
+**_NOTE:_** You will need Laravel Nova version `2.0.4` or later to use this trait. Please make sure to update you Laravel Nova package to  version `2.0.4` or later before adding this trait.
+
+```php
+namespace App\Nova;
+
+use KirschbaumDevelopment\NovaChartjs\InlinePanel;
+use KirschbaumDevelopment\NovaChartjs\Traits\RedirectsOnCreate;
+
+class Employee extends Resource
+{
+    use RedirectsOnCreate;
+    
+    //...
+    public function fields(Request $request)
+    {
+        return [
+            //...
+
+            new InlinePanel($this, $request, 'Chart Name'),
+        ];
+    }
+}
+``` 
+
+This will help make it clearer for the user that they should add the Chart data right after creating the `Chartable` model record.
 
 ## Changelog
 
