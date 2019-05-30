@@ -61,7 +61,7 @@ class Employee extends Model implements Chartable
 ```
 ## Adding Custom Datsets
 
-You can also add your own custom datasets to chart by adding a `getAdditionalDatasets` method on your model
+You can also add your own custom datasets to the chart by adding a `getAdditionalDatasets` method on your model
 
 ![Additional Dataset](screenshots/WithAdditionalDatasets.jpg "With Additional Dataset")
 
@@ -288,7 +288,9 @@ class Employee extends Model implements Chartable
 ``` 
 ## Redirecting to Edit View after creating a new Chartable Model
 
-You can optionally add trait `RedirectsOnCreate` to your Chartable Model's Nova Resource to redirect to edit view right after creating a chartable model.
+You can optionally add the trait `RedirectsOnCreate` to your Chartable Model's Nova Resource to redirect to edit view right after creating a chartable model.
+
+**_NOTE:_** You will need Laravel Nova version `2.0.4` or later to use this trait. Please make sure to update you Laravel Nova package to  version `2.0.4` or later before adding this trait.
 
 ```php
 namespace App\Nova;
@@ -312,9 +314,7 @@ class Employee extends Resource
 }
 ``` 
 
-This will help you add the required Chart data for a Chartable Model right after creating it.
-
-**_NOTE:_** You will need Laravel Nova version `2.0.4` or later to use this trait. Please make sure to update you Laravel Nova package to  version `2.0.4` or later before adding this trait.
+This will help make it clearer for the user that they should add the Chart data right after creating the `Chartable` model record.
 
 ## Changelog
 
