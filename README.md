@@ -169,6 +169,7 @@ class Employee extends Resource
 
 As an optional argument you can pass a chart name as the third argument, `showLabel` as fourth argument and `notEditable` as the fifth argument.
 
+![Panel with Label](screenshots/PanelWithLabel.jpg "Panel with Label")
 
 2. If you instead want to use the Chart inline without a panel you can do so using this code:
 
@@ -193,13 +194,11 @@ class Employee extends Resource
     }
 }
 ``` 
+![Inline Chart without Label](screenshots/InlineMode.jpg "Inline Chart without Label")
+
 **_NOTE:_** You can pass the name of the chart as the first argument for the `make()` function. You can also chain the `showLabel()` and `notEditable()` methods to show the label and prevent editing the model data via the resource. 
 
-![Inline Chart with Label](screenshots/InlineWithLabel.jpg "Inline Chart with Label")
-
-With `showLabel()` chart will occupy the full width.
-
-![Inline Chart without Label](screenshots/InlineMode.jpg "Inline Chart without Label")
+Without `showLabel()` chart will occupy the full width even in Inline Mode.
 
 3. You can also display the chart as a relationship table and manage it on a separate page
 
