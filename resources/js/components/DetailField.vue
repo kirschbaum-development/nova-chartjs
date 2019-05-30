@@ -24,13 +24,21 @@
                 </div>
                 <div class="flex border-b border-40">
                     <div class="w-full py-4">
-                        <chartjs-range-chart
+                        <chartjs-bar-chart v-if="isType('bar')"
+                                           :dataset="comparisonDataset"
+                                           :additionalDatasets="field.additionalDatasets"
+                                           :settings="field.settings"
+                                           :height="field.settings.height"
+                                           :width="field.settings.width"
+                        />
+                        <chartjs-line-chart v-else
                             :dataset="comparisonDataset"
                             :additionalDatasets="field.additionalDatasets"
                             :settings="field.settings"
                             :height="field.settings.height"
                             :width="field.settings.width"
                         />
+
                     </div>
                 </div>
             </div>
@@ -39,7 +47,8 @@
 </template>
 
 <script>
-import ChartjsRangeChart from "./ChartjsRangeChart";
+import ChartjsLineChart from "./ChartjsLineChart";
+import ChartjsBarChart from "./ChartjsBarChart";
 import Multiselect from 'vue-multiselect';
 import colors from "../mixins/colors";
 import datasetHandler from "../mixins/datasetHandler";
@@ -47,7 +56,8 @@ import datasetHandler from "../mixins/datasetHandler";
 export default {
     components: {
         Multiselect,
-        ChartjsRangeChart
+        ChartjsLineChart,
+        ChartjsBarChart
     },
 
     mixins: [colors, datasetHandler],
@@ -61,6 +71,10 @@ export default {
     },
 
     methods: {
+        isType: function(type){
+            return this.field.settings.type.toLowerCase() === type
+        },
+
         isNotUser: function(element, index, array){
             return element[this.field.settings.identProp] != this.field.ident;
         },
@@ -76,10 +90,23 @@ export default {
 
             return {
                 label: title,
-                borderColor: color,
-                data: this.getAllowedParametersFromDataset(this.field.settings.parameters, values)
+                data: this.getAllowedParametersFromDataset(this.field.settings.parameters, values),
+                ...this.getChartTypeCustomizations(this.field.settings.type, color)
+            }
+        },
+
+        getChartTypeCustomizations: function(type, color){
+            if(this.isType('line')){
+                return {
+                    borderColor: color
+                }
+            }else{
+                return {
+                    backgroundColor: color
+                }
             }
         }
+
     },
 
     computed: {

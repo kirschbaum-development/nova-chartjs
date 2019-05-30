@@ -1,6 +1,6 @@
 <template>
     <span>
-        <chartjs-bar-chart
+        <index-view-chart
             :height="60"
             :width="300"
             :data="valueDataset"
@@ -9,12 +9,12 @@
 </template>
 
 <script>
-import ChartjsBarChart from "./ChartjsBarChart";
+import IndexViewChart from "./IndexViewChart";
 import colors from "../mixins/colors";
 import datasetHandler from "../mixins/datasetHandler";
 
 export default {
-    components: {ChartjsBarChart},
+    components: {IndexViewChart},
 
     mixins: [colors, datasetHandler],
 
