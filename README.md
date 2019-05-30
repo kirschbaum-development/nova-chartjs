@@ -7,7 +7,7 @@ This package allows you to easily add chart.js graphs to your nova resources. Th
 
 ## Requirements
 
-This Nova resource tool requires Nova 2.0 or higher.
+This Nova field requires Nova 2.0 or higher.
 
 ## Installation
 
