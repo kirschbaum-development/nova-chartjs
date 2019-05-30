@@ -13,7 +13,7 @@ class InlinePanel extends Panel
     /**
      * Create a new panel instance containing NovaChartjsChart.
      *
-     * @param Resource $resource
+     * @param resource $resource
      * @param Request $request
      * @param string $panelTitle
      * @param bool $showLabel

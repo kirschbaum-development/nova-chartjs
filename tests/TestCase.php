@@ -11,7 +11,7 @@ abstract class TestCase extends Orchestra
     protected $testChartable;
 
     /**
-     * Setup the Tests
+     * Setup the Tests.
      */
     public function setUp(): void
     {
@@ -59,7 +59,7 @@ abstract class TestCase extends Orchestra
     }
 
     /**
-     * Create Chartable Model for Testing
+     * Create Chartable Model for Testing.
      */
     protected function createTestModels(): void
     {

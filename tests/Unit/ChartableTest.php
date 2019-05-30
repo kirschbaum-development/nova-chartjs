@@ -34,7 +34,7 @@ class ChartableTest extends TestCase
     }
 
     /**
-     * Adds a NovaChartjsMetricValue to a Chartable Model
+     * Adds a NovaChartjsMetricValue to a Chartable Model.
      *
      * @param NovaChartjsMetricValue|null $metricValue
      * @param Chartable|null $chartable
