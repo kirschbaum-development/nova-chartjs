@@ -285,37 +285,6 @@ class Employee extends Model implements Chartable
     }
 }
 ``` 
-## ~~Redirecting to Edit View after creating a new Chartable Model~~ `(Deprecated Since v0.1.0)`
-
-**_NOTE:_** This trait `RedirectsOnCreate` is no longer required as of `v0.1.0`. Now you can directly add chart data while creating your Chartable Model in Laravel Nova.
-
-~~You can optionally add the trait `RedirectsOnCreate` to your Chartable Model's Nova Resource to redirect to edit view right after creating a chartable model.~~
-
-~~You will need Laravel Nova version `2.0.4` or later to use this trait. Please make sure to update you Laravel Nova package to  version `2.0.4` or later before adding this trait.~~
-
-```php
-namespace App\Nova;
-
-use KirschbaumDevelopment\NovaChartjs\InlinePanel;
-use KirschbaumDevelopment\NovaChartjs\Traits\RedirectsOnCreate;
-
-class Employee extends Resource
-{
-    use RedirectsOnCreate;
-    
-    //...
-    public function fields(Request $request)
-    {
-        return [
-            //...
-
-            new InlinePanel($this, $request, 'Chart Name'),
-        ];
-    }
-}
-``` 
-
-~~This will help make it clearer for the user that they should add the Chart data right after creating the `Chartable` model record.~~
 
 ## Changelog
 
