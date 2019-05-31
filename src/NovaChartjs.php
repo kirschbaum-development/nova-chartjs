@@ -26,7 +26,6 @@ class NovaChartjs extends Field
     public function __construct($name, $attribute = null, callable $resolveCallback = null)
     {
         parent::__construct($name, $attribute, $resolveCallback);
-        $this->showOnCreation = false;
 
         $this->withMeta([
             'showLabel' => false,
@@ -111,7 +110,6 @@ class NovaChartjs extends Field
     {
         if ($request->exists($requestAttribute)) {
             $value = json_decode($request[$requestAttribute], true);
-
             $model->{$attribute} = $this->isNullValue($value) ? null : $value;
         }
     }
