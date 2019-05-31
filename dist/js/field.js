@@ -32963,7 +32963,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
          * Set the initial, internal value for the field.
          */
         setInitialValue: function setInitialValue() {
-            this.value = this.field.value && _typeof(this.field.value) == "object" ? this.field.value : {};
+            this.value = this.field.value && _typeof(this.field.value) === "object" && this.field.value.constructor === Object ? this.field.value : {};
         },
 
 
