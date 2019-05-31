@@ -8,7 +8,7 @@ use KirschbaumDevelopment\NovaChartjs\Models\NovaChartjsMetricValue;
 trait HasChart
 {
     /**
-     * Get the Chartable Model's metric values
+     * Get the Chartable Model's metric values.
      *
      * @return MorphOne
      */
@@ -18,7 +18,7 @@ trait HasChart
     }
 
     /**
-     * Delete a models chart data before model is deleted
+     * Delete a models chart data before model is deleted.
      */
     public static function bootHasNovaChartjsChart()
     {
@@ -30,7 +30,7 @@ trait HasChart
     }
 
     /**
-     * Mutator to set Metric Values from Chartable model
+     * Mutator to set Metric Values from Chartable model.
      *
      * @param $value
      */
@@ -46,7 +46,7 @@ trait HasChart
     }
 
     /**
-     * Return a list of all models available for comparison to root model
+     * Return a list of all models available for comparison to root model.
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
@@ -59,7 +59,7 @@ trait HasChart
     }
 
     /**
-     * Return a list of additional datasets added to chart
+     * Return a list of additional datasets added to chart.
      *
      * @return array
      */
