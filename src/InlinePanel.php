@@ -2,10 +2,10 @@
 
 namespace KirschbaumDevelopment\NovaChartjs;
 
-use App\Nova\Resource;
 use Laravel\Nova\Panel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use App\Nova\Resource as NovaResource;
 use KirschbaumDevelopment\NovaChartjs\Contracts\Chartable;
 
 class InlinePanel extends Panel
@@ -13,13 +13,13 @@ class InlinePanel extends Panel
     /**
      * Create a new panel instance containing NovaChartjsChart.
      *
-     * @param Resource $resource
+     * @param NovaResource $resource
      * @param Request $request
      * @param string $panelTitle
      * @param bool $showLabel
      * @param bool $notEditable
      */
-    public function __construct(Resource $resource, Request $request, $panelTitle = 'Chart Metric Values', $showLabel = false, $notEditable = false)
+    public function __construct(NovaResource $resource, Request $request, $panelTitle = 'Chart Metric Values', $showLabel = false, $notEditable = false)
     {
         parent::__construct(
             $panelTitle,
