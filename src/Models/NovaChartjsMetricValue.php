@@ -26,7 +26,7 @@ class NovaChartjsMetricValue extends Model
     ];
 
     /**
-     * Return Chartable model for which this Metric Values are stored
+     * Return Chartable model for which this Metric Values are stored.
      *
      * @return MorphTo
      */

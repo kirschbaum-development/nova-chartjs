@@ -22,8 +22,6 @@ class NovaChartjs extends Field
      * @param  string  $name
      * @param  string|callable|null  $attribute
      * @param  callable|null  $resolveCallback
-     *
-     * @return void
      */
     public function __construct($name, $attribute = null, callable $resolveCallback = null)
     {
@@ -37,7 +35,7 @@ class NovaChartjs extends Field
     }
 
     /**
-     * Pass chartable model to NovaChartjs to fetch settings
+     * Pass chartable model to NovaChartjs to fetch settings.
      *
      * @param Chartable|null $chartable
      *
@@ -60,7 +58,7 @@ class NovaChartjs extends Field
     }
 
     /**
-     * Hide Label to make Chart occupy full width
+     * Hide Label to make Chart occupy full width.
      *
      * @return NovaChartjs
      */
@@ -72,7 +70,7 @@ class NovaChartjs extends Field
     }
 
     /**
-     * set whether a user can edit a model data
+     * set whether a user can edit a model data.
      *
      * @return NovaChartjs
      */
@@ -87,7 +85,7 @@ class NovaChartjs extends Field
     }
 
     /**
-     * Fetch a property from Chartable
+     * Fetch a property from Chartable.
      *
      * @param Chartable $chartable
      * @param string $prop

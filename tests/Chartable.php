@@ -21,7 +21,7 @@ class Chartable extends Model
     protected $fillable = ['name'];
 
     /**
-     * Should return settings for Nova Chart in prescribed format
+     * Should return settings for Nova Chart in prescribed format.
      *
      * @return array
      */

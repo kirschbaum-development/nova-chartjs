@@ -12,21 +12,21 @@ interface Chartable
     public function novaChartjsMetricValue(): MorphOne;
 
     /**
-     * Should return settings for Nova Chart in prescribed format
+     * Should return settings for Nova Chart in prescribed format.
      *
      * @return array
      */
     public static function getNovaChartjsSettings(): array;
 
     /**
-     * Return a list of all models available for comparison to root model
+     * Return a list of all models available for comparison to root model.
      *
      * @return array
      */
     public static function getNovaChartjsComparisonData(): array;
 
     /**
-     * Return a list of additional datasets added to chart
+     * Return a list of additional datasets added to chart.
      *
      * @return array
      */
