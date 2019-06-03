@@ -5,6 +5,7 @@ namespace KirschbaumDevelopment\NovaChartjs\Tests\Unit;
 use Illuminate\Database\QueryException;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use KirschbaumDevelopment\NovaChartjs\Tests\TestCase;
+use KirschbaumDevelopment\NovaChartjs\Tests\Chartable;
 use KirschbaumDevelopment\NovaChartjs\Models\NovaChartjsMetricValue;
 
 class ChartableTest extends TestCase
@@ -31,6 +32,55 @@ class ChartableTest extends TestCase
         $this->addNovaChartjsMetricValueToChartable();
 
         $this->assertInstanceOf(NovaChartjsMetricValue::class, $this->testChartable->novaChartjsMetricValue);
+    }
+
+    /** @test **/
+    public function a_chartable_can_automatically_create_metric_values_in_relationship_if_passed_before_creating()
+    {
+        $chartable = new Chartable(['name' => 'Unsaved Chartable']);
+        $testArray = ['January' => 10, 'February' => 30];
+        $chartable->novaChartjsMetricValue = $testArray;
+
+        $this->assertNull($chartable->novaChartjsMetricValue);
+        $chartable->save();
+
+        tap($chartable->fresh(), function ($chartable) use ($testArray) {
+            $this->assertInstanceOf(NovaChartjsMetricValue::class, $chartable->novaChartjsMetricValue);
+            $this->assertEquals($testArray, $chartable->novaChartjsMetricValue->metric_values);
+        });
+    }
+
+    /** @test **/
+    public function a_chartable_can_automatically_create_new_metric_values_in_relationship_if_needed_and_passed_before_updating()
+    {
+        $this->assertNull($this->testChartable->novaChartjsMetricValue);
+
+        $testArray = ['January' => 10, 'February' => 30];
+        $this->testChartable->novaChartjsMetricValue = $testArray;
+        $this->testChartable->save();
+
+        tap($this->testChartable->fresh(), function ($chartable) use ($testArray) {
+            $this->assertInstanceOf(NovaChartjsMetricValue::class, $chartable->novaChartjsMetricValue);
+            $this->assertEquals($testArray, $chartable->novaChartjsMetricValue->metric_values);
+        });
+    }
+
+    /** @test **/
+    public function a_chartable_can_automatically_update_metric_values_in_relationship_if_passed_before_updating()
+    {
+        $metricValue = factory(NovaChartjsMetricValue::class)->make();
+        $this->addNovaChartjsMetricValueToChartable($metricValue);
+        $this->assertInstanceOf(NovaChartjsMetricValue::class, $this->testChartable->novaChartjsMetricValue);
+        $this->assertEquals($metricValue->metric_values, $this->testChartable->novaChartjsMetricValue->metric_values);
+
+        $testArray = ['January' => 10, 'February' => 30];
+        $this->testChartable->novaChartjsMetricValue = $testArray;
+        $this->testChartable->save();
+
+        tap($this->testChartable->fresh(), function ($chartable) use ($testArray, $metricValue) {
+            $this->assertNotEquals($metricValue->metric_values, $chartable->novaChartjsMetricValue->metric_values);
+            $this->assertEquals($testArray, $chartable->novaChartjsMetricValue->metric_values);
+        });
     }
 
     /**
