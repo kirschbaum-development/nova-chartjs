@@ -32,7 +32,9 @@ trait HasChart
         });
 
         static::created(function ($model) {
-            $model->novaChartjsMetricValue()->create(['metric_values' => $model->unsavedMetricValues]);
+            if (! empty($model->unsavedMetricValues)) {
+                $model->novaChartjsMetricValue()->create(['metric_values' => $model->unsavedMetricValues]);
+            }
         });
     }
 
