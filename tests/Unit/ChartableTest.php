@@ -43,8 +43,11 @@ class ChartableTest extends TestCase
 
         $this->assertNull($chartable->novaChartjsMetricValue);
         $chartable->save();
-        $this->assertInstanceOf(NovaChartjsMetricValue::class, $chartable->fresh()->novaChartjsMetricValue);
-        $this->assertEquals($testArray, $chartable->fresh()->novaChartjsMetricValue->metric_values);
+
+        tap($chartable->fresh(), function ($chartable) use ($testArray) {
+            $this->assertInstanceOf(NovaChartjsMetricValue::class, $chartable->novaChartjsMetricValue);
+            $this->assertEquals($testArray, $chartable->novaChartjsMetricValue->metric_values);
+        });
     }
 
     /** @test **/
@@ -56,8 +59,10 @@ class ChartableTest extends TestCase
         $this->testChartable->novaChartjsMetricValue = $testArray;
         $this->testChartable->save();
 
-        $this->assertInstanceOf(NovaChartjsMetricValue::class, $this->testChartable->fresh()->novaChartjsMetricValue);
-        $this->assertEquals($testArray, $this->testChartable->fresh()->novaChartjsMetricValue->metric_values);
+        tap($this->testChartable->fresh(), function ($chartable) use ($testArray) {
+            $this->assertInstanceOf(NovaChartjsMetricValue::class, $chartable->novaChartjsMetricValue);
+            $this->assertEquals($testArray, $chartable->novaChartjsMetricValue->metric_values);
+        });
     }
 
     /** @test **/
@@ -72,8 +77,10 @@ class ChartableTest extends TestCase
         $this->testChartable->novaChartjsMetricValue = $testArray;
         $this->testChartable->save();
 
-        $this->assertNotEquals($metricValue->metric_values, $this->testChartable->fresh()->novaChartjsMetricValue->metric_values);
-        $this->assertEquals($testArray, $this->testChartable->fresh()->novaChartjsMetricValue->metric_values);
+        tap($this->testChartable->fresh(), function ($chartable) use ($testArray, $metricValue) {
+            $this->assertNotEquals($metricValue->metric_values, $chartable->novaChartjsMetricValue->metric_values);
+            $this->assertEquals($testArray, $chartable->novaChartjsMetricValue->metric_values);
+        });
     }
 
     /**
