@@ -51,8 +51,6 @@ class NovaChartjs extends Field
      *
      * @param  mixed  $resource
      * @param  string|null  $attribute
-     *
-     * @return void
      */
     public function resolve($resource, $attribute = null)
     {
