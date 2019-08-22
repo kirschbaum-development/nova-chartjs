@@ -1,9 +1,9 @@
-# Nova ChartJS
-
-![Cover Image](screenshots/CoverImage.jpg "Cover Image")
+![Banner](resources/imgs/banner.png "Banner")
 
 ## Introduction
 This package allows you to easily add chart.js graphs to your nova resources. This project is under active development, and currently only supports Line Datasets. You are welcome to request or contribute additional charts by opening an issue.
+
+![Cover Image](screenshots/CoverImage.jpg "Cover Image")
 
 ## Requirements
 
