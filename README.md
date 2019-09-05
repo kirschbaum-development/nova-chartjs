@@ -167,7 +167,7 @@ class Employee extends Resource
 ``` 
 **_NOTE:_** You must pass the `Resource` (i.e. `$this`) and `$request` to the `InlinePanel` component. 
 
-As an optional argument you can pass a chart name as the third argument, `showLabel` as fourth argument and `notEditable` as the fifth argument.
+As an optional argument you can pass a chart name as the third argument, `showLabel` as fourth argument, `notEditable` as the fifth argument and `hideFromIndex` as the sixth argument.
 
 ![Panel with Label](screenshots/PanelWithLabel.jpg "Panel with Label")
 
@@ -189,7 +189,7 @@ class Employee extends Resource
 
             NovaChartjs::make('Panel Name', 'novaChartjsMetricValue', function () {
                 return $this->novaChartjsMetricValue->metric_values;
-            })->chartable($this->resource ?? App::make($request->viaResource()::$model)),
+            }),
         ];
     }
 }

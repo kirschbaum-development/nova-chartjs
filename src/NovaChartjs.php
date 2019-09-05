@@ -6,6 +6,7 @@ use Illuminate\Support\Str;
 use Laravel\Nova\Fields\Field;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use KirschbaumDevelopment\NovaChartjs\Contracts\Chartable;
+use KirschbaumDevelopment\NovaChartjs\Models\NovaChartjsMetricValue;
 
 class NovaChartjs extends Field
 {
@@ -34,6 +35,8 @@ class NovaChartjs extends Field
     }
 
     /**
+     * @deprecated This method has been deprecated and will be removed in next major update.
+     *
      * Pass chartable model to NovaChartjs to fetch settings.
      *
      * @param Chartable|null $chartable
@@ -42,18 +45,35 @@ class NovaChartjs extends Field
      */
     public function chartable(Chartable $chartable): self
     {
-        $chartableClass = get_class($chartable);
+        return $this;
+    }
 
-        $settings = $chartableClass::getNovaChartjsSettings();
+    /**
+     * Resolve the field's value.
+     *
+     * @param  mixed  $resource
+     * @param  string|null  $attribute
+     */
+    public function resolve($resource, $attribute = null)
+    {
+        parent::resolve($resource, $attribute);
 
-        return $this->withMeta([
-            'settings' => $settings,
-            'comparison' => $chartableClass::getNovaChartjsComparisonData(),
-            'additionalDatasets' => $chartable->getAdditionalDatasets() ?? [],
-            'model' => Str::singular(Str::title(Str::snake(class_basename($chartableClass), ' '))),
-            'title' => $this->getChartableProp($chartable, $settings['titleProp'] ?? $chartable->getKeyName()),
-            'ident' => $this->getChartableProp($chartable, $settings['identProp'] ?? $chartable->getKeyName()),
-        ]);
+        if ($resource instanceof NovaChartjsMetricValue) {
+            $resource = $resource->chartable;
+        }
+
+        if (! empty($resource)) {
+            $settings = $resource::getNovaChartjsSettings();
+
+            $this->withMeta([
+                'settings' => $settings,
+                'comparison' => $resource::getNovaChartjsComparisonData(),
+                'additionalDatasets' => $resource->getAdditionalDatasets() ?? [],
+                'model' => Str::singular(Str::title(Str::snake(class_basename($resource), ' '))),
+                'title' => $this->getChartableProp($resource, $settings['titleProp'] ?? $resource->getKeyName()),
+                'ident' => $this->getChartableProp($resource, $settings['identProp'] ?? $resource->getKeyName()),
+            ]);
+        }
     }
 
     /**
