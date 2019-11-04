@@ -1,13 +1,13 @@
-# Nova ChartJS
-
-![Cover Image](screenshots/CoverImage.jpg "Cover Image")
+![Banner](resources/imgs/banner.png "Banner")
 
 ## Introduction
 This package allows you to easily add chart.js graphs to your nova resources. This project is under active development, and currently only supports Line Datasets. You are welcome to request or contribute additional charts by opening an issue.
 
+![Cover Image](screenshots/CoverImage.jpg "Cover Image")
+
 ## Requirements
 
-This Nova resource tool requires Nova 2.0 or higher.
+This Nova field requires Nova 2.0 or higher.
 
 ## Installation
 
@@ -33,7 +33,7 @@ You must also define a static `getNovaChartjsSettings` function in the model whi
 use KirschbaumDevelopment\NovaChartjs\Traits\HasChart;
 use KirschbaumDevelopment\NovaChartjs\Contracts\Chartable;
 
-class User extends Model implements Chartable
+class Employee extends Model implements Chartable
 {
     use HasChart;
 
@@ -61,13 +61,15 @@ class User extends Model implements Chartable
 ```
 ## Adding Custom Datsets
 
-You can also add your own custom datasets to chart by adding a `getAdditionalDatasets` method on your model
+You can also add your own custom datasets to the chart by adding a `getAdditionalDatasets` method on your model
+
+![Additional Dataset](screenshots/WithAdditionalDatasets.jpg "With Additional Dataset")
 
 ```php
 use KirschbaumDevelopment\NovaChartjs\Traits\HasChart;
 use KirschbaumDevelopment\NovaChartjs\Contracts\Chartable;
 
-class User extends Model implements Chartable
+class Employee extends Model implements Chartable
 {
     use HasChart;
     
@@ -102,7 +104,7 @@ To create a range chart you can pass on two additional datasets representing an 
 use KirschbaumDevelopment\NovaChartjs\Traits\HasChart;
 use KirschbaumDevelopment\NovaChartjs\Contracts\Chartable;
 
-class User extends Model implements Chartable
+class Employee extends Model implements Chartable
 {
     use HasChart;
     
@@ -145,12 +147,11 @@ You can add the chart to your Nova resource in three ways
 ![Chartable Panel](screenshots/ChartablePanel.jpg "Chartable Panel")
 
 ```php
-
 namespace App\Nova;
 
 use KirschbaumDevelopment\NovaChartjs\InlinePanel;
 
-class User extends Resource
+class Employee extends Resource
 {
     
     //...
@@ -166,8 +167,9 @@ class User extends Resource
 ``` 
 **_NOTE:_** You must pass the `Resource` (i.e. `$this`) and `$request` to the `InlinePanel` component. 
 
-As an optional argument you can pass a chart name as the third argument, `showLabel` as fourth argument and `notEditable` as the fifth argument.
+As an optional argument you can pass a chart name as the third argument, `showLabel` as fourth argument, `notEditable` as the fifth argument and `hideFromIndex` as the sixth argument.
 
+![Panel with Label](screenshots/PanelWithLabel.jpg "Panel with Label")
 
 2. If you instead want to use the Chart inline without a panel you can do so using this code:
 
@@ -176,7 +178,7 @@ namespace App\Nova;
 
 use KirschbaumDevelopment\NovaChartjs\NovaChartjs;
 
-class User extends Resource
+class Employee extends Resource
 {
     
     //...
@@ -187,18 +189,16 @@ class User extends Resource
 
             NovaChartjs::make('Panel Name', 'novaChartjsMetricValue', function () {
                 return $this->novaChartjsMetricValue->metric_values;
-            })->chartable($this->resource ?? App::make($request->viaResource()::$model)),
+            }),
         ];
     }
 }
 ``` 
+![Inline Chart without Label](screenshots/InlineMode.jpg "Inline Chart without Label")
+
 **_NOTE:_** You can pass the name of the chart as the first argument for the `make()` function. You can also chain the `showLabel()` and `notEditable()` methods to show the label and prevent editing the model data via the resource. 
 
-![Inline Chart with Label](screenshots/InlineWithLabel.jpg "Inline Chart with Label")
-
-With `showLabel()` chart will occupy the full width.
-
-![Inline Chart without Label](screenshots/InlineMode.jpg "Inline Chart without Label")
+Without `showLabel()` chart will occupy the full width even in Inline Mode.
 
 3. You can also display the chart as a relationship table and manage it on a separate page
 
@@ -208,7 +208,7 @@ namespace App\Nova;
 
 use KirschbaumDevelopment\NovaChartjs\RelationshipPanel;
 
-class User extends Resource
+class Employee extends Resource
 {
     
     //...
@@ -259,13 +259,12 @@ You can add or remove any model to comparison to checkout how models are stacked
 
 Chart comparison data is fetched through trait using a static function `getNovaChartjsComparisonData`. You can override this function in your model to change the comparison data.
 ```php
-
 namespace App;
 
 use KirschbaumDevelopment\NovaChartjs\Traits\HasChart;
 use KirschbaumDevelopment\NovaChartjs\Contracts\Chartable;
 
-class User extends Model implements Chartable
+class Employee extends Model implements Chartable
 {
     use HasChart;
     

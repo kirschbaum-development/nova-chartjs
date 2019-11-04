@@ -6,6 +6,7 @@ use Illuminate\Support\Str;
 use Laravel\Nova\Fields\Field;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use KirschbaumDevelopment\NovaChartjs\Contracts\Chartable;
+use KirschbaumDevelopment\NovaChartjs\Models\NovaChartjsMetricValue;
 
 class NovaChartjs extends Field
 {
@@ -22,13 +23,10 @@ class NovaChartjs extends Field
      * @param  string  $name
      * @param  string|callable|null  $attribute
      * @param  callable|null  $resolveCallback
-     *
-     * @return void
      */
     public function __construct($name, $attribute = null, callable $resolveCallback = null)
     {
         parent::__construct($name, $attribute, $resolveCallback);
-        $this->showOnCreation = false;
 
         $this->withMeta([
             'showLabel' => false,
@@ -37,7 +35,9 @@ class NovaChartjs extends Field
     }
 
     /**
-     * Pass chartable model to NovaChartjs to fetch settings
+     * @deprecated This method has been deprecated and will be removed in next major update.
+     *
+     * Pass chartable model to NovaChartjs to fetch settings.
      *
      * @param Chartable|null $chartable
      *
@@ -45,22 +45,39 @@ class NovaChartjs extends Field
      */
     public function chartable(Chartable $chartable): self
     {
-        $chartableClass = get_class($chartable);
-
-        $settings = $chartableClass::getNovaChartjsSettings();
-
-        return $this->withMeta([
-            'settings' => $settings,
-            'comparison' => $chartableClass::getNovaChartjsComparisonData(),
-            'additionalDatasets' => $chartable->getAdditionalDatasets() ?? [],
-            'model' => Str::singular(Str::title(Str::snake(class_basename($chartableClass), ' '))),
-            'title' => $this->getChartableProp($chartable, $settings['titleProp'] ?? $chartable->getKeyName()),
-            'ident' => $this->getChartableProp($chartable, $settings['identProp'] ?? $chartable->getKeyName()),
-        ]);
+        return $this;
     }
 
     /**
-     * Hide Label to make Chart occupy full width
+     * Resolve the field's value.
+     *
+     * @param  mixed  $resource
+     * @param  string|null  $attribute
+     */
+    public function resolve($resource, $attribute = null)
+    {
+        parent::resolve($resource, $attribute);
+
+        if ($resource instanceof NovaChartjsMetricValue) {
+            $resource = $resource->chartable;
+        }
+
+        if (! empty($resource)) {
+            $settings = $resource::getNovaChartjsSettings();
+
+            $this->withMeta([
+                'settings' => $settings,
+                'comparison' => $resource::getNovaChartjsComparisonData(),
+                'additionalDatasets' => $resource->getAdditionalDatasets() ?? [],
+                'model' => Str::singular(Str::title(Str::snake(class_basename($resource), ' '))),
+                'title' => $this->getChartableProp($resource, $settings['titleProp'] ?? $resource->getKeyName()),
+                'ident' => $this->getChartableProp($resource, $settings['identProp'] ?? $resource->getKeyName()),
+            ]);
+        }
+    }
+
+    /**
+     * Hide Label to make Chart occupy full width.
      *
      * @return NovaChartjs
      */
@@ -72,7 +89,7 @@ class NovaChartjs extends Field
     }
 
     /**
-     * set whether a user can edit a model data
+     * set whether a user can edit a model data.
      *
      * @return NovaChartjs
      */
@@ -87,7 +104,7 @@ class NovaChartjs extends Field
     }
 
     /**
-     * Fetch a property from Chartable
+     * Fetch a property from Chartable.
      *
      * @param Chartable $chartable
      * @param string $prop
@@ -113,7 +130,6 @@ class NovaChartjs extends Field
     {
         if ($request->exists($requestAttribute)) {
             $value = json_decode($request[$requestAttribute], true);
-
             $model->{$attribute} = $this->isNullValue($value) ? null : $value;
         }
     }

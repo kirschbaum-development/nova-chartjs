@@ -25,7 +25,7 @@ export default {
          * Set the initial, internal value for the field.
          */
         setInitialValue() {
-            this.value = this.field.value && (typeof this.field.value == "object")? this.field.value : {};
+            this.value = this.field.value && (typeof this.field.value === "object") && (this.field.value.constructor === Object)? this.field.value : {};
         },
 
         /**
