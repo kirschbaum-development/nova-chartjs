@@ -25,11 +25,11 @@
                 <div class="flex border-b border-40">
                     <div class="w-full py-4">
                         <chartjs-bar-chart v-if="isType('bar')"
-                                           :dataset="comparisonDataset"
-                                           :additionalDatasets="field.additionalDatasets"
-                                           :settings="field.settings"
-                                           :height="field.settings.height"
-                                           :width="field.settings.width"
+                           :dataset="comparisonDataset"
+                           :additionalDatasets="field.additionalDatasets"
+                           :settings="field.settings"
+                           :height="field.settings.height"
+                           :width="field.settings.width"
                         />
                         <chartjs-line-chart v-else
                             :dataset="comparisonDataset"
