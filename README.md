@@ -1,7 +1,7 @@
 ![Banner](resources/imgs/banner.png "Banner")
 
 ## Introduction
-This package allows you to easily add chart.js graphs to your nova resources. This project is under active development, and currently only supports Line Datasets. You are welcome to request or contribute additional charts by opening an issue.
+This package allows you to easily add chart.js graphs to your nova resources. This project is under active development, and currently only supports Line and Bar Charts. You are welcome to request or contribute additional charts by opening an issue.
 
 ![Cover Image](screenshots/CoverImage.jpg "Cover Image")
 
@@ -122,7 +122,7 @@ class Employee extends Model implements Chartable
                 'label' => 'Minimum Required',
                 'borderColor' => '#f87900',
                 'fill' => '+1',
-                'backgroundColor' => 'rgba(20,20,20,0.2)',
+                'backgroundColor' => 'rgba(20,20,20,0.2)',//For bar charts, this will be the fill color of the bar
                 'data' => [8, 7, 12, 19, 12, 10, 19, 9, 10, 20, 12, 11],
             ],
             [
@@ -233,7 +233,7 @@ You can add following settings to model settings
 4. `identProp`: Model property representing the primary key. defaults to `id`.
 5. `labelProp`: Model property used for display label in chart. defaults to `id`.
 6. `indexColor`: Bar Chart color in index view. Falls back to `color`
-7. `type`: For future expansion. right now this parameter is ignored.
+7. `type`: `line` or `bar`. defaults to `line`.
 8. `options`: Options are passed directly to ChartJS instance can be used to customize your Chart as detailed in the [documentation](https://www.chartjs.org/docs/latest/)
 
 ## Adding Chart Data

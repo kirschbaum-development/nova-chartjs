@@ -1,41 +1,31 @@
 <script>
-    import { Bar } from 'vue-chartjs'
+    import { Bar, mixins } from 'vue-chartjs'
+    import charts from "../mixins/charts";
+
+    const {reactiveData} = mixins;
 
     export default {
         extends: Bar,
 
-        props: {
-            'data': Object,
-        },
+        mixins: [reactiveData, charts],
 
-        data: function(){
-            return {
-                'options' : {
-                    'responsive':true,
-                    'maintainAspectRatio':false,
-                    'layout':{
-                        'padding':0
-                    },
-                    'legend':{
-                        'display':false
-                    },
-                    'title':{
-                        'display':false
-                    },
-                    'scales': {
-                        'yAxes': [{
-                            'display': false,
-                        }],
-                        'xAxes': [{
-                            'display': false,
-                        }],
-                    },
-                }
-            }
+        props: {
+            'dataset': Array,
+            'additionalDatasets': Array,
+            'settings': Object,
         },
 
         mounted () {
-            this.renderChart(this.data, this.options);
+            this.chartData = this.createChartDataset();
+            //we need to set options manually as options are used to re-render chart when data changes in reactiveData/reactiveProp mixin
+            this.options = this.settings.options;
+            this.renderChart(this.chartData, this.options);
         },
+
+        watch: {
+            dataset: function() {
+                this.chartData = this.createChartDataset();
+            }
+        }
     }
 </script>

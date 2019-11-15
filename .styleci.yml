@@ -6,6 +6,7 @@ enabled:
   - compact_nullable_typehint
   - concat_with_spaces
   - explicit_string_variable
+  - length_ordered_imports
   - method_chaining_indentation
   - no_empty_comment
   - ordered_class_elements
@@ -18,3 +19,4 @@ enabled:
 
 disabled:
   - concat_without_spaces
+  - alpha_ordered_imports
