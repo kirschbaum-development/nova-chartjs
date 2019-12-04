@@ -2,7 +2,7 @@
 
 namespace KirschbaumDevelopment\NovaChartjs\Nova;
 
-use App\Nova\Resource;
+use Laravel\Nova\Resource;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\MorphTo;
 use KirschbaumDevelopment\NovaChartjs\NovaChartjs;
