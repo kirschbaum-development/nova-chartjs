@@ -39,11 +39,9 @@ class NovaChartjs extends Field
      *
      * Pass chartable model to NovaChartjs to fetch settings.
      *
-     * @param Chartable|null $chartable
-     *
      * @return NovaChartjs
      */
-    public function chartable(Chartable $chartable): self
+    public function chartable(): self
     {
         return $this;
     }

@@ -19,13 +19,6 @@ class NovaChartjsServiceProvider extends ServiceProvider
         $this->serveField();
     }
 
-    /**
-     * Register any application services.
-     */
-    public function register()
-    {
-    }
-
     protected function loadMigrations()
     {
         $this->loadMigrationsFrom(__DIR__ . '/../migrations');
@@ -33,7 +26,7 @@ class NovaChartjsServiceProvider extends ServiceProvider
 
     protected function serveField(): void
     {
-        Nova::serving(function (ServingNova $event) {
+        Nova::serving(function () {
             Nova::script('nova-chartjs', __DIR__ . '/../dist/js/field.js');
             Nova::style('nova-chartjs', __DIR__ . '/../dist/css/field.css');
         });

@@ -46,15 +46,15 @@ trait HasChart
     public function setNovaChartjsMetricValueAttribute($value): void
     {
         if (! $this->novaChartjsMetricValue) {
-            if ($this->getKey()) {
-                $this->novaChartjsMetricValue()->create(['metric_values' => $value]);
-            } else {
-                $this->unsavedMetricValues = $value;
-            }
-        } else {
-            $this->novaChartjsMetricValue->metric_values = $value;
-            $this->novaChartjsMetricValue->save();
+            $this->getKey()
+                ? $this->novaChartjsMetricValue()->create(['metric_values' => $value])
+                : $this->unsavedMetricValues = $value;
+
+            return;
         }
+
+        $this->novaChartjsMetricValue->metric_values = $value;
+        $this->novaChartjsMetricValue->save();
     }
 
     /**

@@ -19,11 +19,19 @@ class InlinePanel extends Panel
      * @param bool $notEditable
      * @param bool $hideFromIndex
      */
-    public function __construct(NovaResource $resource, Request $request, $panelTitle = 'Chart Metric Values', $showLabel = false, $notEditable = false, $hideFromIndex = false)
-    {
+    public function __construct(
+        NovaResource $resource,
+        Request $request,
+        $panelTitle = 'Chart Metric Values',
+        $showLabel = false,
+        $notEditable = false,
+        $hideFromIndex = false
+    ) {
         parent::__construct(
             $panelTitle,
-            $this->prepareFields($this->fields($resource->resource, $request, $panelTitle, $showLabel, $notEditable, $hideFromIndex))
+            $this->prepareFields(
+                $this->fields($resource->resource, $request, $panelTitle, $showLabel, $notEditable, $hideFromIndex)
+            )
         );
     }
 
@@ -39,8 +47,14 @@ class InlinePanel extends Panel
      *
      * @return array
      */
-    protected function fields(Chartable $chartable, Request $request, $panelTitle = 'Chart Metric Values', $showLabel = false, $notEditable = false, $hideFromIndex = false): array
-    {
+    protected function fields(
+        Chartable $chartable,
+        Request $request,
+        $panelTitle = 'Chart Metric Values',
+        $showLabel = false,
+        $notEditable = false,
+        $hideFromIndex = false
+    ): array {
         $field = NovaChartjs::make($panelTitle, 'novaChartjsMetricValue', function () use ($chartable) {
             return $chartable->novaChartjsMetricValue->metric_values ?? [];
         });
@@ -57,8 +71,6 @@ class InlinePanel extends Panel
             $field->hideFromIndex();
         }
 
-        return [
-            $field,
-        ];
+        return [$field];
     }
 }

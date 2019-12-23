@@ -12,8 +12,7 @@ class ChartableTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test **/
-    public function a_chartable_can_have_only_one_metric_value()
+    public function testChartableCanHaveOnlyOneMetricValue()
     {
         $firstMetricValue = factory(NovaChartjsMetricValue::class)->make();
         $secondMetricValue = factory(NovaChartjsMetricValue::class)->make();
@@ -26,16 +25,14 @@ class ChartableTest extends TestCase
         $this->addNovaChartjsMetricValueToChartable($secondMetricValue);
     }
 
-    /** @test **/
-    public function a_chartable_can_return_his_metric_value()
+    public function testChartableCanReturnHisMetricValue()
     {
         $this->addNovaChartjsMetricValueToChartable();
 
         $this->assertInstanceOf(NovaChartjsMetricValue::class, $this->testChartable->novaChartjsMetricValue);
     }
 
-    /** @test **/
-    public function a_chartable_can_automatically_create_metric_values_in_relationship_if_passed_before_creating()
+    public function testChartableCanAutomaticallyCreateMetricValuesInRelationshipIfPassedBeforeCreating()
     {
         $chartable = new Chartable(['name' => 'Unsaved Chartable']);
         $testArray = ['January' => 10, 'February' => 30];
@@ -50,8 +47,7 @@ class ChartableTest extends TestCase
         });
     }
 
-    /** @test **/
-    public function a_chartable_can_automatically_create_new_metric_values_in_relationship_if_needed_and_passed_before_updating()
+    public function testChartableCanAutomaticallyCreateNewMetricValuesInRelationshipIfNeededAndPassedBeforeUpdating()
     {
         $this->assertNull($this->testChartable->novaChartjsMetricValue);
 
@@ -65,8 +61,7 @@ class ChartableTest extends TestCase
         });
     }
 
-    /** @test **/
-    public function a_chartable_can_automatically_update_metric_values_in_relationship_if_passed_before_updating()
+    public function testChartableCanAutomaticallyUpdateMetricValuesInRelationshipIfPassedBeforeUpdating()
     {
         $metricValue = factory(NovaChartjsMetricValue::class)->make();
         $this->addNovaChartjsMetricValueToChartable($metricValue);
@@ -89,8 +84,10 @@ class ChartableTest extends TestCase
      * @param NovaChartjsMetricValue|null $metricValue
      * @param Chartable|null $chartable
      */
-    protected function addNovaChartjsMetricValueToChartable(NovaChartjsMetricValue $metricValue = null, Chartable $chartable = null): void
-    {
+    protected function addNovaChartjsMetricValueToChartable(
+        NovaChartjsMetricValue $metricValue = null,
+        Chartable $chartable = null
+    ): void {
         if (empty($metricValue)) {
             $metricValue = factory(NovaChartjsMetricValue::class)->make();
         }
