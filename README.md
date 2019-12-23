@@ -1,5 +1,11 @@
 ![Banner](resources/imgs/banner.png "Banner")
 
+# Nova Chart.js
+
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/kirschbaum-development/nova-chartjs.svg)](https://packagist.org/packages/kirschbaum-development/nova-chartjs)
+[![Total Downloads](https://img.shields.io/packagist/dt/kirschbaum-development/nova-chartjs.svg)](https://packagist.org/packages/kirschbaum-development/nova-chartjs)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/60375ef00b5649d8b83fd6b549f7f68b)](https://www.codacy.com/manual/Kirschbaum/nova-chartjs?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=kirschbaum-development/nova-chartjs&amp;utm_campaign=Badge_Grade)
+
 ## Introduction
 This package allows you to easily add chart.js graphs to your nova resources. This project is under active development, and currently only supports Line and Bar Charts. You are welcome to request or contribute additional charts by opening an issue.
 
