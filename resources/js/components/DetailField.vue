@@ -42,6 +42,7 @@
 <script>
 import ChartjsLineChart from "./ChartjsLineChart";
 import ChartjsBarChart from "./ChartjsBarChart";
+import ChartjsRadarChart from "./ChartjsRadarChart";
 import Multiselect from 'vue-multiselect';
 import colors from "../mixins/colors";
 import datasetHandler from "../mixins/datasetHandler";
@@ -50,7 +51,8 @@ export default {
     components: {
         Multiselect,
         ChartjsLineChart,
-        ChartjsBarChart
+        ChartjsBarChart,
+	    ChartjsRadarChart
     },
 
     mixins: [colors, datasetHandler],
