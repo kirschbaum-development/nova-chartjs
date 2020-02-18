@@ -66,15 +66,15 @@ export default {
     },
 
     methods: {
-        isType: function(type){
+        isType (type){
             return this.field.settings.type.toLowerCase() === type
         },
 
-        isNotUser: function(element, index, array){
+        isNotUser (element, index, array){
             return element[this.field.settings.identProp] != this.field.ident;
         },
 
-        getDatapoint: function(values, title, color){
+        getDatapoint (values, title, color){
             if(!color){
                 color = this.getRandomColor();
             }
@@ -126,7 +126,7 @@ export default {
             ];
         },
 
-        comparisonList: function(){
+        comparisonList (){
             return [
                 {
                     groupLabel: 'Select/Deselect All',
@@ -135,7 +135,7 @@ export default {
             ];
         },
 
-        valueDataset: function () {
+        valueDataset (){
             return {
                 labels: Object.keys(this.field.value),
                 datasets: Object.values(this.field.value)
