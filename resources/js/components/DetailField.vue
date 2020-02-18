@@ -90,8 +90,8 @@ export default {
             }
         },
 
-        getChartTypeCustomizations: function(type, color){
-            if(this.isType('line')){
+        getChartTypeCustomizations (type, color){
+            if(this.isType('line')||this.isType('radar')){
                 return {
                     borderColor: color
                 }
