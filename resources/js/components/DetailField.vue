@@ -110,7 +110,11 @@ export default {
     },
 
     computed: {
-        comparisonDataset: function(){
+    	chartComponent (){
+			return `chartjs-${this.field.settings.type.toLowerCase()}-chart`;
+	    },
+
+        comparisonDataset (){
             let chartData = [];
             if(! this.field.notEditable || Object.keys(this.field.value).length){
                 chartData.push(this.getDatapoint(this.field.value, this.field.title, this.field.settings.color));
