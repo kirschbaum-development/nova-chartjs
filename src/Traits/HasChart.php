@@ -28,7 +28,7 @@ trait HasChart
     {
         static::deleting(function ($model) {
             if ($model->novaChartjsMetricValue) {
-                $model->novaChartjsMetricValue->delete();
+                $model->novaChartjsMetricValue->each->delete();
             }
         });
 
