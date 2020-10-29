@@ -31,6 +31,7 @@ class NovaChartjs extends Field
         $this->withMeta([
             'showLabel' => false,
             'notEditable' => false,
+            'chartName' => 'default'
         ]);
     }
 
@@ -61,17 +62,30 @@ class NovaChartjs extends Field
         }
 
         if (! empty($resource)) {
-            $settings = $resource::getNovaChartjsSettings();
+            $settings = data_get($resource::getNovaChartjsSettings(), $this->getChartName(), []);
 
             $this->withMeta([
                 'settings' => $settings,
-                'comparison' => $resource::getNovaChartjsComparisonData(),
-                'additionalDatasets' => $resource->getAdditionalDatasets() ?? [],
+                'comparison' => $resource::getNovaChartjsComparisonData($this->getChartName()),
+                'additionalDatasets' => data_get($resource->getAdditionalDatasets(), $this->getChartName(), []),
                 'model' => Str::singular(Str::title(Str::snake(class_basename($resource), ' '))),
                 'title' => $this->getChartableProp($resource, $settings['titleProp'] ?? $resource->getKeyName()),
                 'ident' => $this->getChartableProp($resource, $settings['identProp'] ?? $resource->getKeyName()),
             ]);
         }
+    }
+
+    /**
+     * Set chart name for the chart
+     *
+     * @param string $chartName 
+     * @return NovaChartjs 
+     */
+    public function chartName($chartName = 'default'): self
+    {
+        return $this->withMeta([
+            'chartName' => $chartName,
+        ]);
     }
 
     /**
@@ -126,9 +140,29 @@ class NovaChartjs extends Field
      */
     protected function fillAttributeFromRequest(NovaRequest $request, $requestAttribute, $model, $attribute)
     {
-        if ($request->exists($requestAttribute)) {
+        if($model instanceof NovaChartjsMetricValue) {
             $value = json_decode($request[$requestAttribute], true);
             $model->{$attribute} = $this->isNullValue($value) ? null : $value;
         }
+
+        $chartName = $this->getChartName();
+        $attributeName = sprintf('%s_%s', $requestAttribute, $chartName);
+        if ($request->exists($attributeName)) {            
+            $value = json_decode($request[$attributeName], true);
+            $model->{$attribute} = [
+                'chartName' => $chartName,
+                'chartValue' => $this->isNullValue($value) ? null : $value
+            ];
+        }
+    }
+
+    /**
+     * Returns chartname for current chart.
+     * 
+     * @return string 
+     */
+    protected function getChartName()
+    {
+        return data_get($this->meta(), 'chartName', 'default');
     }
 }
