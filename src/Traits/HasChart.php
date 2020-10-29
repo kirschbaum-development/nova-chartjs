@@ -46,7 +46,6 @@ trait HasChart
      */
     public function setNovaChartjsMetricValueAttribute($value): void
     {
-        //dd($value);
         $chartName = data_get($value, 'chartName', 'default');
         $chartValue = data_get($value, 'chartValue', []);
 
