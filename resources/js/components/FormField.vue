@@ -32,7 +32,8 @@ export default {
          * Fill the given FormData object with the field's internal value.
          */
         fill(formData) {
-            formData.append(this.field.attribute, JSON.stringify(this.value) || '{}')
+            const attributeName = (this.field.attribute == 'metric_values') ? this.field.attribute : `${this.field.attribute}_${this.field.chartName || 'default'}`;
+            formData.append(attributeName, JSON.stringify(this.value) || '{}');
         },
 
         /**
