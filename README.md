@@ -51,14 +51,16 @@ class Employee extends Model implements Chartable
     public static function getNovaChartjsSettings(): array
     {
         return [
-            'type' => 'line',
-            'titleProp' => 'name',
-            'identProp' => 'id',
-            'height' => 400,
-            'indexColor' => '#999999',
-            'color' => '#FF0000',
-            'parameters' => ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-            'options' => ['responsive' => true, 'maintainAspectRatio' => false],
+            'default' => [
+                'type' => 'line',
+                'titleProp' => 'name',
+                'identProp' => 'id',
+                'height' => 400,
+                'indexColor' => '#999999',
+                'color' => '#FF0000',
+                'parameters' => ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                'options' => ['responsive' => true, 'maintainAspectRatio' => false],
+            ]
         ];
     }
 
@@ -89,11 +91,13 @@ class Employee extends Model implements Chartable
     public function getAdditionalDatasets(): array
     {
         return [
-            [
-                'label' => 'Average Sales',
-                'borderColor' => '#f87900',
-                'data' => [80, 40, 62, 79, 80, 90, 79, 90, 90, 90, 92, 91],
-            ],
+            'default' => [
+                [
+                    'label' => 'Average Sales',
+                    'borderColor' => '#f87900',
+                    'data' => [80, 40, 62, 79, 80, 90, 79, 90, 90, 90, 92, 91],
+                ],
+            ]
         ];
     }
 
@@ -124,19 +128,21 @@ class Employee extends Model implements Chartable
     public function getAdditionalDatasets(): array
     {
         return [
-            [
-                'label' => 'Minimum Required',
-                'borderColor' => '#f87900',
-                'fill' => '+1',
-                'backgroundColor' => 'rgba(20,20,20,0.2)',//For bar charts, this will be the fill color of the bar
-                'data' => [8, 7, 12, 19, 12, 10, 19, 9, 10, 20, 12, 11],
-            ],
-            [
-                'label' => 'Target',
-                'borderColor' => '#007979',
-                'fill' => false,
-                'data' => [80, 40, 62, 79, 80, 90, 79, 90, 90, 90, 92, 91],
-            ],
+            'default' => [
+                [
+                    'label' => 'Minimum Required',
+                    'borderColor' => '#f87900',
+                    'fill' => '+1',
+                    'backgroundColor' => 'rgba(20,20,20,0.2)',//For bar charts, this will be the fill color of the bar
+                    'data' => [8, 7, 12, 19, 12, 10, 19, 9, 10, 20, 12, 11],
+                ],
+                [
+                    'label' => 'Target',
+                    'borderColor' => '#007979',
+                    'fill' => false,
+                    'data' => [80, 40, 62, 79, 80, 90, 79, 90, 90, 90, 92, 91],
+                ],
+            ]
         ];
     }
 
@@ -194,7 +200,7 @@ class Employee extends Resource
             //...
 
             NovaChartjs::make('Panel Name', 'novaChartjsMetricValue', function () {
-                return $this->novaChartjsMetricValue->metric_values;
+                return optional($this->novaChartjsMetricValue()->where('chart_name', $chartName)->first())->metric_values ?? [];
             }),
         ];
     }
@@ -229,6 +235,77 @@ class Employee extends Resource
 }
 ``` 
 ![Chart Panel with Relationship](screenshots/AsRelationship.jpg "Chart Panel with Relationship")
+
+## Adding Multiple Charts
+
+You can add multiple charts to your Nova resource by specifying a chart identifier.
+
+```php
+namespace App\Nova;
+
+use KirschbaumDevelopment\NovaChartjs\InlinePanel;
+
+class Employee extends Resource
+{
+    
+    //...
+    public function fields(Request $request)
+    {
+        return [
+            //...
+
+            new InlinePanel($this, $request, 'First Chart'),
+            new InlinePanel($this, $request, 'Second Chart', true, false, false, 'second_chart'),
+        ];
+    }
+}
+``` 
+**_NOTE:_** If no explicit identifier is specified `default` will be used as the identifier for that chart. 
+
+You can use the chart identifiers to specify separate additional datasets and settings for each charts.
+
+```php
+use KirschbaumDevelopment\NovaChartjs\Traits\HasChart;
+use KirschbaumDevelopment\NovaChartjs\Contracts\Chartable;
+
+class Employee extends Model implements Chartable
+{
+    use HasChart;
+
+    /**
+     * Should return settings for Nova Chart in prescribed format
+     *
+     * @return array
+     */
+    public static function getNovaChartjsSettings(): array
+    {
+        return [
+            'default' => [
+                'type' => 'line',
+                'titleProp' => 'name',
+                'identProp' => 'id',
+                'height' => 400,
+                'indexColor' => '#999999',
+                'color' => '#FF0000',
+                'parameters' => ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                'options' => ['responsive' => true, 'maintainAspectRatio' => false],
+            ],
+            'second_chart' => [
+                'type' => 'bar',
+                'titleProp' => 'name',
+                'identProp' => 'id',
+                'height' => 400,
+                'indexColor' => '#999999',
+                'color' => '#FF0000',
+                'parameters' => ['Q1', 'Q2', 'Q3', 'Q4'],
+                'options' => ['responsive' => true, 'maintainAspectRatio' => false],
+            ]
+        ];
+    }
+
+    // ...
+}
+```
 
 ## Settings
 
@@ -286,7 +363,18 @@ class Employee extends Model implements Chartable
     {
         return static::with('novaChartjsMetricValue')
             ->has('novaChartjsMetricValue')
-            ->get()
+            ->get()            
+            ->map(function ($chartData) use ($chartName) {
+                $chartData->setAttribute(
+                    'novaChartjsComparisonData', 
+                    optional($chartData->novaChartjsMetricValue()->where('chart_name', $chartName)->first())->metric_values
+                );
+                return $chartData;
+            })
+            ->reject(function ($chartData) {
+                return empty($chartData->novaChartjsComparisonData);
+            })
+            ->values()
             ->toArray();
     }
 }
