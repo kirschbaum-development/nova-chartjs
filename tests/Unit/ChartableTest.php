@@ -108,6 +108,16 @@ class ChartableTest extends TestCase
         });
     }
 
+    protected function tearDown(): void
+    {
+        /**
+         * We delete all entries to avoid SQL integrity constraint error
+         * when migrating down and creating a unique index.
+         */
+        NovaChartjsMetricValue::truncate();
+        parent::tearDown();
+    }
+
     /**
      * Adds a NovaChartjsMetricValue to a Chartable Model.
      *
