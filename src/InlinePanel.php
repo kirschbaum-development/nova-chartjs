@@ -25,12 +25,13 @@ class InlinePanel extends Panel
         $panelTitle = 'Chart Metric Values',
         $showLabel = false,
         $notEditable = false,
-        $hideFromIndex = false
+        $hideFromIndex = false,
+        $chartName = 'default'
     ) {
         parent::__construct(
             $panelTitle,
             $this->prepareFields(
-                $this->fields($resource->resource, $request, $panelTitle, $showLabel, $notEditable, $hideFromIndex)
+                $this->fields($resource->resource, $request, $panelTitle, $showLabel, $notEditable, $hideFromIndex, $chartName)
             )
         );
     }
@@ -53,10 +54,11 @@ class InlinePanel extends Panel
         $panelTitle = 'Chart Metric Values',
         $showLabel = false,
         $notEditable = false,
-        $hideFromIndex = false
+        $hideFromIndex = false,
+        $chartName = 'default'
     ): array {
-        $field = NovaChartjs::make($panelTitle, 'novaChartjsMetricValue', function () use ($chartable) {
-            return $chartable->novaChartjsMetricValue->metric_values ?? [];
+        $field = NovaChartjs::make($panelTitle, 'novaChartjsMetricValue', function () use ($chartable, $chartName) {
+            return optional($chartable->novaChartjsMetricValue()->where('chart_name', $chartName)->first())->metric_values ?? [];
         });
 
         if ($showLabel) {
@@ -70,6 +72,8 @@ class InlinePanel extends Panel
         if ($hideFromIndex) {
             $field->hideFromIndex();
         }
+
+        $field->chartName($chartName);
 
         return [$field];
     }

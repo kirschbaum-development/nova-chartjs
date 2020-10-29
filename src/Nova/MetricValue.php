@@ -5,6 +5,7 @@ namespace KirschbaumDevelopment\NovaChartjs\Nova;
 use Laravel\Nova\Resource;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\MorphTo;
+use Laravel\Nova\Fields\Text;
 use KirschbaumDevelopment\NovaChartjs\NovaChartjs;
 use KirschbaumDevelopment\NovaChartjs\Models\NovaChartjsMetricValue;
 
@@ -43,9 +44,11 @@ class MetricValue extends Resource
         $field = NovaChartjs::make('Metric Values', 'metric_values')
             ->rules('required', 'json');
         $field->showOnCreation = true;
+        $field->chartName($this->chart_name ?? 'default');
 
         return [
             $field,
+            Text::make('Chart Name'),
             MorphTo::make('Chartable')->onlyOnIndex(),
         ];
     }
