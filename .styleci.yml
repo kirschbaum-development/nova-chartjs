@@ -1,7 +1,6 @@
 preset: laravel
 
 enabled:
-  - array_indentation
   - combine_consecutive_unsets
   - compact_nullable_typehint
   - concat_with_spaces
