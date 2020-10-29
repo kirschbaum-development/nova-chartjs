@@ -2,6 +2,7 @@
 
 namespace KirschbaumDevelopment\NovaChartjs\Traits;
 
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use KirschbaumDevelopment\NovaChartjs\Models\NovaChartjsMetricValue;
 
@@ -13,11 +14,11 @@ trait HasChart
     /**
      * Get the Chartable Model's metric values.
      *
-     * @return MorphOne
+     * @return MorphMany
      */
-    public function novaChartjsMetricValue(): MorphOne
+    public function novaChartjsMetricValue(): MorphMany
     {
-        return $this->morphOne(NovaChartjsMetricValue::class, 'chartable');
+        return $this->MorphMany(NovaChartjsMetricValue::class, 'chartable');
     }
 
     /**
@@ -32,9 +33,9 @@ trait HasChart
         });
 
         static::created(function ($model) {
-            if (! empty($model->unsavedMetricValues)) {
-                $model->novaChartjsMetricValue()->create(['metric_values' => $model->unsavedMetricValues]);
-            }
+            collect($model->unsavedMetricValues)->each(function ($chartData) use ($model) {
+                $model->novaChartjsMetricValue()->create($chartData);
+            });
         });
     }
 
@@ -45,28 +46,52 @@ trait HasChart
      */
     public function setNovaChartjsMetricValueAttribute($value): void
     {
-        if (! $this->novaChartjsMetricValue) {
+        //dd($value);
+        $chartName = data_get($value, 'chartName', 'default');
+        $chartValue = data_get($value, 'chartValue', []);
+
+        $chartInstance = $this->novaChartjsMetricValue()->where('chart_name', $chartName)->first();
+        
+        if (empty($chartInstance)) {
             $this->getKey()
-                ? $this->novaChartjsMetricValue()->create(['metric_values' => $value])
-                : $this->unsavedMetricValues = $value;
+                ? $this->novaChartjsMetricValue()->create([
+                    'metric_values' => $chartValue,
+                    'chart_name' => $chartName
+                ])
+                : $this->unsavedMetricValues[] = [
+                    'metric_values' => $chartValue,
+                    'chart_name' => $chartName
+                ];
 
             return;
         }
 
-        $this->novaChartjsMetricValue->metric_values = $value;
-        $this->novaChartjsMetricValue->save();
+        $chartInstance->metric_values = $chartValue;
+        $chartInstance->save();
     }
 
     /**
      * Return a list of all models available for comparison to root model.
      *
+     * @param string $chartName 
      * @return array
      */
-    public static function getNovaChartjsComparisonData(): array
+    public static function getNovaChartjsComparisonData($chartName = 'default'): array
     {
         return static::with('novaChartjsMetricValue')
             ->has('novaChartjsMetricValue')
-            ->get()
+            ->get()            
+            ->map(function ($chartData) use ($chartName) {
+                $chartData->setAttribute(
+                    'novaChartjsComparisonData', 
+                    optional($chartData->novaChartjsMetricValue()->where('chart_name', $chartName)->first())->metric_values
+                );
+                return $chartData;
+            })
+            ->reject(function ($chartData) {
+                return empty($chartData->novaChartjsComparisonData);
+            })
+            ->values()
             ->toArray();
     }
 
@@ -77,6 +102,8 @@ trait HasChart
      */
     public function getAdditionalDatasets(): array
     {
-        return [];
+        return [
+            'default' => []
+        ];
     }
 }
