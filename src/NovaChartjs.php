@@ -76,7 +76,7 @@ class NovaChartjs extends Field
     }
 
     /**
-     * Set chart name for the chart
+     * Set chart name for the chart.
      *
      * @param string $chartName
      *

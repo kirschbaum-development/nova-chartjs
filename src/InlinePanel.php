@@ -18,6 +18,7 @@ class InlinePanel extends Panel
      * @param bool $showLabel
      * @param bool $notEditable
      * @param bool $hideFromIndex
+     * @param string $chartName
      */
     public function __construct(
         NovaResource $resource,
@@ -45,6 +46,7 @@ class InlinePanel extends Panel
      * @param bool $showLabel
      * @param bool $notEditable
      * @param bool $hideFromIndex
+     * @param string $chartName
      *
      * @return array
      */

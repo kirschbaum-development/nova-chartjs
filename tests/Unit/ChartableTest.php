@@ -12,6 +12,16 @@ class ChartableTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function tearDown(): void
+    {
+        /**
+         * We delete all entries to avoid SQL integrity constraint error
+         * when migrating down and creating a unique index.
+         */
+        NovaChartjsMetricValue::truncate();
+        parent::tearDown();
+    }
+
     public function testChartableCanHaveOnlyOneMetricValue()
     {
         $firstMetricValue = factory(NovaChartjsMetricValue::class)->make();
@@ -136,16 +146,6 @@ class ChartableTest extends TestCase
                 $chartable->novaChartjsMetricValue()->where('chart_name', 'second')->first()->metric_values
             );
         });
-    }
-
-    protected function tearDown(): void
-    {
-        /**
-         * We delete all entries to avoid SQL integrity constraint error
-         * when migrating down and creating a unique index.
-         */
-        NovaChartjsMetricValue::truncate();
-        parent::tearDown();
     }
 
     /**

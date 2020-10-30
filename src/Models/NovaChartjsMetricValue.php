@@ -14,7 +14,7 @@ class NovaChartjsMetricValue extends Model
      */
     protected $fillable = [
         'metric_values',
-        'chart_name'
+        'chart_name',
     ];
 
     /**
