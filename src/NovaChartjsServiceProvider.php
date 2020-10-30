@@ -3,7 +3,6 @@
 namespace KirschbaumDevelopment\NovaChartjs;
 
 use Laravel\Nova\Nova;
-use Laravel\Nova\Events\ServingNova;
 use Illuminate\Support\ServiceProvider;
 use KirschbaumDevelopment\NovaChartjs\Nova\MetricValue;
 
