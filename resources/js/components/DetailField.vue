@@ -120,7 +120,7 @@ export default {
                 ...chartData,
                 ...this.selected.map(
                     data => this.getDatapoint(
-                        data.nova_chartjs_metric_value.metric_values,
+                        data.novaChartjsComparisonData,
                         data[this.field.settings.titleProp]
                     )
                 )

@@ -3,7 +3,7 @@
 namespace KirschbaumDevelopment\NovaChartjs;
 
 use Laravel\Nova\Panel;
-use Laravel\Nova\Fields\MorphOne;
+use Laravel\Nova\Fields\MorphMany;
 use KirschbaumDevelopment\NovaChartjs\Nova\MetricValue;
 
 class RelationshipPanel extends Panel
@@ -31,7 +31,7 @@ class RelationshipPanel extends Panel
     protected function fields($panelTitle = 'Chart Metric Values'): array
     {
         return [
-            MorphOne::make($panelTitle, 'novaChartjsMetricValue', MetricValue::class),
+            MorphMany::make($panelTitle, 'novaChartjsMetricValue', MetricValue::class),
         ];
     }
 }
