@@ -3,7 +3,6 @@
 namespace KirschbaumDevelopment\NovaChartjs\Traits;
 
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
 use KirschbaumDevelopment\NovaChartjs\Models\NovaChartjsMetricValue;
 
 trait HasChart
@@ -50,16 +49,16 @@ trait HasChart
         $chartValue = data_get($value, 'chartValue', []);
 
         $chartInstance = $this->novaChartjsMetricValue()->where('chart_name', $chartName)->first();
-        
+
         if (empty($chartInstance)) {
             $this->getKey()
                 ? $this->novaChartjsMetricValue()->create([
                     'metric_values' => $chartValue,
-                    'chart_name' => $chartName
+                    'chart_name' => $chartName,
                 ])
                 : $this->unsavedMetricValues[] = [
                     'metric_values' => $chartValue,
-                    'chart_name' => $chartName
+                    'chart_name' => $chartName,
                 ];
 
             return;
@@ -72,19 +71,21 @@ trait HasChart
     /**
      * Return a list of all models available for comparison to root model.
      *
-     * @param string $chartName 
+     * @param string $chartName
+     *
      * @return array
      */
     public static function getNovaChartjsComparisonData($chartName = 'default'): array
     {
         return static::with('novaChartjsMetricValue')
             ->has('novaChartjsMetricValue')
-            ->get()            
+            ->get()
             ->map(function ($chartData) use ($chartName) {
                 $chartData->setAttribute(
-                    'novaChartjsComparisonData', 
+                    'novaChartjsComparisonData',
                     optional($chartData->novaChartjsMetricValue()->where('chart_name', $chartName)->first())->metric_values
                 );
+
                 return $chartData;
             })
             ->reject(function ($chartData) {
@@ -102,7 +103,7 @@ trait HasChart
     public function getAdditionalDatasets(): array
     {
         return [
-            'default' => []
+            'default' => [],
         ];
     }
 }

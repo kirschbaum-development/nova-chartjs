@@ -43,8 +43,14 @@ class ChartableTest extends TestCase
         $chartable->save();
 
         tap($chartable->fresh(), function ($chartable) use ($testArray) {
-            $this->assertInstanceOf(NovaChartjsMetricValue::class, $chartable->novaChartjsMetricValue()->first());
-            $this->assertEquals($testArray['chartValue'], $chartable->novaChartjsMetricValue()->first()->metric_values);
+            $this->assertInstanceOf(
+                NovaChartjsMetricValue::class,
+                $chartable->novaChartjsMetricValue()->first()
+            );
+            $this->assertEquals(
+                $testArray['chartValue'],
+                $chartable->novaChartjsMetricValue()->first()->metric_values
+            );
         });
     }
 
@@ -57,8 +63,14 @@ class ChartableTest extends TestCase
         $this->testChartable->save();
 
         tap($this->testChartable->fresh(), function ($chartable) use ($testArray) {
-            $this->assertInstanceOf(NovaChartjsMetricValue::class, $chartable->novaChartjsMetricValue()->first());
-            $this->assertEquals($testArray['chartValue'], $chartable->novaChartjsMetricValue()->first()->metric_values);
+            $this->assertInstanceOf(
+                NovaChartjsMetricValue::class,
+                $chartable->novaChartjsMetricValue()->first()
+            );
+            $this->assertEquals(
+                $testArray['chartValue'],
+                $chartable->novaChartjsMetricValue()->first()->metric_values
+            );
         });
     }
 
@@ -66,16 +78,28 @@ class ChartableTest extends TestCase
     {
         $metricValue = factory(NovaChartjsMetricValue::class)->make();
         $this->addNovaChartjsMetricValueToChartable($metricValue);
-        $this->assertInstanceOf(NovaChartjsMetricValue::class, $this->testChartable->novaChartjsMetricValue()->first());
-        $this->assertEquals($metricValue->metric_values, $this->testChartable->novaChartjsMetricValue()->first()->metric_values);
+        $this->assertInstanceOf(
+            NovaChartjsMetricValue::class,
+            $this->testChartable->novaChartjsMetricValue()->first()
+        );
+        $this->assertEquals(
+            $metricValue->metric_values,
+            $this->testChartable->novaChartjsMetricValue()->first()->metric_values
+        );
 
         $testArray = ['chartName' => 'default', 'chartValue' => ['January' => 10, 'February' => 30]];
         $this->testChartable->novaChartjsMetricValue = $testArray;
         $this->testChartable->save();
 
         tap($this->testChartable->fresh(), function ($chartable) use ($testArray, $metricValue) {
-            $this->assertNotEquals($metricValue->metric_values, $chartable->novaChartjsMetricValue()->first()->metric_values);
-            $this->assertEquals($testArray['chartValue'], $chartable->novaChartjsMetricValue()->first()->metric_values);
+            $this->assertNotEquals(
+                $metricValue->metric_values,
+                $chartable->novaChartjsMetricValue()->first()->metric_values
+            );
+            $this->assertEquals(
+                $testArray['chartValue'],
+                $chartable->novaChartjsMetricValue()->first()->metric_values
+            );
         });
     }
 
@@ -103,8 +127,14 @@ class ChartableTest extends TestCase
         $this->testChartable->save();
 
         tap($this->testChartable->fresh(), function ($chartable) use ($secondaryMetricValue, $testArray) {
-            $this->assertNotEquals($secondaryMetricValue->metric_values, $chartable->novaChartjsMetricValue()->where('chart_name', 'second')->first()->metric_values);
-            $this->assertEquals($testArray['chartValue'], $chartable->novaChartjsMetricValue()->where('chart_name', 'second')->first()->metric_values);
+            $this->assertNotEquals(
+                $secondaryMetricValue->metric_values,
+                $chartable->novaChartjsMetricValue()->where('chart_name', 'second')->first()->metric_values
+            );
+            $this->assertEquals(
+                $testArray['chartValue'],
+                $chartable->novaChartjsMetricValue()->where('chart_name', 'second')->first()->metric_values
+            );
         });
     }
 

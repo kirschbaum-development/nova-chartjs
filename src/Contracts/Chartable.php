@@ -3,7 +3,6 @@
 namespace KirschbaumDevelopment\NovaChartjs\Contracts;
 
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 interface Chartable
 {
@@ -22,10 +21,11 @@ interface Chartable
     /**
      * Return a list of all models available for comparison to root model.
      *
-     * @param string $chartName 
+     * @param string $chartName
+     *
      * @return array
      */
-     public static function getNovaChartjsComparisonData($chartName = 'default'): array;
+    public static function getNovaChartjsComparisonData($chartName = 'default'): array;
 
     /**
      * Return a list of additional datasets added to chart.
