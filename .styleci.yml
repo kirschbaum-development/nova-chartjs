@@ -2,8 +2,6 @@ preset: laravel
 
 enabled:
   - combine_consecutive_unsets
-  - compact_nullable_typehint
-  - concat_with_spaces
   - explicit_string_variable
   - length_ordered_imports
   - method_chaining_indentation
