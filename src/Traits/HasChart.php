@@ -121,7 +121,9 @@ trait HasChart
     }
 
     /**
-     * Should return settings for Nova Chart in prescribed format
+     * Should return settings for Nova Chart in prescribed format.
+     *
+     * @param mixed $chartName
      *
      * @return array
      */
@@ -146,6 +148,8 @@ trait HasChart
 
     /**
      * Return a list of additional datasets added to card.
+     *
+     * @param mixed $chartName
      *
      * @return array
      */

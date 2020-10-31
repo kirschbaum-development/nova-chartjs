@@ -2,7 +2,6 @@
 
 namespace KirschbaumDevelopment\NovaChartjs\Cards;
 
-use App\User;
 use Laravel\Nova\Card;
 
 class NovaChartjsCard extends Card
@@ -64,6 +63,18 @@ class NovaChartjsCard extends Card
     }
 
     /**
+     * Prepare the element for JSON serialization.
+     *
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        $this->updateChartMeta();
+
+        return parent::jsonSerialize();
+    }
+
+    /**
      * Returns chartname for current chart.
      *
      * @return string
@@ -75,30 +86,18 @@ class NovaChartjsCard extends Card
 
     /**
      * Updates Meta values for Charts.
-     * 
-     * @return void 
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException 
+     *
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     protected function updateChartMeta()
     {
         $model = app(data_get($this->meta(), 'chartModel'));
         $chartName = $this->getChartName();
 
-        $this->withMeta([ 
+        $this->withMeta([
             'dataset' => data_get($this->meta(), 'dataset', $model::getCardDatasets($chartName)),
             'settings' => data_get($this->meta(), 'settings', $model::getNovaChartjsCardSettings($chartName)),
             'additionalDatasets' => data_get($this->meta(), 'additionalDatasets', $model::getAdditionalCardDatasets($chartName)),
         ]);
-    }
-
-    /**
-     * Prepare the element for JSON serialization.
-     *
-     * @return array
-     */
-    public function jsonSerialize()
-    {
-        $this->updateChartMeta();
-        return parent::jsonSerialize();
     }
 }
