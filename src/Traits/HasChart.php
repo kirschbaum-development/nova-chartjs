@@ -106,4 +106,51 @@ trait HasChart
             'default' => [],
         ];
     }
+
+    /**
+     * Return a list of all models available to be shown in a card.
+     *
+     * @param string $chartName
+     * @param string $cardName
+     *
+     * @return array
+     */
+    public static function getCardDatasets($chartName = 'default', $cardName = ''): array
+    {
+        return self::getNovaChartjsComparisonData($chartName);
+    }
+
+    /**
+     * Should return settings for Nova Chart in prescribed format
+     *
+     * @return array
+     */
+    public static function getNovaChartjsCardSettings($chartName = 'default'): array
+    {
+        return array_merge(
+            [
+                'type' => 'bar',
+                'titleProp' => 'name',
+                'identProp' => 'id',
+                'indexColor' => '#999999',
+                'color' => '#FF0000',
+                'options' => ['responsive' => true, 'maintainAspectRatio' => false],
+            ],
+            data_get(self::getNovaChartjsSettings(), $chartName, []),
+            [
+                'height' => 200,
+                'options' => ['responsive' => true, 'maintainAspectRatio' => false, 'legend' => ['position' => 'left', 'align' => 'middle']],
+            ]
+        );
+    }
+
+    /**
+     * Return a list of additional datasets added to card.
+     *
+     * @return array
+     */
+    public static function getAdditionalCardDatasets($chartName = 'default'): array
+    {
+        return data_get((new self())->getAdditionalDatasets(), $chartName, []);
+    }
 }
