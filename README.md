@@ -307,6 +307,87 @@ class Employee extends Model implements Chartable
 }
 ```
 
+## Adding Cards
+
+![Cards](screenshots/Cards.png "Cards")
+
+You can add your Nova ChartJS Charts as a card on Dashboard or Resource Index. 
+
+```php
+use App\User as AppUser;
+use KirschbaumDevelopment\NovaChartjs\Cards\NovaChartjsCard;
+
+class User extends Resource
+{
+    //...
+
+    /**
+     * Get the cards available for the request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     *
+     * @return array
+     */
+    public function cards(Request $request)
+    {
+        return [
+            (new NovaChartjsCard())
+            ->chartModel(AppUser::class)
+            ->chartName('default')
+            ->width('1/2'),
+            (new NovaChartjsCard())
+            ->chartModel(AppUser::class)
+            ->chartName('earnings')
+            ->width('1/2'),
+        ];
+    }
+
+    //...
+}
+
+```
+
+Nova ChartJS automatically selects the datset, settings and additional datasets from your existing model and modifies it to suit the card format, but you can pass `settings`, `dataset` and `additionalDatasets` to your chart.
+
+```php
+use App\User as AppUser;
+use KirschbaumDevelopment\NovaChartjs\Cards\NovaChartjsCard;
+
+class User extends Resource
+{
+    //...
+
+    /**
+     * Get the cards available for the request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     *
+     * @return array
+     */
+    public function cards(Request $request)
+    {
+        return [
+            (new NovaChartjsCard())
+            ->chartModel(AppUser::class)
+            ->chartName('default')
+            ->settings([
+                'type' => 'bar',
+                'titleProp' => 'name',
+                'identProp' => 'id',
+                'height' => 250,
+                'indexColor' => '#999999',
+                'color' => '#FF0000',
+                'parameters' => ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                'options' => ['responsive' => true, 'maintainAspectRatio' => false],
+            ])
+            ->width('1/2'),
+        ];
+    }
+
+    //...
+}
+```
+
 ## Settings
 
 You can add following settings to model settings
