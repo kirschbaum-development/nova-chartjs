@@ -104,6 +104,69 @@ class Employee extends Model implements Chartable
     // ...
 }
 ```
+
+### Getting parametrized datasets
+
+You can get a collection of parametrized dataset for each of the parameter specified in chart settings by calling `getNovaChartjsParameterizedDataSet` method. You can specify the chartName for which you want to fetch the data. You can also sort the collected data by passing optional `field name` using which you want to sort the data and the `number of results` to be considered in sorting. We have added four static methods to provide `max`, `min`, `average` and `median` value datasets using `getNovaChartjsMaxDataSet`, `getNovaChartjsMinDataSet`, `getNovaChartjsAvgDataSet` and `getNovaChartjsMedianDataSet` method.
+
+You can also right your own customized method using in a similar fashion.
+
+```php
+//...
+    /**
+     * Returns a dataset consistint of max values for each parameter.
+     *
+     * @param string $chartName
+     * @param null|mixed $sortBy
+     * @param mixed $limit
+     *
+     * @return array
+     */
+    public static function getNovaChartjsMaxDataSet($chartName = 'default', $sortBy = null, $limit = 0): array
+    {
+        $dataset = static::getNovaChartjsParameterizedDataSet($chartName, $sortBy, $limit);
+
+        return $dataset->map(function (Collection $datpoints) {
+            return $datpoints->max();
+        })->values()->toArray();
+    }
+//...
+```
+
+You can use these datasets as additional datsets
+
+```php
+use KirschbaumDevelopment\NovaChartjs\Traits\HasChart;
+use KirschbaumDevelopment\NovaChartjs\Contracts\Chartable;
+
+class Employee extends Model implements Chartable
+{
+    use HasChart;
+    
+    //...
+
+    /**
+     * Return a list of additional datasets added to chart
+     *
+     * @return array
+     */
+    public function getAdditionalDatasets(): array
+    {
+        return [
+            'default' => [
+                [
+                    'label' => 'Average Sales',
+                    'borderColor' => '#f87900',
+                    'data' => static::getNovaChartjsAvgDataSet('default'),
+                ],
+            ]
+        ];
+    }
+
+    // ...
+}
+```
+
 You can read more about adding custom datasets in the [official chart.js documentation](https://www.chartjs.org/docs/latest/)
 
 ### Creating a range chart
