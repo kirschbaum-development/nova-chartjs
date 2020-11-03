@@ -66,7 +66,7 @@ class NovaChartjs extends Field
 
             $this->withMeta([
                 'settings' => $settings,
-                'comparison' => $resource::getNovaChartjsComparisonData($this->getChartName()),
+                'comparison' => $resource::getNovaChartjsComparisonData($this->getChartName(), $this->getIsField()),
                 'additionalDatasets' => data_get($resource->getAdditionalDatasets(), $this->getChartName(), []),
                 'model' => Str::singular(Str::title(Str::snake(class_basename($resource), ' '))),
                 'title' => $this->getChartableProp($resource, $settings['titleProp'] ?? $resource->getKeyName()),
@@ -98,6 +98,18 @@ class NovaChartjs extends Field
     {
         return $this->withMeta([
             'showLabel' => true,
+        ]);
+    }
+
+    /**
+     * Hide Label to make Chart occupy full width.
+     *
+     * @return NovaChartjs
+     */
+    public function isField(): self
+    {
+        return $this->withMeta([
+            'isField' => true,
         ]);
     }
 
@@ -141,9 +153,10 @@ class NovaChartjs extends Field
      */
     protected function fillAttributeFromRequest(NovaRequest $request, $requestAttribute, $model, $attribute)
     {
-        if ($model instanceof NovaChartjsMetricValue) {
+        if ($model instanceof NovaChartjsMetricValue || $this->getIsField()) {
             $value = json_decode($request[$requestAttribute], true);
             $model->{$attribute} = $this->isNullValue($value) ? null : $value;
+            return;
         }
 
         $chartName = $this->getChartName();
@@ -166,5 +179,15 @@ class NovaChartjs extends Field
     protected function getChartName()
     {
         return data_get($this->meta(), 'chartName', 'default');
+    }
+
+    /**
+     * Returns chartname for current chart.
+     *
+     * @return bool
+     */
+    protected function getIsField()
+    {
+        return data_get($this->meta(), 'isField', false);
     }
 }
