@@ -2,6 +2,7 @@
 
 namespace KirschbaumDevelopment\NovaChartjs\Traits;
 
+use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use KirschbaumDevelopment\NovaChartjs\Models\NovaChartjsMetricValue;
 
@@ -66,6 +67,110 @@ trait HasChart
 
         $chartInstance->metric_values = $chartValue;
         $chartInstance->save();
+    }
+
+    /**
+     * Return a list of datapoints for each parameters.
+     *
+     * @param string $chartName
+     * @param null|mixed $sortBy
+     * @param mixed $limit
+     *
+     * @return \Illuminate\Support\Collection
+     */
+    public static function getNovaChartjsParameterizedDataSet($chartName = 'default', $sortBy = null, $limit = 0): Collection
+    {
+        $parameters = data_get(static::getNovaChartjsSettings(), sprintf('%s.parameters', $chartName));
+
+        $output = collect();
+
+        $dataset = collect(static::getNovaChartjsComparisonData($chartName));
+
+        if (! empty($sortBy)) {
+            $dataset = $dataset->sortBy($sortBy)->values();
+        }
+
+        if ($limit > 0) {
+            $dataset = $dataset->slice(0, $limit);
+        }
+
+        foreach ($parameters as $parameter) {
+            $output->put($parameter, $dataset->pluck(sprintf('novaChartjsComparisonData.%s', $parameter)));
+        }
+
+        return $output;
+    }
+
+    /**
+     * Returns a dataset consistint of max values for each parameter.
+     *
+     * @param string $chartName
+     * @param null|mixed $sortBy
+     * @param mixed $limit
+     *
+     * @return array
+     */
+    public static function getNovaChartjsMaxDataSet($chartName = 'default', $sortBy = null, $limit = 0): array
+    {
+        $dataset = static::getNovaChartjsParameterizedDataSet($chartName, $sortBy, $limit);
+
+        return $dataset->map(function (Collection $datpoints) {
+            return $datpoints->max();
+        })->values()->toArray();
+    }
+
+    /**
+     * Returns a dataset consistint of min values for each parameter.
+     *
+     * @param string $chartName
+     * @param null|mixed $sortBy
+     * @param mixed $limit
+     *
+     * @return array
+     */
+    public static function getNovaChartjsMinDataSet($chartName = 'default', $sortBy = null, $limit = 0): array
+    {
+        $dataset = static::getNovaChartjsParameterizedDataSet($chartName, $sortBy, $limit);
+
+        return $dataset->map(function (Collection $datpoints) {
+            return $datpoints->min();
+        })->values()->toArray();
+    }
+
+    /**
+     * Returns a dataset consistint of average values for each parameter.
+     *
+     * @param string $chartName
+     * @param null|mixed $sortBy
+     * @param mixed $limit
+     *
+     * @return array
+     */
+    public static function getNovaChartjsAvgDataSet($chartName = 'default', $sortBy = null, $limit = 0): array
+    {
+        $dataset = static::getNovaChartjsParameterizedDataSet($chartName, $sortBy, $limit);
+
+        return $dataset->map(function (Collection $datpoints) {
+            return $datpoints->avg();
+        })->values()->toArray();
+    }
+
+    /**
+     * Returns a dataset consistint of median values for each parameter.
+     *
+     * @param string $chartName
+     * @param null|mixed $sortBy
+     * @param mixed $limit
+     *
+     * @return array
+     */
+    public static function getNovaChartjsMedianDataSet($chartName = 'default', $sortBy = null, $limit = 0): array
+    {
+        $dataset = static::getNovaChartjsParameterizedDataSet($chartName, $sortBy, $limit);
+
+        return $dataset->map(function (Collection $datpoints) {
+            return $datpoints->median();
+        })->values()->toArray();
     }
 
     /**
