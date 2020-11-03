@@ -156,6 +156,7 @@ class NovaChartjs extends Field
         if ($model instanceof NovaChartjsMetricValue || $this->getIsField()) {
             $value = json_decode($request[$requestAttribute], true);
             $model->{$attribute} = $this->isNullValue($value) ? null : $value;
+            
             return;
         }
 

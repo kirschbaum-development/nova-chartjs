@@ -72,14 +72,15 @@ trait HasChart
      * Return a list of all models available for comparison to root model.
      *
      * @param string $chartName
+     * @param mixed $isField
      *
      * @return array
      */
     public static function getNovaChartjsComparisonData($chartName = 'default', $isField = false): array
     {
-        if($isField) {
+        if ($isField) {
             return static::get()
-            ->map(function ($chartData) use ($chartName) {
+                ->map(function ($chartData) use ($chartName) {
                 $chartData->setAttribute(
                     'novaChartjsComparisonData',
                     $chartData->{$chartName}
@@ -87,11 +88,11 @@ trait HasChart
 
                 return $chartData;
             })
-            ->reject(function ($chartData) {
+                ->reject(function ($chartData) {
                 return empty($chartData->novaChartjsComparisonData);
             })
-            ->values()
-            ->toArray();
+                ->values()
+                ->toArray();
         }
 
         return static::with('novaChartjsMetricValue')

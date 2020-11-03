@@ -19,6 +19,7 @@ class InlinePanel extends Panel
      * @param bool $notEditable
      * @param bool $hideFromIndex
      * @param string $chartName
+     * @param mixed $isField
      */
     public function __construct(
         NovaResource $resource,
@@ -76,7 +77,7 @@ class InlinePanel extends Panel
             $field->hideFromIndex();
         }
 
-        if($isField) {
+        if ($isField) {
             $field->isField();
         }
 
@@ -87,16 +88,17 @@ class InlinePanel extends Panel
 
     /**
      * Returns the field.
-     * 
-     * @param Chartable $chartable 
-     * @param string $panelTitle 
-     * @param string $chartName 
+     *
+     * @param Chartable $chartable
+     * @param string $panelTitle
+     * @param string $chartName
      * @param bool $isField
-     * 
-     * @return NovaChartjs 
+     *
+     * @return NovaChartjs
      */
-    protected function getField(Chartable $chartable, $panelTitle = 'Chart Metric Values', $chartName = 'default', $isField = false): NovaChartjs  {
-        if($isField) {
+    protected function getField(Chartable $chartable, $panelTitle = 'Chart Metric Values', $chartName = 'default', $isField = false): NovaChartjs
+    {
+        if ($isField) {
             return NovaChartjs::make($panelTitle, $chartName);
         }
 
