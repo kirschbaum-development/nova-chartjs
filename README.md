@@ -172,14 +172,22 @@ class Employee extends Resource
         return [
             //...
 
-            new InlinePanel($this, $request, 'Chart Name'),
+            new InlinePanel($this, $request, 'Chart Title'),
         ];
     }
 }
 ``` 
 **_NOTE:_** You must pass the `Resource` (i.e. `$this`) and `$request` to the `InlinePanel` component. 
 
-As an optional argument you can pass a chart name as the third argument, `showLabel` as fourth argument, `notEditable` as the fifth argument and `hideFromIndex` as the sixth argument.
+As an optional argument you can pass a chart title as the third argument, `showLabel` as fourth argument, `notEditable` as the fifth argument and `hideFromIndex` as the sixth argument. You can pass `chartName` as an optional seventh parameter if you want to add more than one charts to same model. 
+
+If you want to attach your chart to a JSON field directly on model you can set the optional eighth parameter `isField` as true.
+
+```php
+//...
+new InlinePanel($this, $request, 'Attendance', true, false, false, 'attendance', true),
+//...
+```
 
 ![Panel with Label](screenshots/PanelWithLabel.jpg "Panel with Label")
 

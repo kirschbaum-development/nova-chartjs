@@ -48,6 +48,7 @@ class InlinePanel extends Panel
      * @param bool $notEditable
      * @param bool $hideFromIndex
      * @param string $chartName
+     * @param bool $isField
      *
      * @return array
      */
@@ -84,6 +85,16 @@ class InlinePanel extends Panel
         return [$field];
     }
 
+    /**
+     * Returns the field.
+     * 
+     * @param Chartable $chartable 
+     * @param string $panelTitle 
+     * @param string $chartName 
+     * @param bool $isField
+     * 
+     * @return NovaChartjs 
+     */
     protected function getField(Chartable $chartable, $panelTitle = 'Chart Metric Values', $chartName = 'default', $isField = false): NovaChartjs  {
         if($isField) {
             return NovaChartjs::make($panelTitle, $chartName);
