@@ -27,12 +27,13 @@ class InlinePanel extends Panel
         $showLabel = false,
         $notEditable = false,
         $hideFromIndex = false,
-        $chartName = 'default'
+        $chartName = 'default',
+        $isField = false
     ) {
         parent::__construct(
             $panelTitle,
             $this->prepareFields(
-                $this->fields($resource->resource, $request, $panelTitle, $showLabel, $notEditable, $hideFromIndex, $chartName)
+                $this->fields($resource->resource, $request, $panelTitle, $showLabel, $notEditable, $hideFromIndex, $chartName, $isField)
             )
         );
     }
@@ -57,11 +58,10 @@ class InlinePanel extends Panel
         $showLabel = false,
         $notEditable = false,
         $hideFromIndex = false,
-        $chartName = 'default'
+        $chartName = 'default',
+        $isField = false
     ): array {
-        $field = NovaChartjs::make($panelTitle, 'novaChartjsMetricValue', function () use ($chartable, $chartName) {
-            return optional($chartable->novaChartjsMetricValue()->where('chart_name', $chartName)->first())->metric_values ?? [];
-        });
+        $field = $this->getField($chartable, $panelTitle, $chartName, $isField);
 
         if ($showLabel) {
             $field->showLabel();
@@ -75,8 +75,22 @@ class InlinePanel extends Panel
             $field->hideFromIndex();
         }
 
+        if($isField) {
+            $field->isField();
+        }
+
         $field->chartName($chartName);
 
         return [$field];
+    }
+
+    protected function getField(Chartable $chartable, $panelTitle = 'Chart Metric Values', $chartName = 'default', $isField = false): NovaChartjs  {
+        if($isField) {
+            return NovaChartjs::make($panelTitle, $chartName);
+        }
+
+        return NovaChartjs::make($panelTitle, 'novaChartjsMetricValue', function () use ($chartable, $chartName) {
+            return optional($chartable->novaChartjsMetricValue()->where('chart_name', $chartName)->first())->metric_values ?? [];
+        });
     }
 }
