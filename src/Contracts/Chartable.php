@@ -16,7 +16,7 @@ interface Chartable
      *
      * @return array
      */
-    public static function getNovaChartjsSettings(): array;
+    public function getNovaChartjsSettings(): array;
 
     /**
      * Return a list of all models available for comparison to root model.

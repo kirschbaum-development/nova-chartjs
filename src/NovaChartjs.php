@@ -62,7 +62,7 @@ class NovaChartjs extends Field
         }
 
         if (! empty($resource)) {
-            $settings = data_get($resource::getNovaChartjsSettings(), $this->getChartName(), []);
+            $settings = data_get($resource->getNovaChartjsSettings(), $this->getChartName(), []);
 
             $this->withMeta([
                 'settings' => $settings,
