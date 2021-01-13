@@ -62,11 +62,11 @@ class NovaChartjs extends Field
         }
 
         if (! empty($resource)) {
-            $settings = data_get($resource::getNovaChartjsSettings(), $this->getChartName(), []);
+            $settings = data_get($resource->getNovaChartjsSettings(), $this->getChartName(), []);
 
             $this->withMeta([
                 'settings' => $settings,
-                'comparison' => $resource::getNovaChartjsComparisonData($this->getChartName()),
+                'comparison' => $resource->getNovaChartjsComparisonData($this->getChartName()),
                 'additionalDatasets' => data_get($resource->getAdditionalDatasets(), $this->getChartName(), []),
                 'model' => Str::singular(Str::title(Str::snake(class_basename($resource), ' '))),
                 'title' => $this->getChartableProp($resource, $settings['titleProp'] ?? $resource->getKeyName()),

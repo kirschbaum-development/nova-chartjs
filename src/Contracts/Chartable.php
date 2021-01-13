@@ -16,7 +16,7 @@ interface Chartable
      *
      * @return array
      */
-    public static function getNovaChartjsSettings(): array;
+    public function getNovaChartjsSettings(): array;
 
     /**
      * Return a list of all models available for comparison to root model.
@@ -25,7 +25,7 @@ interface Chartable
      *
      * @return array
      */
-    public static function getNovaChartjsComparisonData($chartName = 'default'): array;
+    public function getNovaChartjsComparisonData($chartName = 'default'): array;
 
     /**
      * Return a list of additional datasets added to chart.
