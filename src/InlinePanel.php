@@ -42,7 +42,8 @@ class InlinePanel extends Panel
      *
      * @return $this
      */
-    public function hideFromIndex() {
+    public function hideFromIndex()
+	{
         foreach ($this->data as $field) {
             $field->hideFromIndex();
         }
