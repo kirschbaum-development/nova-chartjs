@@ -79,4 +79,17 @@ class InlinePanel extends Panel
 
         return [$field];
     }
+
+    /**
+     * Specify that the fields should be hidden from the index view.
+     *
+     * @return $this
+     */
+    public function hideFromIndex() {
+        foreach ($this->data as $field) {
+            $field->hideFromIndex();
+        }
+
+        return $this;
+    }
 }
