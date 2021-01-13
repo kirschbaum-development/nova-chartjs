@@ -75,7 +75,7 @@ trait HasChart
      *
      * @return array
      */
-    public static function getNovaChartjsComparisonData($chartName = 'default'): array
+    public function getNovaChartjsComparisonData($chartName = 'default'): array
     {
         return static::with('novaChartjsMetricValue')
             ->has('novaChartjsMetricValue')

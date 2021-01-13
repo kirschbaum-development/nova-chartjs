@@ -340,7 +340,7 @@ You can add or remove any model to comparison to checkout how models are stacked
 
 ## Changing Comparison Data
 
-Chart comparison data is fetched through trait using a static function `getNovaChartjsComparisonData`. You can override this function in your model to change the comparison data.
+Chart comparison data is fetched through trait using a function `getNovaChartjsComparisonData`. You can override this function in your model to change the comparison data.
 ```php
 namespace App;
 
@@ -359,7 +359,7 @@ class Employee extends Model implements Chartable
      *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public static function getNovaChartjsComparisonData(): array
+    public function getNovaChartjsComparisonData(): array
     {
         return static::with('novaChartjsMetricValue')
             ->has('novaChartjsMetricValue')
