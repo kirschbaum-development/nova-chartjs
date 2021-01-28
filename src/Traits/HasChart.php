@@ -120,7 +120,7 @@ trait HasChart
     }
 
     /**
-     * Returns a dataset consistint of min values for each parameter.
+     * Returns a dataset consisting of min values for each parameter.
      *
      * @param string $chartName
      * @param null|mixed $sortBy
