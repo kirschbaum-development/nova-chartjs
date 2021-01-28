@@ -107,7 +107,7 @@ class Employee extends Model implements Chartable
 
 ### Getting parametrized datasets
 
-You can get a collection of parametrized dataset for each of the parameter specified in chart settings by calling `getNovaChartjsParameterizedDataSet` method. You can specify the chartName for which you want to fetch the data. You can also sort the collected data by passing optional `field name` using which you want to sort the data and the `number of results` to be considered in sorting. We have added four static methods to provide `max`, `min`, `average` and `median` value datasets using `getNovaChartjsMaxDataSet`, `getNovaChartjsMinDataSet`, `getNovaChartjsAvgDataSet` and `getNovaChartjsMedianDataSet` method.
+You can get a collection of parametrized datasets for each of the parameters specified in chart settings by calling `getNovaChartjsParameterizedDataSet` method. You can specify the chartName for which you want to fetch the data. You can also sort the collected data by passing optional `field name` using which you want to sort the data and the `number of results` to be considered in sorting. We have added four static methods to provide `max`, `min`, `average` and `median` value datasets using `getNovaChartjsMaxDataSet`, `getNovaChartjsMinDataSet`, `getNovaChartjsAvgDataSet` and `getNovaChartjsMedianDataSet` method.
 
 You can also right your own customized method using in a similar fashion.
 
