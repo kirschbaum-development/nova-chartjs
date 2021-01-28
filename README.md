@@ -347,7 +347,7 @@ class User extends Resource
 
 ```
 
-Nova ChartJS automatically selects the datset, settings and additional datasets from your existing model and modifies it to suit the card format, but you can pass `settings`, `dataset` and `additionalDatasets` to your chart.
+Nova ChartJS automatically selects the dataset, settings, and additional datasets from your existing model and modifies it to suit the card format, but you can pass `settings`, `dataset`, and `additionalDatasets` to your chart.
 
 ```php
 use App\User as AppUser;
