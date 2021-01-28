@@ -311,7 +311,7 @@ class Employee extends Model implements Chartable
 
 ![Cards](screenshots/Cards.png "Cards")
 
-You can add your Nova ChartJS Charts as a card on Dashboard or Resource Index. 
+You can add your Nova ChartJS charts as a card on the Dashboard or a Resource Index. 
 
 ```php
 use App\User as AppUser;
