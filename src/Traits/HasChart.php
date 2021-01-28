@@ -156,7 +156,7 @@ trait HasChart
     }
 
     /**
-     * Returns a dataset consistint of median values for each parameter.
+     * Returns a dataset consisting of median values for each parameter.
      *
      * @param string $chartName
      * @param null|mixed $sortBy
