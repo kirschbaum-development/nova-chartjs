@@ -21,7 +21,7 @@ export default {
     props: ['resourceName', 'field'],
 
     computed: {
-        valueDataset: function () {
+        valueDataset (){
             let color = this.field.settings.indexColor || this.field.settings.color || this.getRandomColor();
             let colors = Array(this.field.settings.parameters.length).fill(color);
             return {
@@ -31,7 +31,7 @@ export default {
                         backgroundColor: colors,
                         'data': this.getAllowedParametersFromDataset(this.field.settings.parameters, this.field.value)
                     }
-                 ]
+                ]
             }
         },
     }
