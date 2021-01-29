@@ -332,13 +332,13 @@ class User extends Resource
     {
         return [
             (new NovaChartjsCard())
-            ->chartModel(AppUser::class)
-            ->chartName('default')
-            ->width('1/2'),
+                ->chartModel(AppUser::class)
+                ->chartName('default')
+                ->width('1/2'),
             (new NovaChartjsCard())
-            ->chartModel(AppUser::class)
-            ->chartName('earnings')
-            ->width('1/2'),
+                ->chartModel(AppUser::class)
+                ->chartName('earnings')
+                ->width('1/2'),
         ];
     }
 
@@ -368,19 +368,19 @@ class User extends Resource
     {
         return [
             (new NovaChartjsCard())
-            ->chartModel(AppUser::class)
-            ->chartName('default')
-            ->settings([
-                'type' => 'bar',
-                'titleProp' => 'name',
-                'identProp' => 'id',
-                'height' => 250,
-                'indexColor' => '#999999',
-                'color' => '#FF0000',
-                'parameters' => ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-                'options' => ['responsive' => true, 'maintainAspectRatio' => false],
-            ])
-            ->width('1/2'),
+                ->chartModel(AppUser::class)
+                ->chartName('default')
+                ->settings([
+                    'type' => 'bar',
+                    'titleProp' => 'name',
+                    'identProp' => 'id',
+                    'height' => 250,
+                    'indexColor' => '#999999',
+                    'color' => '#FF0000',
+                    'parameters' => ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                    'options' => ['responsive' => true, 'maintainAspectRatio' => false],
+                ])
+                ->width('1/2'),
         ];
     }
 
