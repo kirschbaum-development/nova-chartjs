@@ -81,9 +81,9 @@ export default{
                                 toolTipContent = toolTipContent.replace('@BORDER_COLOR@', colors.borderColor);
                                 toolTipContent = toolTipContent.replace('@LABEL@', bodyParts[0]);
                                 toolTipContent = toolTipContent.replace('@VALUE@', bodyParts[1] || '');
-                                toolTipContent = toolTipContent.replace(/@TOOL_TIP_MODEL.(\w+)@/g, function (pattern, variable) {
+                                toolTipContent = toolTipContent.replace(/@TOOL_TIP_MODEL\.(\w+)@/g, function (pattern, variable) {
                                     return tooltipModel[variable] || pattern;
-                                })
+                                });
 
                                 innerHtml += '<tr><td>' + toolTipContent + '</td></tr>';
                             });
