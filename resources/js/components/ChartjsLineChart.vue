@@ -19,6 +19,7 @@
             this.chartData = this.createChartDataset();
             //we need to set options manually as options are used to re-render chart when data changes in reactiveData/reactiveProp mixin
             this.options = this.settings.options;
+            this.replaceToolTipTemplate();
             this.renderChart(this.chartData, this.options);
         },
 
