@@ -319,6 +319,50 @@ You can add following settings to model settings
 7. `type`: `line` or `bar`. defaults to `line`.
 8. `options`: Options are passed directly to ChartJS instance can be used to customize your Chart as detailed in the [documentation](https://www.chartjs.org/docs/latest/)
 
+## Customizing ToolTips
+
+You can customize tooltips for the charts in two ways
+
+### Using Options
+You can use `options` setting mentioned above to customize tooltips.
+
+```php
+//...
+            'options' => [
+                'responsive' => true,
+                'maintainAspectRatio' => false,
+                'tooltips' => [
+                    'backgroundColor'=> '#CCC',
+                    'titleFontSize'=> 16,
+                    'titleFontColor'=> '#0066ff',
+                    'bodyFontColor'=> '#000',
+                    'bodyFontSize'=> 14,
+                    'displayColors'=> false
+                ]
+            ],
+//...
+```
+
+### Customizing ToolTip Template
+You can also customize the tooltip Template to change the underlying HTML for the tooltip using settings
+
+```php
+//...
+            'toolTipTemplate' => [
+                'title' => 'Title is @TITLE@',
+                'body' => '<span style="background: @BACK_COLOR@; border-color: @BORDER_COLOR@; border-width: 2px; opacity: @TOOL_TIP_MODEL.opacity@"></span>@LABEL@ => @VALUE@',
+            ],
+//...
+```
+
+We can customize both `title` and `body` of template by passing a custom string. We can use the following placeholders in the rendered tooltip
+1. `@TITLE@`: Title of tooltip. This is usually the current datapoint.
+2. `@LABEL@`: Label of tooltip. This is Usually the field name.
+3. `@VALUE@`: Value of tooltip.
+4. `@BACK_COLOR@`: Background color of this data item.
+5. `@BORDER_COLOR@`: Border color of this data item.
+6. `@TOOL_TIP_MODEL.*@`: We can replace * with any value specified in the [tooltip modelfor chartsJS](https://www.chartjs.org/docs/latest/configuration/tooltip.html#tooltip-model)
+
 ## Adding Chart Data
 
 After setup, to add chart data for any model, all you need to do is to edit the model after creating it. You will get a list of numeric inputs to add values for each parameter specified in settings.
