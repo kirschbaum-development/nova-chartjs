@@ -82,6 +82,7 @@ trait HasChart
             ->get();
 
         $charts = NovaChartjsMetricValue::query()
+            ->select('chartable_id', 'metric_values')
             ->whereIn('chartable_id', $resources->pluck('id'))
             ->where('chartable_type', static::class)
             ->where('chart_name', $chartName)
