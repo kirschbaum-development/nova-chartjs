@@ -77,22 +77,32 @@ trait HasChart
      */
     public static function getNovaChartjsComparisonData($chartName = 'default'): array
     {
-        return static::with('novaChartjsMetricValue')
+        $resources = static::query()
             ->has('novaChartjsMetricValue')
-            ->get()
-            ->map(function ($chartData) use ($chartName) {
-                $chartData->setAttribute(
-                    'novaChartjsComparisonData',
-                    optional($chartData->novaChartjsMetricValue()->where('chart_name', $chartName)->first())->metric_values
-                );
+            ->get();
 
-                return $chartData;
-            })
-            ->reject(function ($chartData) {
-                return empty($chartData->novaChartjsComparisonData);
-            })
-            ->values()
-            ->toArray();
+        $charts = NovaChartjsMetricValue::query()
+            ->select('chartable_id', 'metric_values')
+            ->whereIn('chartable_id', $resources->pluck('id'))
+            ->where('chartable_type', static::class)
+            ->where('chart_name', $chartName)
+            ->toBase()
+            ->get();
+
+        return $resources->map(function ($resource) use ($charts) {
+            $data = optional($charts->first(function ($chart) use ($resource) {
+                return $chart->chartable_id === $resource->id;
+            }))->metric_values;
+
+            $resource->setAttribute(
+                'novaChartjsComparisonData',
+                $data ? json_decode($data, true) : null,
+            );
+
+            return $resource;
+        })
+        ->values()
+        ->toArray();
     }
 
     /**
