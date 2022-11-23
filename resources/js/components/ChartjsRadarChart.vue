@@ -1,11 +1,11 @@
 <script>
-    import { Line, mixins } from 'vue-chartjs'
+    import { Radar, mixins } from 'vue-chartjs'
     import charts from "../mixins/charts";
 
     const {reactiveData} = mixins;
 
     export default {
-        extends: Line,
+        extends: Radar,
 
         mixins: [reactiveData, charts],
     }

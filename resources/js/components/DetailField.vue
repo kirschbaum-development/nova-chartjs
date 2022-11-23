@@ -24,21 +24,14 @@
                 </div>
                 <div class="flex border-b border-40">
                     <div class="w-full py-4">
-                        <chartjs-bar-chart v-if="isType('bar')"
+                        <component
+                           :is="chartComponent"
                            :dataset="comparisonDataset"
                            :additionalDatasets="field.additionalDatasets"
                            :settings="field.settings"
                            :height="field.settings.height"
                            :width="field.settings.width"
                         />
-                        <chartjs-line-chart v-else
-                            :dataset="comparisonDataset"
-                            :additionalDatasets="field.additionalDatasets"
-                            :settings="field.settings"
-                            :height="field.settings.height"
-                            :width="field.settings.width"
-                        />
-
                     </div>
                 </div>
             </div>
@@ -49,6 +42,7 @@
 <script>
 import ChartjsLineChart from "./ChartjsLineChart";
 import ChartjsBarChart from "./ChartjsBarChart";
+import ChartjsRadarChart from "./ChartjsRadarChart";
 import Multiselect from 'vue-multiselect';
 import colors from "../mixins/colors";
 import datasetHandler from "../mixins/datasetHandler";
@@ -57,7 +51,8 @@ export default {
     components: {
         Multiselect,
         ChartjsLineChart,
-        ChartjsBarChart
+        ChartjsBarChart,
+	    ChartjsRadarChart
     },
 
     mixins: [colors, datasetHandler],
@@ -71,15 +66,15 @@ export default {
     },
 
     methods: {
-        isType: function(type){
+        isType (type){
             return this.field.settings.type.toLowerCase() === type
         },
 
-        isNotUser: function(element, index, array){
+        isNotUser (element, index, array){
             return element[this.field.settings.identProp] != this.field.ident;
         },
 
-        getDatapoint: function(values, title, color){
+        getDatapoint (values, title, color){
             if(!color){
                 color = this.getRandomColor();
             }
@@ -95,8 +90,8 @@ export default {
             }
         },
 
-        getChartTypeCustomizations: function(type, color){
-            if(this.isType('line')){
+        getChartTypeCustomizations (type, color){
+            if(this.isType('line')||this.isType('radar')){
                 return {
                     borderColor: color
                 }
@@ -110,7 +105,11 @@ export default {
     },
 
     computed: {
-        comparisonDataset: function(){
+    	chartComponent (){
+			return `chartjs-${this.field.settings.type.toLowerCase()}-chart`;
+	    },
+
+        comparisonDataset (){
             let chartData = [];
             if(! this.field.notEditable || Object.keys(this.field.value).length){
                 chartData.push(this.getDatapoint(this.field.value, this.field.title, this.field.settings.color));
@@ -127,7 +126,7 @@ export default {
             ];
         },
 
-        comparisonList: function(){
+        comparisonList (){
             return [
                 {
                     groupLabel: 'Select/Deselect All',
@@ -136,7 +135,7 @@ export default {
             ];
         },
 
-        valueDataset: function () {
+        valueDataset (){
             return {
                 labels: Object.keys(this.field.value),
                 datasets: Object.values(this.field.value)
