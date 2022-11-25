@@ -32,6 +32,7 @@ class NovaChartjs extends Field
             'showLabel' => false,
             'notEditable' => false,
             'chartName' => 'default',
+            'searchFields' => 'id',
         ]);
     }
 
@@ -66,9 +67,9 @@ class NovaChartjs extends Field
 
             $this->withMeta([
                 'settings' => $settings,
-                'comparison' => $resource::getNovaChartjsComparisonData($this->getChartName()),
-                'additionalDatasets' => data_get($resource->getAdditionalDatasets(), $this->getChartName(), []),
-                'model' => Str::singular(Str::title(Str::snake(class_basename($resource), ' '))),
+                'model' => get_class($resource),
+                'searchFields' => data_get($this->meta(), 'searchFields', 'id'),
+                'chartableName' => Str::singular(Str::title(Str::snake(class_basename($resource), ' '))),
                 'title' => $this->getChartableProp($resource, $settings['titleProp'] ?? $resource->getKeyName()),
                 'ident' => $this->getChartableProp($resource, $settings['identProp'] ?? $resource->getKeyName()),
             ]);
