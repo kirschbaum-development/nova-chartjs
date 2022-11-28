@@ -113,10 +113,9 @@ trait HasChart
         if (is_array($searchFields)) {
             $firstField = Arr::pull($searchFields, 0);
             $query->where($firstField, 'like', "%{$searchValue}%");
-            
+
             foreach ($searchFields as $field) {
                 $query->orWhere(function ($query) use ($field, $searchValue) {
-                    
                     return $query->where($field, 'like', "%{$searchValue}%");
                 });
             }

@@ -68,7 +68,7 @@ class NovaChartjs extends Field
             $this->withMeta([
                 'settings' => $settings,
                 'model' => get_class($resource),
-                'searchFields' => data_get($this->meta(), 'searchFields', 'id'),
+                'searchFields' => data_get($this->meta(), 'searchFields', data_get($settings, 'titleProp', 'id')),
                 'chartableName' => Str::singular(Str::title(Str::snake(class_basename($resource), ' '))),
                 'title' => $this->getChartableProp($resource, $settings['titleProp'] ?? $resource->getKeyName()),
                 'ident' => $this->getChartableProp($resource, $settings['identProp'] ?? $resource->getKeyName()),

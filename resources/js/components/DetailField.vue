@@ -122,14 +122,14 @@ export default {
 
         getComparisonData: async function(searchValue){
             let response = await Nova.request()
-                .post("/nova-chartjs/retrieve-model-comparison-data", 
+                .post("/nova-chartjs/retrieve-model-comparison-data",
                     {
                         "field": this.field,
                         "searchFields": this.field.searchFields,
                         "searchValue": searchValue
                     }
                 )
-            
+
             this.comparisonList = [
                 {
                     groupLabel: 'Select/Deselect All',
@@ -143,14 +143,11 @@ export default {
 
             let response = await Nova.request()
                 .post("/nova-chartjs/get-additional-datasets", this.field)
-                
-            this.isLoading = false
 
+            this.isLoading = false
             this.additionalDatasets = response.data.additionalDatasets;
             this.loaded = true;
         },
-        
-
     },
 
     computed: {
