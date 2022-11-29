@@ -4,7 +4,7 @@ namespace KirschbaumDevelopment\NovaChartjs\Traits;
 
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use KirschbaumDevelopment\NovaChartjs\Models\NovaChartjsMetricValue;
-
+use Illuminate\Support\Arr;
 trait HasChart
 {
     /** @var array */
@@ -75,10 +75,13 @@ trait HasChart
      *
      * @return array
      */
-    public static function getNovaChartjsComparisonData($chartName = 'default'): array
+    public static function getNovaChartjsComparisonData($chartName = 'default', $searchFields = 'id', $searchValue = ''): array
     {
         $resources = static::query()
             ->has('novaChartjsMetricValue')
+            ->when($searchFields && $searchValue, function ($query) use ($searchFields, $searchValue){
+                return static::resolveSearchQuery($query, $searchFields, $searchValue);
+            })
             ->get();
 
         $charts = NovaChartjsMetricValue::query()
@@ -103,6 +106,23 @@ trait HasChart
         })
         ->values()
         ->toArray();
+    }
+
+    public static function resolveSearchQuery($query, $searchFields, $searchValue)
+    {
+        if (is_array($searchFields)) {
+            $firstField = Arr::pull($searchFields, 0);
+            $query->where($firstField, 'like', "%{$searchValue}%");
+
+            foreach ($searchFields as $field) {
+                $query->orWhere(function ($query) use ($field, $searchValue) {
+                    return $query->where($field, 'like', "%{$searchValue}%");
+                });
+            }
+            return $query;
+        }
+
+        return $query->where($searchFields, 'like', "%{$searchValue}%");
     }
 
     /**

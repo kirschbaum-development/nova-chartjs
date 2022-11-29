@@ -4,6 +4,7 @@ namespace KirschbaumDevelopment\NovaChartjs;
 
 use Laravel\Nova\Nova;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Route;
 use KirschbaumDevelopment\NovaChartjs\Nova\MetricValue;
 
 class NovaChartjsServiceProvider extends ServiceProvider
@@ -16,6 +17,9 @@ class NovaChartjsServiceProvider extends ServiceProvider
         $this->loadMigrations();
         $this->registerResources();
         $this->serveField();
+        $this->app->booted(function () {
+            $this->routes();
+        });
     }
 
     protected function loadMigrations()
@@ -36,5 +40,21 @@ class NovaChartjsServiceProvider extends ServiceProvider
         Nova::resources([
             MetricValue::class,
         ]);
+    }
+
+    /**
+     * Register package routes.
+     *
+     * @return void
+     */
+    protected function routes()
+    {
+        if ($this->app->routesAreCached()) {
+            return;
+        }
+
+        Route::middleware(['nova'])
+            ->prefix('nova-chartjs')
+            ->group(__DIR__.'/../routes/api.php');
     }
 }
