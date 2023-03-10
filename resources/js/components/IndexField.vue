@@ -1,9 +1,8 @@
 <template>
     <span>
-        <index-view-chart
-            :height="60"
-            :width="300"
-            :data="valueDataset"
+        <IndexViewChart
+            :dataset="valueDataset"
+            :settings="field.settings"
         />
     </span>
 </template>
@@ -24,6 +23,7 @@ export default {
         valueDataset: function () {
             let color = this.field.settings.indexColor || this.field.settings.color || this.getRandomColor();
             let colors = Array(this.field.settings.parameters.length).fill(color);
+
             return {
                 labels: this.field.settings.parameters,
                 datasets: [

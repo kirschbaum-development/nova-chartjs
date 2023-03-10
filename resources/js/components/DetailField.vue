@@ -5,9 +5,15 @@
                 <h4 class="font-normal text-80">{{ field.name }}</h4>
             </div>
             <div class="w-3/4 py-4 flex-grow">
-                <div class="flex border-b border-40">
-                    <div class="w-1/4 py-4"><h4 class="font-normal text-80">Select another {{field.chartableName}} to compare</h4></div>
-                    <div class="w-3/4 py-4">
+                <div class="flex flex-col md:flex-row">
+                    <div class="md:mt-0 md:px-8 md:py-5 md:w-2/5 mt-2 px-6">
+                        <h4 class="inline-block pt-2 leading-tight">
+                            Select another {{field.chartableName}} to compare
+                        </h4>
+                    </div>
+                    <div             
+                        class="mt-1 md:mt-0 pb-5 px-6 md:px-8 md:w-3/5 w-full md:py-5"
+                    >
                         <multiselect
                             v-model = "selected"
                             :multiple = "true"
@@ -26,19 +32,11 @@
                 </div>
                 <div class="flex border-b border-40">
                     <div class="w-full py-4" v-if="loaded">
-                        <chartjs-bar-chart v-if="isType('bar')"
+                        <component
+                           :is="guessChartType()"
                            :dataset="comparisonDataset"
                            :additionalDatasets="additionalDatasets"
                            :settings="field.settings"
-                           :height="field.settings.height"
-                           :width="field.settings.width"
-                        />
-                        <chartjs-line-chart v-else
-                            :dataset="comparisonDataset"
-                            :additionalDatasets="additionalDatasets"
-                            :settings="field.settings"
-                            :height="field.settings.height"
-                            :width="field.settings.width"
                         />
 
                     </div>
@@ -49,11 +47,11 @@
 </template>
 
 <script>
-import ChartjsLineChart from "./ChartjsLineChart";
-import ChartjsBarChart from "./ChartjsBarChart";
 import Multiselect from 'vue-multiselect';
 import colors from "../mixins/colors";
 import datasetHandler from "../mixins/datasetHandler";
+import ChartjsLineChart from './ChartjsLineChart';
+import ChartjsBarChart from './ChartjsBarChart';
 
 export default {
     components: {
@@ -148,6 +146,15 @@ export default {
             this.additionalDatasets = response.data.additionalDatasets;
             this.loaded = true;
         },
+
+        guessChartType: function() {
+            switch (this.field.settings.type.toLowerCase()) {
+                case 'line':
+                    return 'ChartjsLineChart';
+                case 'bar':
+                    return 'ChartjsBarChart';
+            }
+        },
     },
 
     computed: {
@@ -166,13 +173,6 @@ export default {
                     )
                 )
             ];
-        },
-
-        valueDataset: function () {
-            return {
-                labels: Object.keys(this.field.value),
-                datasets: Object.values(this.field.value)
-            }
         },
     }
 }

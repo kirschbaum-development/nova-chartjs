@@ -1,12 +1,9 @@
-<template>
-    <default-field :field="field" :errors="errors">
-        <template slot="field">
-            <parameter-editor
-                :parameters="field.settings.parameters"
-                v-model="value"
-            />
-        </template>
-    </default-field>
+<template slot="field">
+    <parameter-editor
+        :parameters="field.settings.parameters"
+        :value="value"
+        :field="field"
+    />
 </template>
 
 <script>

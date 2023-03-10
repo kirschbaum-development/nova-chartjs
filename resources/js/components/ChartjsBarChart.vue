@@ -1,31 +1,32 @@
+<template>
+    <Bar
+        :chartData="chartData"
+        :chartOptions="settings.options"
+        :width="settings.width"
+        :height="settings.height"
+    />
+</template>
+
 <script>
-    import { Bar, mixins } from 'vue-chartjs'
-    import charts from "../mixins/charts";
+import { Bar } from "vue-chartjs";
+import "chart.js/auto";
+import charts from "../mixins/charts";
 
-    const {reactiveData} = mixins;
+export default {
+    name: "ChartjsBarChart",
+    components: { Bar },
+    mixins: [charts],
 
-    export default {
-        extends: Bar,
+    props: {
+        dataset: Array,
+        additionalDatasets: Array,
+        settings: Object,
+    },
 
-        mixins: [reactiveData, charts],
-
-        props: {
-            'dataset': Array,
-            'additionalDatasets': Array,
-            'settings': Object,
+    computed: {
+        chartData() {
+            return this.createChartDataset();
         },
-
-        mounted () {
-            this.chartData = this.createChartDataset();
-            //we need to set options manually as options are used to re-render chart when data changes in reactiveData/reactiveProp mixin
-            this.options = this.settings.options;
-            this.renderChart(this.chartData, this.options);
-        },
-
-        watch: {
-            dataset: function() {
-                this.chartData = this.createChartDataset();
-            }
-        }
-    }
+    },
+};
 </script>
