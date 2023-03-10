@@ -1,7 +1,7 @@
 export default{
     methods:{
         createChartDataset: function(){
-            let datasets = [...this.additionalDatasets || []];
+            let datasets = [...this.additionalDatasets];
 
             for (let data in this.dataset) {
                 datasets.unshift(

@@ -7,38 +7,48 @@
 </template>
 
 <script>
-import { FormField, HandlesValidationErrors } from 'laravel-nova'
+import { FormField, HandlesValidationErrors } from "laravel-nova";
 import ParameterEditor from "./ParameterEditor";
 
 export default {
-    components: {ParameterEditor},
+    components: { ParameterEditor },
 
     mixins: [FormField, HandlesValidationErrors],
 
-    props: ['resourceName', 'resourceId', 'field'],
+    props: ["resourceName", "resourceId", "field"],
 
     methods: {
         /*
          * Set the initial, internal value for the field.
          */
         setInitialValue() {
-            this.value = this.field.value && (typeof this.field.value === "object") && (this.field.value.constructor === Object)? this.field.value : {};
+            this.value =
+                this.field.value &&
+                typeof this.field.value === "object" &&
+                this.field.value.constructor === Object
+                    ? this.field.value
+                    : {};
         },
 
         /**
          * Fill the given FormData object with the field's internal value.
          */
         fill(formData) {
-            const attributeName = (this.field.attribute == 'metric_values') ? this.field.attribute : `${this.field.attribute}_${this.field.chartName || 'default'}`;
-            formData.append(attributeName, JSON.stringify(this.value) || '{}');
+            const attributeName =
+                this.field.attribute == "metric_values"
+                    ? this.field.attribute
+                    : `${this.field.attribute}_${
+                          this.field.chartName || "default"
+                      }`;
+            formData.append(attributeName, JSON.stringify(this.value) || "{}");
         },
 
         /**
          * Update the field's internal value.
          */
         handleChange(value) {
-            this.value = value
+            this.value = value;
         },
     },
-}
+};
 </script>
