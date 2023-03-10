@@ -8,13 +8,20 @@
     ],
     "license": "MIT",
     "require": {
-        "php": ">=7.1.0"
+        "php": "^8.0"
     },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://nova.laravel.com"
+        }
+    ],
     "require-dev": {
         "doctrine/dbal": "^2.12",
         "mockery/mockery": "^1.1",
-        "orchestra/testbench": "^3.8",
-        "phpunit/phpunit": "^7.5"
+        "laravel/nova": "^4.2",
+        "orchestra/testbench": "^7.4",
+        "phpunit/phpunit": "^9.5.10"
     },
     "autoload": {
         "psr-4": {
