@@ -18,8 +18,9 @@
     ],
     "require-dev": {
         "doctrine/dbal": "^2.12",
-        "mockery/mockery": "^1.1",
+        "laravel/legacy-factories": "^1.3",
         "laravel/nova": "^4.2",
+        "mockery/mockery": "^1.1",
         "orchestra/testbench": "^7.4",
         "phpunit/phpunit": "^9.5.10"
     },
