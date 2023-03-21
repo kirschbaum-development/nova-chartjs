@@ -171,7 +171,7 @@ class Employee extends Resource
         return [
             //...
 
-            new InlinePanel($this, $request, 'Chart Name'),
+            InlinePanel::make($this, $request, 'Chart Name'),
         ];
     }
 }
@@ -228,7 +228,7 @@ class Employee extends Resource
         return [
             //...
 
-            new RelationshipPanel('Chart Name'),
+            RelationshipPanel::make('Chart Name'),
         ];
     }
 }
@@ -253,8 +253,8 @@ class Employee extends Resource
         return [
             //...
 
-            new InlinePanel($this, $request, 'First Chart'),
-            new InlinePanel($this, $request, 'Second Chart', true, false, false, 'second_chart'),
+            InlinePanel::make($this, $request, 'First Chart'),
+            InlinePanel::make($this, $request, 'Second Chart', true, false, false, 'second_chart'),
         ];
     }
 }
