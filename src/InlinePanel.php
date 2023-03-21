@@ -4,6 +4,7 @@ namespace KirschbaumDevelopment\NovaChartjs;
 
 use Laravel\Nova\Panel;
 use Illuminate\Http\Request;
+use Laravel\Nova\Resource as NovaResource;
 use KirschbaumDevelopment\NovaChartjs\Contracts\Chartable;
 
 class InlinePanel extends Panel
