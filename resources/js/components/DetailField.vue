@@ -83,15 +83,15 @@ export default {
     },
 
     methods: {
-        isType: function (type) {
-            return this.field.settings.type.toLowerCase() === type;
+        isType (type) {
+            return (this.field.settings.type && this.field.settings.type.toLowerCase() === type);
         },
 
-        isNotUser: function (element, index, array) {
+        isNotUser (element, index, array) {
             return element[this.field.settings.identProp] != this.field.ident;
         },
 
-        getDatapoint: function (values, title, color) {
+        getDatapoint (values, title, color) {
             if (!color) {
                 color = this.getRandomColor();
             }
@@ -113,7 +113,7 @@ export default {
             };
         },
 
-        getChartTypeCustomizations: function (type, color) {
+        getChartTypeCustomizations (type, color) {
             if (this.isType("line")) {
                 return {
                     borderColor: color,
@@ -156,8 +156,8 @@ export default {
             this.loaded = true;
         },
 
-        guessChartType: function () {
-            switch (this.field.settings.type.toLowerCase()) {
+        guessChartType () {
+            switch ((this.field.settings.type || "").toLowerCase()) {
                 case "line":
                     return "ChartjsLineChart";
                 case "bar":
@@ -167,7 +167,7 @@ export default {
     },
 
     computed: {
-        comparisonDataset: function () {
+        comparisonDataset () {
             let chartData = [];
             if (
                 !this.field.notEditable ||
