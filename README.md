@@ -254,7 +254,10 @@ class Employee extends Resource
             //...
 
             new InlinePanel($this, $request, 'First Chart'),
-            new InlinePanel($this, $request, 'Second Chart', true, false, false, 'second_chart'),
+            new InlinePanel($this, $request, 'Second Chart', 'second_chart')
+                ->showLabel()
+                ->notEditable()
+                ->hideFromIndex(),
         ];
     }
 }

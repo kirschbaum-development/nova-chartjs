@@ -4,7 +4,6 @@ namespace KirschbaumDevelopment\NovaChartjs;
 
 use Laravel\Nova\Panel;
 use Illuminate\Http\Request;
-use App\Nova\Resource as NovaResource;
 use KirschbaumDevelopment\NovaChartjs\Contracts\Chartable;
 
 class InlinePanel extends Panel
@@ -54,29 +53,56 @@ class InlinePanel extends Panel
         Chartable $chartable,
         Request $request,
         $panelTitle = 'Chart Metric Values',
-        $showLabel = false,
-        $notEditable = false,
-        $hideFromIndex = false,
         $chartName = 'default'
     ): array {
         $field = NovaChartjs::make($panelTitle, 'novaChartjsMetricValue', function () use ($chartable, $chartName) {
             return optional($chartable->novaChartjsMetricValue()->where('chart_name', $chartName)->first())->metric_values ?? [];
         });
 
-        if ($showLabel) {
-            $field->showLabel();
-        }
-
-        if ($notEditable) {
-            $field->notEditable();
-        }
-
-        if ($hideFromIndex) {
-            $field->hideFromIndex();
-        }
-
         $field->chartName($chartName);
 
         return [$field];
+    }
+
+    /**
+     * Specify that the fields should be hidden from the index view.
+     *
+     * @return $this
+     */
+    public function hideFromIndex()
+    {
+        foreach ($this->data as $field) {
+            $field->hideFromIndex();
+        }
+
+        return $this;
+    }
+
+    /**
+     * Specify that the fields should be editable.
+     *
+     * @return $this
+     */
+    public function notEditable()
+    {
+        foreach ($this->data as $field) {
+            $field->notEditable();
+        }
+
+        return $this;
+    }
+
+    /**
+     * Specify that the fields should show the label.
+     *
+     * @return $this
+     */
+    public function showLabel()
+    {
+        foreach ($this->data as $field) {
+            $field->showLabel();
+        }
+
+        return $this;
     }
 }
